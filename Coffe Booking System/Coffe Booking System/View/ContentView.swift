@@ -10,7 +10,8 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         Text("Hello, world!")
-        API.apiGetRequest("users")
+        var api = API()
+        api.apiGetRequest("users")
             .padding()
     }
 }
