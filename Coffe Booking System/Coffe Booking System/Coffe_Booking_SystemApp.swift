@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct Coffe_Booking_SystemApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

@@ -11,12 +11,19 @@ class ModelService {
         self.shop = shop
     }
     
-    //Build the shop and fill the model
-    func buildShop() {
-        fillItems()
+    func fillDataModel() {
+        return
     }
     
-    func fillItems(itemData: [API.ItemResponse]) {
+    func createCurrentUser() {
+        return
+    }
+    
+    func getAllItems() {
+        return
+    }
+    
+    func getAllUsers() {
         return
     }
 }

@@ -1,66 +1,82 @@
 import Foundation
 
-class API {
+class WebService {
     //API-url
     let apiUrl = "http://141.51.114.20:8080/"
 
-    // structs to be filled in with json data
-    struct UserResponse: Codable {
-        var id: String
-        var name: String
+    enum AuthenticationError: Error {
+        case invalidCredentials
+        case custom(errorMessage: String)
     }
     
-    struct ItemResponse: Codable {
-        var id: String
-        var name: String
-        var amount: Int
-        var price: Double
+    enum NetworkError: Error {
+        case invalidURL
+        case noData
+        case decodingError
     }
     
-    //parse the JSON data into the struct
-    //single User parsing
-    private func parseUser(jsonData: Data) -> UserResponse?{
+    struct LoginRequestBody: Codable {
+        let id: String
+        let password: String
+    }
+    
+    struct LoginResponse: Codable {
+        let token: String?
+        let expiration: Int? //Use for token refresh?
+    }
+    
+    //send a login-request to server
+    func login(id: String, password: String, completion: @escaping (Result<LoginResponse, AuthenticationError>) -> Void) {
         
-        do {
-            let decodedData = try JSONDecoder().decode(UserResponse.self, from: jsonData)
-            return decodedData
-        } catch {
-            print("Error while parsing User data from json to struct")
-            return nil
+        guard let url = URL(string: apiUrl + "login") else {
+            completion(.failure(.custom(errorMessage: "URL is incorrect")))
+            return
         }
+        
+        let body = LoginRequestBody(id: id, password: password)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            guard let loginResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            completion(.success(loginResponse))
+        }.resume()
     }
     
-    //API GET-Request
-    func apiGetRequest(path: String) -> Codable? {
-        let url = URL(string: apiUrl)!
-        var request = URLRequest(url: url)
-        var parsedData: Codable?
-        request.httpMethod = "GET"
-        request.setValue("application/png", forHTTPHeaderField: "Content-Type")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data {
-                do {
-                    switch path {
-                        case "users":
-                            parsedData = try JSONDecoder().decode([UserResponse].self, from: data)
-                            print(parsedData)
-                        case "items":
-                            parsedData = try JSONDecoder().decode([ItemResponse].self, from: data)
-                        default:
-                            print("false path")
-                        parsedData = nil
-                    }
-                } catch {
-                    print("Invalid Response")
-                }
-            } else if let error = error {
-                print("HTTP GET-Request failed with Error: \(error)")
-                parsedData = nil
-            }
+    //request all items from api (no extra repsonse-datatype needed)
+    func requestAllItems(completion: @escaping (Result<[Item], NetworkError>) -> Void) {
+        
+        guard let url = URL(string: apiUrl + "items") else {
+            completion(.failure(.invalidURL))
+            return
         }
-        task.resume()
-        return parsedData
+        
+        var request = URLRequest(url: url)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else{
+                completion(.failure(.noData))
+                return
+            }
+            
+            guard let items = try? JSONDecoder().decode([Item].self, from: data) else {
+                completion(.failure(.decodingError))
+                return
+            }
+            
+            completion(.success(items))
+        }.resume()
     }
 }
-
 
