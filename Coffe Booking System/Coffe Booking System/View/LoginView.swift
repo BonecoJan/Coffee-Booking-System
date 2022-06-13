@@ -22,8 +22,9 @@ struct LoginView: View {
                     Button("Login") {
                         loginVC.login()
                         if loginVC.isAuthenticated {
-                            itemVC.getAllItems()
-                            ItemView()
+                            //itemVC.getAllItems()
+                            //ItemView()
+                            ItemList()
                         }
                     }
                     Button("Register") {

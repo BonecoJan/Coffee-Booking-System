@@ -7,32 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F61D90DA28531DF100F275E8 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90D928531DF100F275E8 /* Coffe_Booking_SystemApp.swift */; };
-		F61D90DC28531DF100F275E8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90DB28531DF100F275E8 /* ContentView.swift */; };
-		F61D90DE28531DF200F275E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F61D90DD28531DF200F275E8 /* Assets.xcassets */; };
-		F61D90E128531DF300F275E8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F61D90E028531DF300F275E8 /* Preview Assets.xcassets */; };
-		F61D90E828531FBF00F275E8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90E728531FBF00F275E8 /* User.swift */; };
-		F61D90EA2853216100F275E8 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90E92853216100F275E8 /* Product.swift */; };
-		F61D90EC285322AB00F275E8 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90EB285322AB00F275E8 /* Order.swift */; };
-		F61D90F32853659F00F275E8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90F22853659F00F275E8 /* API.swift */; };
-		F61D90F5285365AE00F275E8 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90F4285365AE00F275E8 /* APITypes.swift */; };
-		F61D90FB2855F88F00F275E8 /* ModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90FA2855F88F00F275E8 /* ModelService.swift */; };
-		F61D90FD285625BB00F275E8 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D90FC285625BB00F275E8 /* Shop.swift */; };
+		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
+		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
+		C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E104F2857DBC70030B4C7 /* LoginViewController.swift */; };
+		C35E10632857DBC70030B4C7 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10502857DBC70030B4C7 /* ItemViewController.swift */; };
+		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
+		C35E10652857DBC70030B4C7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10532857DBC70030B4C7 /* Item.swift */; };
+		C35E10662857DBC70030B4C7 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10542857DBC70030B4C7 /* Order.swift */; };
+		C35E10672857DBC70030B4C7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10552857DBC70030B4C7 /* User.swift */; };
+		C35E10682857DBC70030B4C7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10562857DBC70030B4C7 /* Shop.swift */; };
+		C35E10692857DBC70030B4C7 /* ModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10572857DBC70030B4C7 /* ModelService.swift */; };
+		C35E106A2857DBC70030B4C7 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10592857DBC70030B4C7 /* ItemView.swift */; };
+		C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105A2857DBC70030B4C7 /* LoginView.swift */; };
+		C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105B2857DBC70030B4C7 /* ContentView.swift */; };
+		C35E106D2857DBC70030B4C7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105C2857DBC70030B4C7 /* API.swift */; };
+		C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E106E2857DC2B0030B4C7 /* ItemList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C35E104F2857DBC70030B4C7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C35E10502857DBC70030B4C7 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
+		C35E10532857DBC70030B4C7 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		C35E10542857DBC70030B4C7 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		C35E10552857DBC70030B4C7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C35E10562857DBC70030B4C7 /* Shop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
+		C35E10572857DBC70030B4C7 /* ModelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelService.swift; sourceTree = "<group>"; };
+		C35E10592857DBC70030B4C7 /* ItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		C35E105A2857DBC70030B4C7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C35E105B2857DBC70030B4C7 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C35E105C2857DBC70030B4C7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C35E106E2857DC2B0030B4C7 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F61D90D928531DF100F275E8 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
-		F61D90DB28531DF100F275E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F61D90DD28531DF200F275E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F61D90E028531DF300F275E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F61D90E728531FBF00F275E8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F61D90E92853216100F275E8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		F61D90EB285322AB00F275E8 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
-		F61D90F22853659F00F275E8 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		F61D90F4285365AE00F275E8 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
-		F61D90FA2855F88F00F275E8 /* ModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelService.swift; sourceTree = "<group>"; };
-		F61D90FC285625BB00F275E8 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,10 +54,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C35E104A2857DBC70030B4C7 /* Coffe Booking System */ = {
+			isa = PBXGroup;
+			children = (
+				C35E104B2857DBC70030B4C7 /* Assets.xcassets */,
+				C35E104C2857DBC70030B4C7 /* Preview Content */,
+				C35E104E2857DBC70030B4C7 /* Controller */,
+				C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */,
+				C35E10522857DBC70030B4C7 /* model */,
+				C35E10582857DBC70030B4C7 /* View */,
+				C35E105C2857DBC70030B4C7 /* API.swift */,
+			);
+			path = "Coffe Booking System";
+			sourceTree = "<group>";
+		};
+		C35E104C2857DBC70030B4C7 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C35E104E2857DBC70030B4C7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C35E104F2857DBC70030B4C7 /* LoginViewController.swift */,
+				C35E10502857DBC70030B4C7 /* ItemViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C35E10522857DBC70030B4C7 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				C35E10532857DBC70030B4C7 /* Item.swift */,
+				C35E10542857DBC70030B4C7 /* Order.swift */,
+				C35E10552857DBC70030B4C7 /* User.swift */,
+				C35E10562857DBC70030B4C7 /* Shop.swift */,
+				C35E10572857DBC70030B4C7 /* ModelService.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		C35E10582857DBC70030B4C7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C35E10592857DBC70030B4C7 /* ItemView.swift */,
+				C35E105A2857DBC70030B4C7 /* LoginView.swift */,
+				C35E105B2857DBC70030B4C7 /* ContentView.swift */,
+				C35E106E2857DC2B0030B4C7 /* ItemList.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F61D90CD28531DF100F275E8 = {
 			isa = PBXGroup;
 			children = (
-				F61D90D828531DF100F275E8 /* Coffe Booking System */,
+				C35E104A2857DBC70030B4C7 /* Coffe Booking System */,
 				F61D90D728531DF100F275E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,56 +122,6 @@
 				F61D90D628531DF100F275E8 /* Coffe Booking System.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		F61D90D828531DF100F275E8 /* Coffe Booking System */ = {
-			isa = PBXGroup;
-			children = (
-				F61D90F928548F2700F275E8 /* View */,
-				F61D90F828548F1F00F275E8 /* Controller */,
-				F61D90F4285365AE00F275E8 /* APITypes.swift */,
-				F61D90F22853659F00F275E8 /* API.swift */,
-				F61D90D928531DF100F275E8 /* Coffe_Booking_SystemApp.swift */,
-				F61D90DD28531DF200F275E8 /* Assets.xcassets */,
-				F61D90DF28531DF300F275E8 /* Preview Content */,
-				F61D90ED2853237200F275E8 /* model */,
-			);
-			path = "Coffe Booking System";
-			sourceTree = "<group>";
-		};
-		F61D90DF28531DF300F275E8 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				F61D90E028531DF300F275E8 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		F61D90ED2853237200F275E8 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				F61D90E728531FBF00F275E8 /* User.swift */,
-				F61D90E92853216100F275E8 /* Product.swift */,
-				F61D90EB285322AB00F275E8 /* Order.swift */,
-				F61D90FA2855F88F00F275E8 /* ModelService.swift */,
-				F61D90FC285625BB00F275E8 /* Shop.swift */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		F61D90F828548F1F00F275E8 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		F61D90F928548F2700F275E8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				F61D90DB28531DF100F275E8 /* ContentView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,8 +182,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F61D90E128531DF300F275E8 /* Preview Assets.xcassets in Resources */,
-				F61D90DE28531DF200F275E8 /* Assets.xcassets in Resources */,
+				C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */,
+				C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,15 +194,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F61D90F5285365AE00F275E8 /* APITypes.swift in Sources */,
-				F61D90DC28531DF100F275E8 /* ContentView.swift in Sources */,
-				F61D90EA2853216100F275E8 /* Product.swift in Sources */,
-				F61D90FB2855F88F00F275E8 /* ModelService.swift in Sources */,
-				F61D90EC285322AB00F275E8 /* Order.swift in Sources */,
-				F61D90DA28531DF100F275E8 /* Coffe_Booking_SystemApp.swift in Sources */,
-				F61D90FD285625BB00F275E8 /* Shop.swift in Sources */,
-				F61D90F32853659F00F275E8 /* API.swift in Sources */,
-				F61D90E828531FBF00F275E8 /* User.swift in Sources */,
+				C35E10652857DBC70030B4C7 /* Item.swift in Sources */,
+				C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */,
+				C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */,
+				C35E10672857DBC70030B4C7 /* User.swift in Sources */,
+				C35E10662857DBC70030B4C7 /* Order.swift in Sources */,
+				C35E106A2857DBC70030B4C7 /* ItemView.swift in Sources */,
+				C35E10682857DBC70030B4C7 /* Shop.swift in Sources */,
+				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
+				C35E10632857DBC70030B4C7 /* ItemViewController.swift in Sources */,
+				C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */,
+				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
+				C35E106D2857DBC70030B4C7 /* API.swift in Sources */,
+				C35E10692857DBC70030B4C7 /* ModelService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

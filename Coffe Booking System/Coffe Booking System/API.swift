@@ -78,5 +78,17 @@ class WebService {
             completion(.success(items))
         }.resume()
     }
+    
+    func getItems(completion: @escaping ([Item]) -> ()) {
+        guard let url = URL(string: "http://141.51.114.20:8080/items") else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, _, _) in let items = try! JSONDecoder().decode([Item].self, from: data!)
+            
+            DispatchQueue.main.async {
+                completion(items)
+            }
+        }
+        .resume()
+    }
 }
 

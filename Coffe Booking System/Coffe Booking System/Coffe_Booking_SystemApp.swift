@@ -13,6 +13,7 @@ struct Coffe_Booking_SystemApp: App {
     var body: some Scene {
         WindowGroup {
             LoginView()
+            ItemList()
         }
     }
 }
