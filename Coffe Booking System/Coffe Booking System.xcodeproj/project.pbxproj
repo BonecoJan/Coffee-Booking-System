@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C318CCC928588CFF0046AE78 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CCC828588CFF0046AE78 /* UserList.swift */; };
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
 		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
 		C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E104F2857DBC70030B4C7 /* LoginViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C318CCC828588CFF0046AE78 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C35E104F2857DBC70030B4C7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				C35E105A2857DBC70030B4C7 /* LoginView.swift */,
 				C35E105B2857DBC70030B4C7 /* ContentView.swift */,
 				C35E106E2857DC2B0030B4C7 /* ItemList.swift */,
+				C318CCC828588CFF0046AE78 /* UserList.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
 				C35E106D2857DBC70030B4C7 /* API.swift in Sources */,
+				C318CCC928588CFF0046AE78 /* UserList.swift in Sources */,
 				C35E10692857DBC70030B4C7 /* ModelService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

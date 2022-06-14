@@ -25,6 +25,11 @@ class WebService {
         let expiration: Int? //Use for token refresh?
     }
     
+    struct UsersResponse: Codable, Identifiable {
+        let id: String
+        let name: String
+    }
+    
     //send a login-request to server
     func login(id: String, password: String, completion: @escaping (Result<LoginResponse, AuthenticationError>) -> Void) {
         
@@ -86,6 +91,18 @@ class WebService {
             
             DispatchQueue.main.async {
                 completion(items)
+            }
+        }
+        .resume()
+    }
+    
+    func getUsers(completion: @escaping ([UsersResponse]) -> ()) {
+        guard let url = URL(string: "http://141.51.114.20:8080/users") else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, _, _) in let users = try! JSONDecoder().decode([UsersResponse].self, from: data!)
+            
+            DispatchQueue.main.async {
+                completion(users)
             }
         }
         .resume()

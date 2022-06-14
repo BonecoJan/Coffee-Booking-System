@@ -14,6 +14,7 @@ struct Coffe_Booking_SystemApp: App {
         WindowGroup {
             LoginView()
             ItemList()
+            UserList()
         }
     }
 }
