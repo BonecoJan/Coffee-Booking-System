@@ -11,7 +11,6 @@
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
 		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
 		C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E104F2857DBC70030B4C7 /* LoginViewController.swift */; };
-		C35E10632857DBC70030B4C7 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10502857DBC70030B4C7 /* ItemViewController.swift */; };
 		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
 		C35E10652857DBC70030B4C7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10532857DBC70030B4C7 /* Item.swift */; };
 		C35E10662857DBC70030B4C7 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10542857DBC70030B4C7 /* Order.swift */; };
@@ -23,6 +22,10 @@
 		C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105B2857DBC70030B4C7 /* ContentView.swift */; };
 		C35E106D2857DBC70030B4C7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105C2857DBC70030B4C7 /* API.swift */; };
 		C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E106E2857DC2B0030B4C7 /* ItemList.swift */; };
+		F659AF482858E82B00BCCC26 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF472858E82B00BCCC26 /* MainView.swift */; };
+		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
+		F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66D2858F2F900829739 /* ProfilView.swift */; };
+		F6E9E6702858F40800829739 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66F2858F40800829739 /* OrderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +33,6 @@
 		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C35E104F2857DBC70030B4C7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		C35E10502857DBC70030B4C7 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
 		C35E10532857DBC70030B4C7 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		C35E10542857DBC70030B4C7 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -43,6 +45,10 @@
 		C35E105C2857DBC70030B4C7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C35E106E2857DC2B0030B4C7 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F659AF472858E82B00BCCC26 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F659AF492858E85000BCCC26 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F6E9E66D2858F2F900829739 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
+		F6E9E66F2858F40800829739 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				C35E104F2857DBC70030B4C7 /* LoginViewController.swift */,
-				C35E10502857DBC70030B4C7 /* ItemViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -107,6 +112,10 @@
 				C35E105B2857DBC70030B4C7 /* ContentView.swift */,
 				C35E106E2857DC2B0030B4C7 /* ItemList.swift */,
 				C318CCC828588CFF0046AE78 /* UserList.swift */,
+				F659AF472858E82B00BCCC26 /* MainView.swift */,
+				F659AF492858E85000BCCC26 /* HomeView.swift */,
+				F6E9E66D2858F2F900829739 /* ProfilView.swift */,
+				F6E9E66F2858F40800829739 /* OrderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -199,17 +208,20 @@
 			files = (
 				C35E10652857DBC70030B4C7 /* Item.swift in Sources */,
 				C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */,
+				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
+				F6E9E6702858F40800829739 /* OrderView.swift in Sources */,
 				C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */,
 				C35E10672857DBC70030B4C7 /* User.swift in Sources */,
 				C35E10662857DBC70030B4C7 /* Order.swift in Sources */,
 				C35E106A2857DBC70030B4C7 /* ItemView.swift in Sources */,
 				C35E10682857DBC70030B4C7 /* Shop.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
-				C35E10632857DBC70030B4C7 /* ItemViewController.swift in Sources */,
 				C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
 				C35E106D2857DBC70030B4C7 /* API.swift in Sources */,
 				C318CCC928588CFF0046AE78 /* UserList.swift in Sources */,
+				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,
+				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				C35E10692857DBC70030B4C7 /* ModelService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

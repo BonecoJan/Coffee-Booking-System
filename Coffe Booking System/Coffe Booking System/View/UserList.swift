@@ -1,10 +1,3 @@
-//
-//  UserList.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 14.06.22.
-//
-
 import SwiftUI
 
 struct UserList: View {

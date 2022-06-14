@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 09.06.22.
-//
-
 import SwiftUI
 
 struct ContentView: View {

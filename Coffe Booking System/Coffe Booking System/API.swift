@@ -54,38 +54,13 @@ class WebService {
                 return
             }
             
+            
             completion(.success(loginResponse))
         }.resume()
     }
     
-    //request all items from api (no extra repsonse-datatype needed)
-    func requestAllItems(completion: @escaping (Result<[Item], NetworkError>) -> Void) {
-        
-        guard let url = URL(string: apiUrl + "items") else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            guard let data = data, error == nil else{
-                completion(.failure(.noData))
-                return
-            }
-            
-            guard let items = try? JSONDecoder().decode([Item].self, from: data) else {
-                completion(.failure(.decodingError))
-                return
-            }
-            
-            completion(.success(items))
-        }.resume()
-    }
-    
-    func getItems(completion: @escaping ([Item]) -> ()) {
-        guard let url = URL(string: "http://141.51.114.20:8080/items") else { return }
+    func getItems(completion: @escaping ([Item]) -> Void) {
+        guard let url = URL(string: apiUrl + "items") else { return }
         
         URLSession.shared.dataTask(with: url) { (data, _, _) in let items = try! JSONDecoder().decode([Item].self, from: data!)
             
@@ -96,8 +71,8 @@ class WebService {
         .resume()
     }
     
-    func getUsers(completion: @escaping ([UsersResponse]) -> ()) {
-        guard let url = URL(string: "http://141.51.114.20:8080/users") else { return }
+    func getUsers(completion: @escaping ([UsersResponse]) -> Void) {
+        guard let url = URL(string: apiUrl + "users") else { return }
         
         URLSession.shared.dataTask(with: url) { (data, _, _) in let users = try! JSONDecoder().decode([UsersResponse].self, from: data!)
             

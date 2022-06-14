@@ -1,6 +1,6 @@
 import Foundation
 
-class LoginViewController: ObservableObject {
+class LoginViewModel: ObservableObject {
     
     var id: String = ""
     var password: String = ""
@@ -8,9 +8,12 @@ class LoginViewController: ObservableObject {
     
     func login() {
         let defaults = UserDefaults.standard
+        print(id)
+        print(password)
         WebService().login(id: id, password: password) { result in
             switch result {
                 case .success(let loginResponse):
+                print("case success")
                 defaults.setValue(loginResponse.token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.isAuthenticated = true

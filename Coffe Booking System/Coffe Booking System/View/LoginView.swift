@@ -1,31 +1,20 @@
-//
-//  LoginView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 13.06.22.
-//
-
 import SwiftUI
 
 struct LoginView: View {
     
-    @StateObject private var loginVC = LoginViewController()
-    @StateObject private var itemVC = ItemViewController()
+    @EnvironmentObject var loginVM: LoginViewModel
     
     var body: some View {
         Form{
             VStack {
-                TextField("User ID", text: $loginVC.id)
-                SecureField("Password", text: $loginVC.password)
+                Text("Login")
+                    .font(.largeTitle)
+                TextField("User ID", text: $loginVM.id)
+                TextField("Password", text: $loginVM.password)
                 HStack{
                     Spacer()
                     Button("Login") {
-                        loginVC.login()
-                        if loginVC.isAuthenticated {
-                            //itemVC.getAllItems()
-                            //ItemView()
-                            ItemList()
-                        }
+                        loginVM.login()
                     }
                     Button("Register") {
                         //TODO
