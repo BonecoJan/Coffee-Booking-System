@@ -12,6 +12,9 @@ struct MainView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     
     var body: some View {
+        Button("LogOut") {
+            loginVM.logout()
+        }
         TabView{
             HomeView()
                 .tabItem{

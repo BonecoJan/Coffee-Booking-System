@@ -5,12 +5,22 @@ struct LoginView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     
     var body: some View {
+        
         Form{
             VStack {
                 Text("Login")
                     .font(.largeTitle)
+                
                 TextField("User ID", text: $loginVM.id)
-                TextField("Password", text: $loginVM.password)
+                    .padding()
+                    .cornerRadius(5.0)
+                    .padding()
+                
+                SecureField("Password", text: $loginVM.password)
+                    .padding()
+                    .cornerRadius(5.0)
+                    .padding()
+                
                 HStack{
                     Spacer()
                     Button("Login") {
@@ -19,8 +29,13 @@ struct LoginView: View {
                     Button("Register") {
                         //TODO
                     }
+                    Button("Forgot Password"){
+                        //TODO
+                    }
                 }
             }
+            
+            
         }
     }
 }

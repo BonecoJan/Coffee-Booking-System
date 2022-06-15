@@ -8,7 +8,7 @@ struct Coffe_Booking_SystemApp: App {
     var body: some Scene {
         WindowGroup {
             if loginVM.isAuthenticated {
-                MainView()
+                MainView().environmentObject(loginVM)
             } else {
                 LoginView().environmentObject(loginVM)
             }

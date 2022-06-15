@@ -10,7 +10,6 @@
 		C318CCC928588CFF0046AE78 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CCC828588CFF0046AE78 /* UserList.swift */; };
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
 		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
-		C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E104F2857DBC70030B4C7 /* LoginViewController.swift */; };
 		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
 		C35E10652857DBC70030B4C7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10532857DBC70030B4C7 /* Item.swift */; };
 		C35E10662857DBC70030B4C7 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10542857DBC70030B4C7 /* Order.swift */; };
@@ -26,13 +25,13 @@
 		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
 		F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66D2858F2F900829739 /* ProfilView.swift */; };
 		F6E9E6702858F40800829739 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66F2858F40800829739 /* OrderView.swift */; };
+		F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E6722859BE4C00829739 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C318CCC828588CFF0046AE78 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C35E104F2857DBC70030B4C7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
 		C35E10532857DBC70030B4C7 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		C35E10542857DBC70030B4C7 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -49,6 +48,7 @@
 		F659AF492858E85000BCCC26 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F6E9E66D2858F2F900829739 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
 		F6E9E66F2858F40800829739 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
+		F6E9E6722859BE4C00829739 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,9 +65,9 @@
 		C35E104A2857DBC70030B4C7 /* Coffe Booking System */ = {
 			isa = PBXGroup;
 			children = (
+				F6E9E6712859BE3900829739 /* ViewModels */,
 				C35E104B2857DBC70030B4C7 /* Assets.xcassets */,
 				C35E104C2857DBC70030B4C7 /* Preview Content */,
-				C35E104E2857DBC70030B4C7 /* Controller */,
 				C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */,
 				C35E10522857DBC70030B4C7 /* model */,
 				C35E10582857DBC70030B4C7 /* View */,
@@ -82,14 +82,6 @@
 				C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		C35E104E2857DBC70030B4C7 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				C35E104F2857DBC70030B4C7 /* LoginViewController.swift */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		C35E10522857DBC70030B4C7 /* model */ = {
@@ -134,6 +126,14 @@
 				F61D90D628531DF100F275E8 /* Coffe Booking System.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F6E9E6712859BE3900829739 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F6E9E6722859BE4C00829739 /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,13 +210,13 @@
 				C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */,
 				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
 				F6E9E6702858F40800829739 /* OrderView.swift in Sources */,
-				C35E10622857DBC70030B4C7 /* LoginViewController.swift in Sources */,
 				C35E10672857DBC70030B4C7 /* User.swift in Sources */,
 				C35E10662857DBC70030B4C7 /* Order.swift in Sources */,
 				C35E106A2857DBC70030B4C7 /* ItemView.swift in Sources */,
 				C35E10682857DBC70030B4C7 /* Shop.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
 				C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */,
+				F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
 				C35E106D2857DBC70030B4C7 /* API.swift in Sources */,
 				C318CCC928588CFF0046AE78 /* UserList.swift in Sources */,

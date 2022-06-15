@@ -2,18 +2,18 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
     
-    var id: String = ""
-    var password: String = ""
+    @Published var id: String = ""
+    @Published var password: String = ""
     @Published var isAuthenticated: Bool = false
     
     func login() {
         let defaults = UserDefaults.standard
-        print(id)
-        print(password)
+        
         WebService().login(id: id, password: password) { result in
             switch result {
                 case .success(let loginResponse):
-                print("case success")
+                print(loginResponse.token)
+                print(loginResponse.expiration) // Use expiration for automatic token refresh
                 defaults.setValue(loginResponse.token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.isAuthenticated = true

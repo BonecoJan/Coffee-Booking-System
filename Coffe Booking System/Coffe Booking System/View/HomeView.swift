@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var loginVM: LoginViewModel
+    
     var body: some View {
         ItemList()
     }
