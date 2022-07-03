@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C318CCC928588CFF0046AE78 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CCC828588CFF0046AE78 /* UserList.swift */; };
+		C324FEB92870DC7F00FDF0CB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEB82870DC7F00FDF0CB /* RegisterView.swift */; };
+		C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */; };
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
 		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
 		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		C318CCC828588CFF0046AE78 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		C324FEB82870DC7F00FDF0CB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 				F659AF492858E85000BCCC26 /* HomeView.swift */,
 				F6E9E66D2858F2F900829739 /* ProfilView.swift */,
 				F6E9E66F2858F40800829739 /* OrderView.swift */,
+				C324FEB82870DC7F00FDF0CB /* RegisterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -132,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				F6E9E6722859BE4C00829739 /* LoginViewModel.swift */,
+				C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -214,7 +220,9 @@
 				C35E10662857DBC70030B4C7 /* Order.swift in Sources */,
 				C35E106A2857DBC70030B4C7 /* ItemView.swift in Sources */,
 				C35E10682857DBC70030B4C7 /* Shop.swift in Sources */,
+				C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
+				C324FEB92870DC7F00FDF0CB /* RegisterView.swift in Sources */,
 				C35E106F2857DC2B0030B4C7 /* ItemList.swift in Sources */,
 				F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
