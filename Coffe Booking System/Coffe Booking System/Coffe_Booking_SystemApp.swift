@@ -11,8 +11,8 @@ struct Coffe_Booking_SystemApp: App {
             if loginVM.isAuthenticated {
                 MainView().environmentObject(loginVM)
             } else {
-                RegisterView().environmentObject(registerVM)
-                //LoginView().environmentObject(loginVM)
+                //RegisterView().environmentObject(registerVM)
+                LoginView().environmentObject(loginVM)
             }
         }
     }

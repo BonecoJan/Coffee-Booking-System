@@ -112,6 +112,7 @@ class WebService {
         .resume()
     }
     
+    
     func getUsers(completion: @escaping ([UsersResponse]) -> Void) {
         guard let url = URL(string: apiUrl + "users") else { return }
         
