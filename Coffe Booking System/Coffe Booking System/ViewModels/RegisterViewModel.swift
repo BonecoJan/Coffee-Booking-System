@@ -9,18 +9,22 @@ import Foundation
 
 class RegisterViewModel: ObservableObject {
     
-    //@Published var id: String = ""
+    @Published var id: String = ""
     @Published var name: String = ""
     @Published var password: String = ""
+    @Published var repeatedPassword : String = ""
+    @Published var isRegistered: Bool = false
     
-    func register() {
-        
-        WebService().register(/*id: id, */name: name, password: password) { result in
+    func register(id: String, name: String, password: String){
+        WebService().register(id: id, name: name, password: password) { result in
             switch result {
-                case .success(let registerResponse):
-                print(registerResponse.id) // Use expiration for automatic token refresh
-                case .failure(let error):
-                    print(error.localizedDescription)
+            case .success(let registerResponse):
+                print("Succsessfully registered")
+                DispatchQueue.main.async {
+                    self.isRegistered = registerResponse
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

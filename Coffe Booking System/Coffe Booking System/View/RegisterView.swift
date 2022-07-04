@@ -36,7 +36,7 @@ struct RegisterView: View {
                 HStack{
                     Spacer()
                     Button("Register") {
-                        registerVM.register()
+                        //registerVM.register()
                     }
                 }
             }

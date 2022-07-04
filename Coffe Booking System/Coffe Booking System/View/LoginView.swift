@@ -3,45 +3,53 @@ import SwiftUI
 struct LoginView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
+    @State var showSignUp = false
     
     var body: some View {
         
-        Form{
-            VStack {
-                Text("Login")
-                    .font(.largeTitle)
-                
-                TextField("User ID", text: $loginVM.id)
-                    .padding()
-                    .cornerRadius(5.0)
-                    .padding()
-                
-                SecureField("Password", text: $loginVM.password)
-                    .padding()
-                    .cornerRadius(5.0)
-                    .padding()
-                
-                HStack{
-                    Spacer()
-                    Button("Login") {
-                        loginVM.login()
-                    }
-                    Button("Register") {
-                        //TODO
-                    }
-                    Button("Forgot Password"){
-                        //TODO
-                    }
-                }
+        Image("loginCoffeeShop")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .clipped()
+        
+        VStack {
+            if showSignUp == false{
+                SignInView().environmentObject(loginVM)
+            } else {
+                SignUpView().environmentObject(loginVM)
             }
             
-            
+            HStack{
+                Text(showSignUp ? "No member yet? " : "Already member? ")
+                    .foregroundColor(.black)
+                Button(action: {
+                    showSignUp = !showSignUp
+                }, label: {
+                    Text(showSignUp ? "Sign in" : "Sign up")
+                        .foregroundColor(.black)
+                })
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
         }
+        .background(
+            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
+                .fill(Color(UIColor.white))
+        )
     }
 }
 
+struct ForgotPasswordView: View {
+    var body: some View {
+        Text("Forgot password")
+    }
+}
+
+//Preview this View
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
     }
 }
+
