@@ -68,7 +68,9 @@ class WebService {
             
             
             completion(.success(loginResponse))
+            
         }.resume()
+        
     }
     
     //send a register-request to server
@@ -145,5 +147,5 @@ class WebService {
         }
         .resume()
     }
+    
 }
-
