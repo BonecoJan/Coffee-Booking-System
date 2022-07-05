@@ -12,13 +12,13 @@ final class KeychainWrapper {
     static let standard = KeychainWrapper()
     private init() {}
     
-    func create(_ data: Data, service: String, account: String, secClass: CFString) {
+    func create(_ data: Data, service: String, account: String) {
         
         let body = [
             kSecValueData: data,
             kSecAttrService: service,
             kSecAttrAccount: account,
-            kSecClass: secClass
+            kSecClass: kSecClassGenericPassword
         ] as CFDictionary
         
         let status = SecItemAdd(body, nil)
@@ -33,7 +33,7 @@ final class KeychainWrapper {
             let body = [
                 kSecAttrService: service,
                 kSecAttrAccount: account,
-                kSecClass: secClass,
+                kSecClass: kSecClassGenericPassword
             ] as CFDictionary
 
             let attributesToUpdate = [kSecValueData: data] as CFDictionary
@@ -42,12 +42,12 @@ final class KeychainWrapper {
         }
     }
     
-    func get(service: String, account: String, secClass: CFString) -> Data? {
+    func get(service: String, account: String) -> Data? {
         
         let body = [
             kSecAttrService: service,
             kSecAttrAccount: account,
-            kSecClass: secClass,
+            kSecClass: kSecClassGenericPassword,
             kSecReturnData: true
         ] as CFDictionary
         
@@ -58,12 +58,12 @@ final class KeychainWrapper {
         return (result as? Data)
     }
     
-    func delete(service: String, account: String, secClass: CFString) {
+    func delete(service: String, account: String) {
         
         let body = [
             kSecAttrService: service,
             kSecAttrAccount: account,
-            kSecClass: secClass,
+            kSecClass: kSecClassGenericPassword,
             ] as CFDictionary
         
         //Delete item from keychain
