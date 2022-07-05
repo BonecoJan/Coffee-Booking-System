@@ -70,9 +70,10 @@ class WebService {
             completion(.success(loginResponse))
             
             KeychainWrapper.standard.create(Data((loginResponse.token!).utf8), service: "access-token", account: "Coffe-Booking-System")
+            KeychainWrapper.standard.create(Data(String(loginResponse.expiration!).utf8), service: "access-token-expiration", account: "Coffe-Booking-System")
             KeychainWrapper.standard.create(Data(id.utf8), service: "user-id", account: "Coffe-Booking-System")
             KeychainWrapper.standard.create(Data(password.utf8), service: "password", account: "Coffe-Booking-System")
-            
+                        
         }.resume()
         
     }
