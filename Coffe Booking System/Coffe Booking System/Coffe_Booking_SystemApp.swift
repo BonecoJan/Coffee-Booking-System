@@ -5,7 +5,7 @@ struct Coffe_Booking_SystemApp: App {
     
     @StateObject var loginVM = LoginViewModel()
     @StateObject var registerVM = RegisterViewModel()
-    
+        
     var body: some Scene {
         WindowGroup {
             if loginVM.isAuthenticated {

@@ -8,10 +8,20 @@ struct UserList: View {
             Text(user.name)
         }
         .onAppear {
-            WebService().getUsers { (users) in
+            WebService(authManager: AuthManager()).getUsers { (users) in
                 self.users = users
             }
         }
+//        .task {
+//            do {
+//                let user = try await WebService(authManager: AuthManager()).getUser()
+//                print(user.id!)
+//                print(user.name!)
+//                Text(user.id!)
+//                Text(user.name!)
+//            } catch {
+//            }
+//        }
     }
 }
 

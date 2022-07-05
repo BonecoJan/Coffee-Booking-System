@@ -16,7 +16,7 @@ class RegisterViewModel: ObservableObject {
     @Published var isRegistered: Bool = false
     
     func register(id: String, name: String, password: String){
-        WebService().register(id: id, name: name, password: password) { result in
+        WebService(authManager: AuthManager()).register(id: id, name: name, password: password) { result in
             switch result {
             case .success(let registerResponse):
                 print("Succsessfully registered")

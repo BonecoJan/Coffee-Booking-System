@@ -8,8 +8,8 @@ class LoginViewModel: ObservableObject {
     
     func login() {
         let defaults = UserDefaults.standard
-        
-        WebService().login(id: id, password: password) { result in
+                
+        WebService(authManager: AuthManager()).login(id: id, password: password) { result in
             switch result {
                 case .success(let loginResponse):
                 print(loginResponse.token)

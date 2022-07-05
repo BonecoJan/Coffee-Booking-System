@@ -8,9 +8,10 @@ struct ItemList: View {
             Text(item.name)
         }
         .onAppear {
-            WebService().getItems { (items) in
+            WebService(authManager: AuthManager()).getItems { (items) in
                 self.items = items
             }
+            
         }
     }
 }

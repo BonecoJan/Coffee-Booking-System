@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "bdb4111e-3d21-448e-8f49-3d9d89bee256",
+		"name": "Code Camp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21457448"
+	},
+	"item": [
+		{
+			"name": "Without authentication",
+			"item": [
+				{
+					"name": "POST /login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"id\": \"1234-5678\",\n        \"password\": \"SaschWalon\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/login",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /items",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GET /items/:id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"id\": \"123-123-123\",\n        \"name\": \"SaschWalon\",\n        \"password\": \"SaschWalon\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/users",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "With authentication (JWT token as Bearer Token as Header)",
+			"item": [
+				{
+					"name": "GET /users/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC11c2VyLWF1ZGllbmNlIiwiaXNzIjoid3d3LmNvbXRlYy5lZWNzLnVuaS1rYXNzZWwuZGUiLCJpZCI6IjEyMy0xMjMtMTIzIiwiaXNBZG1pbiI6ZmFsc2UsImV4cCI6MTY1NzAyMjIyNX0.jBVm8xKmoUAYL2Etn1jN_-QbC3o4N62d1ptG9Jl17XU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://141.51.114.20:8080/users/123-123-123",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"123-123-123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/:id/purchases",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users/:id/transactions",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC11c2VyLWF1ZGllbmNlIiwiaXNzIjoid3d3LmNvbXRlYy5lZWNzLnVuaS1rYXNzZWwuZGUiLCJpZCI6IjEyMzQtNTY3OCIsImlzQWRtaW4iOmZhbHNlLCJleHAiOjE2NTY3NjY1MTl9.Gc_ZSHq9RidOQlHicK_TfIYad3YQEZzRNlhkuGsIr9U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"HerrSchwaiger\",\n    \"password\": \"SaschWalon\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/users/1234-5678",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1234-5678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /users/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC11c2VyLWF1ZGllbmNlIiwiaXNzIjoid3d3LmNvbXRlYy5lZWNzLnVuaS1rYXNzZWwuZGUiLCJpZCI6IjEyMzQtNTY3OCIsImlzQWRtaW4iOmZhbHNlLCJleHAiOjE2NTY3NjcwOTZ9.wq77B2lLOgA-WJV2Z4lhdc3ROj2GRujH2d3rkIp0hJ4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://141.51.114.20:8080/users/1234-5678",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1234-5678"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "With authentication (JWT Admin Token as Bearer Token)",
+			"item": [
+				{
+					"name": "POST /login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": \"df890545-ede6-4394-bf07-b01209ef9f6c\",\n        \"password\": \"iOSGroupB\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/login",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC1hZG1pbi1hdWRpZW5jZSIsImlzcyI6Ind3dy5jb210ZWMuZWVjcy51bmkta2Fzc2VsLmRlIiwiaWQiOiJkZjg5MDU0NS1lZGU2LTQzOTQtYmYwNy1iMDEyMDllZjlmNmMiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE2NTY3OTA0MjV9.hdv_CRHNydTgCrWaVsnKZH5INoziy9jSTk11G-lfr8U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"123-123-123-123\",\n    \"name\": \"SaschWalon\",\n    \"isAdmin\": false,\n    \"password\": \"SaschWalon\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/users/admin",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC1hZG1pbi1hdWRpZW5jZSIsImlzcyI6Ind3dy5jb210ZWMuZWVjcy51bmkta2Fzc2VsLmRlIiwiaWQiOiJkZjg5MDU0NS1lZGU2LTQzOTQtYmYwNy1iMDEyMDllZjlmNmMiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE2NTY3OTA0MjV9.hdv_CRHNydTgCrWaVsnKZH5INoziy9jSTk11G-lfr8U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"123-123-123-123\",\n    \"name\": \"SaschWalon\",\n    \"isAdmin\": false,\n    \"password\": \"SaschWalon\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/users/admin",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/:id/funding",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC1hZG1pbi1hdWRpZW5jZSIsImlzcyI6Ind3dy5jb210ZWMuZWVjcy51bmkta2Fzc2VsLmRlIiwiaWQiOiJkZjg5MDU0NS1lZGU2LTQzOTQtYmYwNy1iMDEyMDllZjlmNmMiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE2NTY3OTA0MjV9.hdv_CRHNydTgCrWaVsnKZH5INoziy9jSTk11G-lfr8U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC11c2VyLWF1ZGllbmNlIiwiaXNzIjoid3d3LmNvbXRlYy5lZWNzLnVuaS1rYXNzZWwuZGUiLCJpZCI6IjEyMy0xMjMtMTIzIiwiaXNBZG1pbiI6ZmFsc2UsImV4cCI6MTY1Njc5MDY2MX0.N0AtiTK_fKNwLLyhR-JCwdYEMUc3SBgdLSJ9zgkew1Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"777\",\n    \"name\": \"Test\",\n    \"amount\": 37,\n    \"price\": 2.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/items",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC1hZG1pbi1hdWRpZW5jZSIsImlzcyI6Ind3dy5jb210ZWMuZWVjcy51bmkta2Fzc2VsLmRlIiwiaWQiOiJkZjg5MDU0NS1lZGU2LTQzOTQtYmYwNy1iMDEyMDllZjlmNmMiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE2NTY3OTA3NzR9.wd6uw9AtCUFoaEgL8IhDlOBmbdkvNiofU_b2DcgINTY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"777\",\n    \"name\": \"Test\",\n    \"amount\": 37,\n    \"price\": 2.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://141.51.114.20:8080/items",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /items/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImF1ZCI6Imp3dC1hZG1pbi1hdWRpZW5jZSIsImlzcyI6Ind3dy5jb210ZWMuZWVjcy51bmkta2Fzc2VsLmRlIiwiaWQiOiJkZjg5MDU0NS1lZGU2LTQzOTQtYmYwNy1iMDEyMDllZjlmNmMiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE2NTY3OTA3NzR9.wd6uw9AtCUFoaEgL8IhDlOBmbdkvNiofU_b2DcgINTY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://141.51.114.20:8080/items/777",
+							"protocol": "http",
+							"host": [
+								"141",
+								"51",
+								"114",
+								"20"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"777"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
