@@ -1,10 +1,18 @@
 import Foundation
 
-struct User: Codable, Identifiable {
+class User: ObservableObject, Identifiable {
     
-    var id: String
-    var name: String
-    var password: String
-    var isAdmin: Bool
-    var orders: [Order]
+    @Published var id: String
+    @Published var name: String
+    @Published var orders: [Order]
+    @Published var isAdmin: Bool
+    
+    init(id: String, name: String){
+        self.id = id
+        self.name = name
+        orders = []
+        isAdmin = false
+    }
+    
+    //TODO: Bidirectional connection to Order
 }

@@ -10,27 +10,29 @@ import SwiftUI
 struct MainView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var modelService: ModelService
     
     var body: some View {
-        Button("LogOut") {
-            loginVM.logout()
-        }
         TabView{
             HomeView()
                 .tabItem{
                     Image(systemName: "house")
                     Text("Home")
                 }
+                .environmentObject(modelService)
             OrderView()
                 .tabItem{
                     Image(systemName: "cart")
                     Text("Order")
                 }
+                .environmentObject(modelService)
             ProfilView()
                 .tabItem{
                     Image(systemName: "person")
                     Text("Profil")
                 }
+                .environmentObject(modelService)
+                .environmentObject(loginVM)
         }
     }
 }

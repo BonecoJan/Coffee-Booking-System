@@ -53,6 +53,14 @@ class WebService {
         let balance: Double?
     }
     
+    struct ItemResponse: Codable, Identifiable {
+        let id: String
+        let name: String
+        let amount: Int
+        let price: Double
+    }
+    
+    
     private func authorizedRequest(from url: URL) async throws -> URLRequest {
         var urlRequest = URLRequest(url: url)
         let token = try await authManager.validToken()
@@ -132,7 +140,7 @@ class WebService {
         return loginResponse
     }
     
-    //send a login-request to server
+    //send a login-request to server and save credentials on device
     func login(id: String, password: String, completion: @escaping (Result<LoginResponse, AuthenticationError>) -> Void) {
         
         guard let url = URL(string: apiUrl + "login") else {
@@ -156,7 +164,6 @@ class WebService {
                 return
             }
             
-            
             completion(.success(loginResponse))
             
             KeychainWrapper.standard.create(Data((loginResponse.token!).utf8), service: "access-token", account: "Coffe-Booking-System")
@@ -167,36 +174,6 @@ class WebService {
         }.resume()
         
     }
-    
-    //send a register-request to server
-    /*
-    func register(/*id: String? = Optional.none, */name: String, password: String, completion: @escaping (Result<RegisterResponse, AuthenticationError>) -> Void) {
-        
-        guard let url = URL(string: apiUrl + "users") else {
-            completion(.failure(.custom(errorMessage: "URL is incorrect")))
-            return
-        }
-        
-        let body = RegisterRequestBody(/*id: id, */name: name, password: password)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-type")
-        request.httpBody = try? JSONEncoder().encode(body)
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            guard let data = data, error == nil else {
-                completion(.failure(.custom(errorMessage: "No data")))
-                return
-            }
-            guard let registerResponse = try? JSONDecoder().decode(RegisterResponse.self, from: data) else {
-                completion(.failure(.invalidCredentials))
-                return
-            }
-            
-            
-            completion(.success(registerResponse))
-        }.resume()
-    } */
     
     func register(id: String, name: String, password: String, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let url = URL(string: apiUrl + "users") else {
@@ -218,11 +195,11 @@ class WebService {
         }.resume()
     }
     
-    func getItems(completion: @escaping ([Item]) -> Void) {
+    
+    func getItems(completion: @escaping ([ItemResponse]) -> Void) {
         guard let url = URL(string: apiUrl + "items") else { return }
         
-        URLSession.shared.dataTask(with: url) { (data, _, _) in let items = try! JSONDecoder().decode([Item].self, from: data!)
-            
+        URLSession.shared.dataTask(with: url) { (data, _, _) in let items = try! JSONDecoder().decode([ItemResponse].self, from: data!)
             DispatchQueue.main.async {
                 completion(items)
             }
@@ -235,12 +212,10 @@ class WebService {
         guard let url = URL(string: apiUrl + "users") else { return }
         
         URLSession.shared.dataTask(with: url) { (data, _, _) in let users = try! JSONDecoder().decode([UsersResponse].self, from: data!)
-            
             DispatchQueue.main.async {
                 completion(users)
             }
         }
         .resume()
     }
-    
 }

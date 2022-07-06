@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OrderView: View {
 
+    @EnvironmentObject var modelService: ModelService
+    
     var body: some View {
         Text("OrderView")
     }

@@ -3,6 +3,7 @@ import SwiftUI
 struct LoginView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var modelService: ModelService
     @State var showSignUp = false
     
     var body: some View {

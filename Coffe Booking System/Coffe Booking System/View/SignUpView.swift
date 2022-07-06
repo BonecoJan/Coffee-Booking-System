@@ -50,10 +50,12 @@ struct SignUpView: View {
         Button(action: {
             if registerVM.password.count >= 8 && registerVM.password == registerVM.repeatedPassword {
                 registerVM.register(id: registerVM.id, name: registerVM.name, password: registerVM.password)
-                if registerVM.isRegistered == true {
-                    loginVM.id = registerVM.id
-                    loginVM.password = registerVM.password
-                    loginVM.login()
+                DispatchQueue.main.async {
+                    if registerVM.isRegistered == true {
+                        loginVM.id = registerVM.id
+                        loginVM.password = registerVM.password
+                        loginVM.login()
+                    }
                 }
             }
         },

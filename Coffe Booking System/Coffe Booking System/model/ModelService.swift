@@ -1,29 +1,42 @@
 import Foundation
 import UserNotifications
 
-//fill the model
+//fill and update the model
 
-class ModelService {
+class ModelService: ObservableObject {
     
-    var shop: Shop
+    @Published var shop: Shop
+    @Published var webService: WebService
     
-    init(shop: Shop) {
+    init(shop: Shop, webService: WebService) {
         self.shop = shop
+        self.webService = webService
+        self.fillDataModel()
+        //for user in self.shop.users{
+        //    print("test")
+        //    print(user.name)
+        //}
     }
     
     func fillDataModel() {
-        return
+        //TODO: WIP
+        webService.getUsers { (users) in
+            for user in users{
+                self.shop.users.append(User(id: user.id, name: user.name))
+            }
+        }
+        webService.getItems { (items) in
+            for item in items{
+                self.shop.items.append(Item(id: item.id, name: item.name, amount: item.amount, price: item.price))
+            }
+        }
     }
     
-    func createCurrentUser() {
-        return
+    func createCurrentUser(id: String, name: String) {
+        self.shop.currentUser = User(id: id, name: name)
     }
     
-    func getAllItems() {
-        return
-    }
-    
-    func getAllUsers() {
-        return
+    func addUser(id: String, name: String) {
+        self.shop.users.append(User(id: id, name: name))
     }
 }

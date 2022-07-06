@@ -1,17 +1,18 @@
 import SwiftUI
 
 struct ItemList: View {
-    @State var items: [Item] = []
+    @State var items: [WebService.ItemResponse] = []
     
     var body: some View {
+        
         List(items) { item in
             Text(item.name)
         }
         .onAppear {
-            WebService(authManager: AuthManager()).getItems { (items) in
+           WebService(authManager: AuthManager()).getItems { (items) in
                 self.items = items
             }
-            
+        
         }
     }
 }

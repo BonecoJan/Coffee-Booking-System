@@ -1,8 +1,19 @@
 import Foundation
 
-struct Shop: Codable {
+class Shop: ObservableObject {
     
-    var currentUser: User
-    var user: [User]
-    var items: [Item]
+    @Published var currentUser: User
+    @Published var users: [User]
+    @Published var items: [Item]
+    
+    init(currentUser: User, users: [User], items: [Item]){
+        self.currentUser = currentUser
+        self.users = users
+        self.items = items
+    }
+    
+    func getItems() -> [Item] {
+        return self.items
+    }
 }
+

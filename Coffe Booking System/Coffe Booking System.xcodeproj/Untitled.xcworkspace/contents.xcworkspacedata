@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tobias/Desktop/Repos/Repo06.07/Coffee-Booking-System/Coffe Booking System/Coffe Booking System/Item.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tobias/Desktop/Repos/Repo06.07/Coffee-Booking-System/Coffe Booking System/Coffe Booking System/ModelService.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tobias/Desktop/Repos/Repo06.07/Coffee-Booking-System/Coffe Booking System/Coffe Booking System/Order.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tobias/Desktop/Repos/Repo06.07/Coffee-Booking-System/Coffe Booking System/Coffe Booking System/Shop.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tobias/Desktop/Repos/Repo06.07/Coffee-Booking-System/Coffe Booking System/Coffe Booking System/User.swift">
+   </FileRef>
+</Workspace>

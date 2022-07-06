@@ -12,8 +12,6 @@ class LoginViewModel: ObservableObject {
         WebService(authManager: AuthManager()).login(id: id, password: password) { result in
             switch result {
                 case .success(let loginResponse):
-                print(loginResponse.token)
-                print(loginResponse.expiration) // Use expiration for automatic token refresh
                 print(self.password)
                 defaults.setValue(loginResponse.token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {

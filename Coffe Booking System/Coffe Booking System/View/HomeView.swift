@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var modelService: ModelService
     
     var body: some View {
         ItemList()
