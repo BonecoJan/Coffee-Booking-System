@@ -48,9 +48,9 @@ class WebService {
     }
     
     struct UserResponse: Codable, Identifiable {
-        let id: String?
-        let name: String?
-        let balance: Double?
+        let id: String
+        let name: String
+        let balance: Double
     }
     
     struct ItemResponse: Codable, Identifiable {
@@ -64,7 +64,7 @@ class WebService {
     private func authorizedRequest(from url: URL) async throws -> URLRequest {
         var urlRequest = URLRequest(url: url)
         let token = try await authManager.validToken()
-        urlRequest.setValue("Bearer " + (token.token)! + "1", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Bearer " + (token.token)!, forHTTPHeaderField: "Authorization")
         return urlRequest
     }
     
@@ -109,7 +109,7 @@ class WebService {
 
         let decoder = JSONDecoder()
         let response = try decoder.decode(UserResponse.self, from: data)
-
+        
         return response
     }
     
