@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import JWTDecode
 
 actor AuthManager {
     
@@ -32,11 +32,24 @@ actor AuthManager {
             throw AuthError.missingToken
         }
         
-        let expiration = Int(String(data: KeychainWrapper.standard.get(service: "access-token-expiration", account: "Coffe-Booking-System")!, encoding: .utf8)!) ?? 0
-        let token = Token(token: tokenID, expiration: expiration)
-        let currentTimestamp = Int(NSDate().timeIntervalSince1970 * 1000)
+        let jwt = try decode(jwt: tokenID)
+//        let claim = jwt.claim(name: "id")
+//        let id = claim.string
+//        print(id!)
+        //print("Test:" + jwt.claim(name: "id").string!)
         
-        if expiration > currentTimestamp && expiration != 0 {
+//        let expiration = Int(String(data: KeychainWrapper.standard.get(service: "access-token-expiration", account: "Coffe-Booking-System")!, encoding: .utf8)!) ?? 0
+        //let expiration = Int(jwt.expiresAt!.timeIntervalSince1970 * 1000)
+        
+        let token = Token(token: tokenID, expiration: Int(jwt.expiresAt!.timeIntervalSince1970 * 1000))
+        
+        //let currentTimestamp = Int(NSDate().timeIntervalSince1970 * 1000)
+        
+//        if expiration > currentTimestamp && expiration != 0 {
+//            return token
+//        }
+        
+        if !(jwt.expired) {
             return token
         }
 
@@ -51,7 +64,14 @@ actor AuthManager {
         let task = Task { () throws -> Token in
             defer { refreshTask = nil }
             
-            let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
+            guard let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8) else {
+                throw AuthError.missingToken
+            }
+            
+            let jwt = try decode(jwt: tokenID)
+            
+//            let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
+            let userID = jwt.claim(name: "id").string!
             let password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
             
             //refresh the token

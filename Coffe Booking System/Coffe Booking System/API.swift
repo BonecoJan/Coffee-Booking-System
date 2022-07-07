@@ -1,4 +1,5 @@
 import Foundation
+import JWTDecode
 
 class WebService {
     
@@ -90,7 +91,11 @@ class WebService {
     
     func getUser(allowRetry: Bool = true) async throws -> UserResponse {
         
-        let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        let jwt = try decode(jwt: tokenID)
+        let userID = jwt.claim(name: "id").string!
+        //let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
         
         let url = URL(string: apiUrl + "users/" + userID)
         
@@ -133,8 +138,8 @@ class WebService {
         let loginResponse = try decoder.decode(LoginResponse.self, from: data)
             
         KeychainWrapper.standard.create(Data((loginResponse.token!).utf8), service: "access-token", account: "Coffe-Booking-System")
-        KeychainWrapper.standard.create(Data(String(loginResponse.expiration!).utf8), service: "access-token-expiration", account: "Coffe-Booking-System")
-        KeychainWrapper.standard.create(Data(id.utf8), service: "user-id", account: "Coffe-Booking-System")
+//        KeychainWrapper.standard.create(Data(String(loginResponse.expiration!).utf8), service: "access-token-expiration", account: "Coffe-Booking-System")
+//        KeychainWrapper.standard.create(Data(id.utf8), service: "user-id", account: "Coffe-Booking-System")
         KeychainWrapper.standard.create(Data(password.utf8), service: "password", account: "Coffe-Booking-System")
                         
         return loginResponse
@@ -167,8 +172,8 @@ class WebService {
             completion(.success(loginResponse))
             
             KeychainWrapper.standard.create(Data((loginResponse.token!).utf8), service: "access-token", account: "Coffe-Booking-System")
-            KeychainWrapper.standard.create(Data(String(loginResponse.expiration!).utf8), service: "access-token-expiration", account: "Coffe-Booking-System")
-            KeychainWrapper.standard.create(Data(id.utf8), service: "user-id", account: "Coffe-Booking-System")
+//            KeychainWrapper.standard.create(Data(String(loginResponse.expiration!).utf8), service: "access-token-expiration", account: "Coffe-Booking-System")
+//            KeychainWrapper.standard.create(Data(id.utf8), service: "user-id", account: "Coffe-Booking-System")
             KeychainWrapper.standard.create(Data(password.utf8), service: "password", account: "Coffe-Booking-System")
                         
         }.resume()

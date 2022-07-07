@@ -11,6 +11,7 @@
 		C324FEB92870DC7F00FDF0CB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEB82870DC7F00FDF0CB /* RegisterView.swift */; };
 		C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */; };
 		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
+		C34584D7287649A900CAE221 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C34584D6287649A900CAE221 /* JWTDecode */; };
 		C359E80028736E36007DB305 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359E7FF28736E36007DB305 /* Auth.swift */; };
 		C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359E80228737282007DB305 /* KeychainWrapper.swift */; };
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C34584D7287649A900CAE221 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +185,9 @@
 			dependencies = (
 			);
 			name = "Coffe Booking System";
+			packageProductDependencies = (
+				C34584D6287649A900CAE221 /* JWTDecode */,
+			);
 			productName = "Coffe Booking System";
 			productReference = F61D90D628531DF100F275E8 /* Coffe Booking System.app */;
 			productType = "com.apple.product-type.application";
@@ -211,6 +216,9 @@
 				Base,
 			);
 			mainGroup = F61D90CD28531DF100F275E8;
+			packageReferences = (
+				C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+			);
 			productRefGroup = F61D90D728531DF100F275E8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -469,6 +477,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C34584D6287649A900CAE221 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F61D90CE28531DF100F275E8 /* Project object */;
 }

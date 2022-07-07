@@ -28,8 +28,8 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "person")
                     .padding()
-                Text(modelService.shop.currentUser.name)
-                //Text(self.UserName)
+                //Text(modelService.shop.currentUser.name)
+                Text(self.userName)
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {/*TODO: Username Change*/}, label: {
@@ -43,8 +43,8 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "person.text.rectangle")
                     .padding()
-                Text(modelService.shop.currentUser.id)
-                //Text(self.userID)
+                //Text(modelService.shop.currentUser.id)
+                Text(self.userID)
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
@@ -70,6 +70,7 @@ struct ProfilView: View {
                 self.userName = user.name
                 self.modelService.shop.currentUser.id = user.id
                 self.modelService.shop.currentUser.name = user.name
+                print("Test:" + self.modelService.shop.currentUser.id)
             } catch {
                 print("fail")
             }
