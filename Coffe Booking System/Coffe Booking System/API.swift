@@ -54,6 +54,12 @@ class WebService {
         let balance: Double
     }
     
+    struct UserTransactions: Codable {
+        let type: String
+        let value: Double
+        let timestamp: Int
+    }
+    
     struct ItemResponse: Codable, Identifiable {
         let id: String
         let name: String
@@ -61,9 +67,19 @@ class WebService {
         let price: Double
     }
     
+    struct PurchaseItemBody: Codable {
+        let itemId: String
+        let amount: Int
+    }
     
-    private func authorizedRequest(from url: URL) async throws -> URLRequest {
-        var urlRequest = URLRequest(url: url)
+    struct ChangeUserBody: Codable {
+        let name: String
+        let password: String
+    }
+    
+    
+    private func authorizedRequest(with urlRequest: URLRequest) async throws -> URLRequest {
+        var urlRequest = urlRequest
         let token = try await authManager.validToken()
         urlRequest.setValue("Bearer " + (token.token)!, forHTTPHeaderField: "Authorization")
         return urlRequest
@@ -88,9 +104,134 @@ class WebService {
 //
 //        return response
 //    }
+   
+    func deleteUser(allowRetry: Bool = true) async throws -> Void {
+
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        let jwt = try decode(jwt: tokenID)
+        let userID = jwt.claim(name: "id").string!
+
+        let url = URL(string: apiUrl + "users/" + userID)
+
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "DELETE"
+        
+        let request = try await authorizedRequest(with: urlRequest)
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        
+        // check the http status code and refresh + retry if we received 401 Unauthorized
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            if allowRetry {
+                _ = try await authManager.refreshToken()
+                return try await deleteUser(allowRetry: false)
+            }
+
+            throw AuthenticationError.invalidCredentials
+        }
+
+//        let decoder = JSONDecoder()
+//        let response = try decoder.decode(UserResponse.self, from: data)
+//        print(response)
+    }
+
+
+
+    func changeUser(allowRetry: Bool = true, name: String, password: String) async throws -> Void {
+
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        let jwt = try decode(jwt: tokenID)
+        let userID = jwt.claim(name: "id").string!
+
+        let url = URL(string: apiUrl + "users/" + userID)
+
+        let body = ChangeUserBody(name: name, password: password)
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "PUT"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-type")
+        urlRequest.httpBody = try? JSONEncoder().encode(body)
+
+        
+        let request = try await authorizedRequest(with: urlRequest)
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+
+        // check the http status code and refresh + retry if we received 401 Unauthorized
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            if allowRetry {
+                _ = try await authManager.refreshToken()
+                return try await changeUser(allowRetry: false, name: name, password: password)
+            }
+
+            throw AuthenticationError.invalidCredentials
+        }
+
+//        let decoder = JSONDecoder()
+//        let response = try decoder.decode(UserResponse.self, from: data)
+    }
+
+
+    func purchaseItem(allowRetry: Bool = true, id: String, amount: Int) async throws -> Void {
+
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        let jwt = try decode(jwt: tokenID)
+        let userID = jwt.claim(name: "id").string!
+
+        let url = URL(string: apiUrl + "users/" + userID + "/purchases")
+
+        let body = PurchaseItemBody(itemId: id, amount: amount)
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-type")
+        urlRequest.httpBody = try? JSONEncoder().encode(body)
+        
+        
+        let request = try await authorizedRequest(with: urlRequest)
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+        //print(urlResponse)
+        // check the http status code and refresh + retry if we received 401 Unauthorized
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            if allowRetry {
+                _ = try await authManager.refreshToken()
+                return try await purchaseItem(allowRetry: false, id: id, amount: amount)
+            }
+            throw AuthenticationError.invalidCredentials
+        }
+        
+//        let decoder = JSONDecoder()
+//        let response = try decoder.decode(UserResponse.self, from: data)
+
+    }
+
+
+    func getUserTransactions(allowRetry: Bool = true) async throws -> [UserTransactions] {
+
+
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        let jwt = try decode(jwt: tokenID)
+        let userID = jwt.claim(name: "id").string!
+        //let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
+
+        let url = URL(string: apiUrl + "users/" + userID + "/transactions")
+
+        let request = try await authorizedRequest(with: URLRequest(url: url!))
+        let (data, urlResponse) = try await URLSession.shared.data(for: request)
+
+        // check the http status code and refresh + retry if we received 401 Unauthorized
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            if allowRetry {
+                _ = try await authManager.refreshToken()
+                return try await getUserTransactions(allowRetry: false)
+            }
+
+            throw AuthenticationError.invalidCredentials
+        }
+
+        let decoder = JSONDecoder()
+        let response = try decoder.decode([UserTransactions].self, from: data)
+
+        return response
+    }
     
     func getUser(allowRetry: Bool = true) async throws -> UserResponse {
-        
         
         let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
@@ -99,7 +240,7 @@ class WebService {
         
         let url = URL(string: apiUrl + "users/" + userID)
         
-        let request = try await authorizedRequest(from: url!)
+        let request = try await authorizedRequest(with: URLRequest(url: url!))
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
         
         // check the http status code and refresh + retry if we received 401 Unauthorized

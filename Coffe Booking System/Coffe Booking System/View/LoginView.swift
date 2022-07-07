@@ -1,4 +1,5 @@
 import SwiftUI
+import JWTDecode
 
 struct LoginView: View {
     
@@ -38,6 +39,26 @@ struct LoginView: View {
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                 .fill(Color(UIColor.white))
         )
+        //.onAppear(perform: checkToken)
+    }
+    
+    func checkToken() {
+        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        
+        do {
+            let jwt = try decode(jwt: tokenID)
+            if !(jwt.expired) {
+                loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
+                loginVM.id = jwt.claim(name: "id").string!
+                print(tokenID)
+                loginVM.login()
+            }
+            else {
+                return
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 

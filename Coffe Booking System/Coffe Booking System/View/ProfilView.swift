@@ -71,6 +71,9 @@ struct ProfilView: View {
                 self.modelService.shop.currentUser.id = user.id
                 self.modelService.shop.currentUser.name = user.name
                 print("Test:" + self.modelService.shop.currentUser.id)
+                
+                try await WebService(authManager: AuthManager()).purchaseItem(id: "27a739a8-300c-468f-aa5f-715adafa06a7", amount: 1)
+                try await WebService(authManager: AuthManager()).changeUser(name: "Herr Funke", password: "SaschWalon")
             } catch {
                 print("fail")
             }
