@@ -10,7 +10,6 @@ struct ProfilView: View {
     @State var userID: String = ""
     
     var body: some View {
-        //TODO: If isAdmin == true then show AdminMenue (with WindowGroup?)
         VStack {
             Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                 .font(.title)
@@ -58,23 +57,6 @@ struct ProfilView: View {
             })
             Button("Logout") {
                 loginVM.logout()
-            }
-        }.onAppear(perform: loadData)
-    }
-    
-    func loadData() {
-        Task{
-            do {
-                let user = try await self.shop.modelService.webService.getUser()
-                print(user.id)
-                print(user.name)
-                print("test")
-                self.userID = user.id
-                self.userName = user.name
-                self.shop.currentUser.id = user.id
-                self.shop.currentUser.name = user.name
-            } catch {
-                print("fail")
             }
         }
     }

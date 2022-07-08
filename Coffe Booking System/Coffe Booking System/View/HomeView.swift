@@ -5,7 +5,7 @@ struct HomeView: View {
     @EnvironmentObject var shop: Shop
     
     var body: some View {
-        ItemList()
+        Text("Home View")
     }
 }
 

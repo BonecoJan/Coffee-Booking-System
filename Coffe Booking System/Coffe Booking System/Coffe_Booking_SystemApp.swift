@@ -30,6 +30,7 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(viewState)
             } else if viewState.state == 1{
                 AdminMenue()
+                    .environmentObject(viewState)
             }
         }
     }

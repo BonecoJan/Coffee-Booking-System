@@ -13,6 +13,7 @@ struct LoginView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .clipped()
+            .ignoresSafeArea()
         
         VStack {
             if showSignUp == false{
