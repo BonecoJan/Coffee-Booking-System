@@ -265,7 +265,7 @@ class WebService {
             throw AuthenticationError.invalidCredentials
         }
         } else {
-            AuthenticationError.custom(errorMessage: "missing token")
+            throw AuthenticationError.custom(errorMessage: "missing token")
         }
         
 //        let decoder = JSONDecoder()

@@ -45,17 +45,6 @@ class ProfileViewModel: ObservableObject {
             print("Error while reading token")
             return
         }
-//        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
-//        do {
-//            let jwt = try decode(jwt: tokenID)
-//            let adminInfo = jwt.body["isAdmin"]! as? Int
-//            if adminInfo! == 1 {
-//                self.isAdmin = true
-//            }
-//        } catch {
-//            print("Error while trying to decode token")
-//        }
-        
     }
     
 }

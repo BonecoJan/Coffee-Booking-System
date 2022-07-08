@@ -40,7 +40,7 @@ struct LoginView: View {
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                 .fill(Color(UIColor.white))
         )
-        //.onAppear(perform: checkToken)
+        .onAppear(perform: checkToken)
     }
     
     func checkToken() {
@@ -53,7 +53,6 @@ struct LoginView: View {
             if !(jwt.expired) {
                 loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
                 loginVM.id = jwt.claim(name: "id").string!
-                print(tokenID)
                 loginVM.login()
             }
             else {
