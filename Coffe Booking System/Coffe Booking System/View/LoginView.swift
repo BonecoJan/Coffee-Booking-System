@@ -44,10 +44,12 @@ struct LoginView: View {
     }
     
     func checkToken() {
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
         
+        if let tokenID = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")
+        {
+            let token = String(data: tokenID, encoding: .utf8)!
         do {
-            let jwt = try decode(jwt: tokenID)
+            let jwt = try decode(jwt: token)
             if !(jwt.expired) {
                 loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
                 loginVM.id = jwt.claim(name: "id").string!
@@ -59,6 +61,9 @@ struct LoginView: View {
             }
         } catch let error {
             print(error.localizedDescription)
+        }
+        } else {
+            return
         }
     }
 }

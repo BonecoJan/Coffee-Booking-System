@@ -118,7 +118,9 @@ class WebService {
    
     func deleteUser(allowRetry: Bool = true) async throws -> Void {
 
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        //let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: readToken, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
 
@@ -138,6 +140,9 @@ class WebService {
             }
 
             throw AuthenticationError.invalidCredentials
+        }
+        } else {
+            throw AuthenticationError.custom(errorMessage: "missing token")
         }
 
 //        let decoder = JSONDecoder()
@@ -170,7 +175,9 @@ class WebService {
     
     func changeUser(allowRetry: Bool = true, name: String, password: String) async throws -> Void {
 
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        //let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: readToken, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
 
@@ -194,6 +201,9 @@ class WebService {
             }
 
             throw AuthenticationError.invalidCredentials
+        }
+        } else {
+            throw AuthenticationError.custom(errorMessage: "missing token")
         }
 
 //        let decoder = JSONDecoder()
@@ -228,7 +238,9 @@ class WebService {
     
     func purchaseItem(allowRetry: Bool = true, id: String, amount: Int) async throws -> Void {
 
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        //let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: readToken, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
 
@@ -251,6 +263,9 @@ class WebService {
                 return try await purchaseItem(allowRetry: false, id: id, amount: amount)
             }
             throw AuthenticationError.invalidCredentials
+        }
+        } else {
+            AuthenticationError.custom(errorMessage: "missing token")
         }
         
 //        let decoder = JSONDecoder()
@@ -357,7 +372,9 @@ class WebService {
     
     func getUserTransactions(allowRetry: Bool = true) async throws -> [UserTransactions] {
 
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        //let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: readToken, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
         //let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
@@ -381,12 +398,18 @@ class WebService {
         let response = try decoder.decode([UserTransactions].self, from: data)
 
         return response
+        } else {
+            throw AuthenticationError.custom(errorMessage: "missing token")
+        }
     }
+
     
     
     func getUser(allowRetry: Bool = true) async throws -> UserResponse {
         
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        //let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: readToken, encoding: .utf8)!
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
         //let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
@@ -410,6 +433,9 @@ class WebService {
         let response = try decoder.decode(UserResponse.self, from: data)
         
         return response
+        } else {
+            throw AuthenticationError.custom(errorMessage: "missing token")
+        }
     }
     
     

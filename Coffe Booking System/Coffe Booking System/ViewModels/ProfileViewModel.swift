@@ -27,7 +27,8 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getAdminData() {
-        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+        if let data = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        let tokenID = String(data: data, encoding: .utf8)!
         do {
             let jwt = try decode(jwt: tokenID)
             let adminInfo = jwt.body["isAdmin"]! as? Int
@@ -37,6 +38,21 @@ class ProfileViewModel: ObservableObject {
         } catch {
             print("Error while trying to decode token")
         }
+        } else {
+            print("Error while reading token")
+            return
+        }
+//        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
+//        do {
+//            let jwt = try decode(jwt: tokenID)
+//            let adminInfo = jwt.body["isAdmin"]! as? Int
+//            if adminInfo! == 1 {
+//                self.isAdmin = true
+//            }
+//        } catch {
+//            print("Error while trying to decode token")
+//        }
+        
     }
     
 }
