@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C318CCC928588CFF0046AE78 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CCC828588CFF0046AE78 /* UserList.swift */; };
-		C324FEB92870DC7F00FDF0CB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEB82870DC7F00FDF0CB /* RegisterView.swift */; };
 		C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */; };
 		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
 		C34584D7287649A900CAE221 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C34584D6287649A900CAE221 /* JWTDecode */; };
@@ -18,7 +16,6 @@
 		C35E10612857DBC70030B4C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */; };
 		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
 		C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105A2857DBC70030B4C7 /* LoginView.swift */; };
-		C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105B2857DBC70030B4C7 /* ContentView.swift */; };
 		C35E106D2857DBC70030B4C7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105C2857DBC70030B4C7 /* API.swift */; };
 		F659AF482858E82B00BCCC26 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF472858E82B00BCCC26 /* MainView.swift */; };
 		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
@@ -43,8 +40,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C318CCC828588CFF0046AE78 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
-		C324FEB82870DC7F00FDF0CB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		C3450DAC287211ED00555DF0 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		C359E7FF28736E36007DB305 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
@@ -53,7 +48,6 @@
 		C35E104D2857DBC70030B4C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
 		C35E105A2857DBC70030B4C7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		C35E105B2857DBC70030B4C7 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C35E105C2857DBC70030B4C7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C3F91BA828743DC80066E197 /* Coffe Booking System.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Coffe Booking System.entitlements"; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,13 +122,10 @@
 			isa = PBXGroup;
 			children = (
 				C35E105A2857DBC70030B4C7 /* LoginView.swift */,
-				C35E105B2857DBC70030B4C7 /* ContentView.swift */,
-				C318CCC828588CFF0046AE78 /* UserList.swift */,
 				F659AF472858E82B00BCCC26 /* MainView.swift */,
 				F659AF492858E85000BCCC26 /* HomeView.swift */,
 				F6E9E66D2858F2F900829739 /* ProfilView.swift */,
 				F6E9E66F2858F40800829739 /* OrderView.swift */,
-				C324FEB82870DC7F00FDF0CB /* RegisterView.swift */,
 				F6D4B666287361640037E821 /* CustomViewStructs.swift */,
 				F6D4B668287361E50037E821 /* SignInView.swift */,
 				F6D4B66A287361F90037E821 /* SignUpView.swift */,
@@ -263,7 +254,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C35E106C2857DBC70030B4C7 /* ContentView.swift in Sources */,
 				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
 				C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */,
 				F6E9E6702858F40800829739 /* OrderView.swift in Sources */,
@@ -275,7 +265,6 @@
 				C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */,
 				F6D4B6C028780C3A0037E821 /* AdminItemView.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
-				C324FEB92870DC7F00FDF0CB /* RegisterView.swift in Sources */,
 				F6D4B6B6287807190037E821 /* User.swift in Sources */,
 				F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */,
 				C359E80028736E36007DB305 /* Auth.swift in Sources */,
@@ -285,7 +274,6 @@
 				F6D4B669287361E50037E821 /* SignInView.swift in Sources */,
 				F6D4B6BE2878081F0037E821 /* AdminMenue.swift in Sources */,
 				F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */,
-				C318CCC928588CFF0046AE78 /* UserList.swift in Sources */,
 				F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */,
 				F6D4B6B8287807190037E821 /* ModelService.swift in Sources */,
 				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,

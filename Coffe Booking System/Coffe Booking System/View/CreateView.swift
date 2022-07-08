@@ -1,10 +1,3 @@
-//
-//  CreateView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 08.07.22.
-//
-
 import SwiftUI
 
 struct CreateView: View {

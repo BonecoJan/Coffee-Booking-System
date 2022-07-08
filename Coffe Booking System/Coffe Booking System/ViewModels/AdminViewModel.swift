@@ -46,4 +46,14 @@ class AdminViewModel: ObservableObject {
         }
     }
     
+    func updateItems(itemID: String, name: String, amount: Int, price: Double) {
+        Task {
+            do {
+                try await WebService(authManager: AuthManager()).changeItem(id: itemID, name: name, amount: amount, price: price)
+            } catch {
+                print("failed to update item with id " + itemID)
+            }
+        }
+    }
+    
 }

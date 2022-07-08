@@ -3,6 +3,8 @@ import SwiftUI
 struct UserView: View {
     
     var user: WebService.UsersResponse
+    @State var showEditOverlay: Bool = false
+    @State var showDeleteOverlay: Bool = false
     @EnvironmentObject var adminVM : AdminViewModel
     
     var body: some View {
@@ -13,14 +15,23 @@ struct UserView: View {
             
             HStack{
                 
-                Menu("Edit") {
-                    Text("Edit Menu")
-                }
+                Button(action: {
+                    showEditOverlay = true
+                }, label: {
+                    Text("Edit")
+                })
+                .sheet(isPresented: $showEditOverlay, content: {
+                    
+                })
                 
-                Menu("Delete") {
-                    Text("Delete Menu")
-                }
-                
+                Button(action: {
+                    showDeleteOverlay = true
+                }, label: {
+                    Text("Delete")
+                })
+                .sheet(isPresented: $showEditOverlay, content: {
+                    
+                })
             }
         })
         .padding()

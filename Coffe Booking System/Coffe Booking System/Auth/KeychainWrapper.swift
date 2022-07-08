@@ -1,10 +1,3 @@
-//
-//  KeychainWrapper.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 04.07.22.
-//
-
 import Foundation
 
 final class KeychainWrapper {
@@ -24,7 +17,6 @@ final class KeychainWrapper {
         let status = SecItemAdd(body, nil)
         
         if status != errSecSuccess {
-             // Print out the error
              print("Error: \(status)")
          }
         

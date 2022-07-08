@@ -270,7 +270,6 @@ class WebService {
         
 //        let decoder = JSONDecoder()
 //        let response = try decoder.decode(UserResponse.self, from: data)
-
     }
 
     
@@ -378,7 +377,6 @@ class WebService {
         let jwt = try decode(jwt: tokenID)
         let userID = jwt.claim(name: "id").string!
         //let userID = String(data: KeychainWrapper.standard.get(service: "user-id", account: "Coffe-Booking-System")!, encoding: .utf8)!
-
         let url = URL(string: apiUrl + "users/" + userID + "/transactions")
 
         let request = try await authorizedRequest(with: URLRequest(url: url!))
