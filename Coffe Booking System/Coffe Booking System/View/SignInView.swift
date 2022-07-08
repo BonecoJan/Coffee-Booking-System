@@ -1,10 +1,3 @@
-//
-//  SignInView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 04.07.22.
-//
-
 import SwiftUI
 
 struct SignInView: View {

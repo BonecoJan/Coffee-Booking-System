@@ -1,16 +1,11 @@
-//
-//  MainView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 14.06.22.
-//
-
 import SwiftUI
 
 struct MainView: View {
     
+    @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var modelService: ModelService
+    @EnvironmentObject var shop: Shop
+    @StateObject var profileVM = ProfileViewModel()
     
     var body: some View {
         TabView{
@@ -19,20 +14,22 @@ struct MainView: View {
                     Image(systemName: "house")
                     Text("Home")
                 }
-                .environmentObject(modelService)
+                .environmentObject(shop)
             OrderView()
                 .tabItem{
                     Image(systemName: "cart")
                     Text("Order")
                 }
-                .environmentObject(modelService)
+                .environmentObject(shop)
             ProfilView()
                 .tabItem{
                     Image(systemName: "person")
                     Text("Profil")
                 }
-                .environmentObject(modelService)
+                .environmentObject(shop)
                 .environmentObject(loginVM)
+                .environmentObject(profileVM)
+                .environmentObject(viewState)
         }
     }
 }

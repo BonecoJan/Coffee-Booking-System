@@ -1,45 +1,36 @@
 import SwiftUI
-import JWTDecode
+
+//For changing the views
+class ViewState: ObservableObject {
+    @Published var state: Int
+    init(){
+        state = 0
+    }
+}
 
 @main
+
 struct Coffe_Booking_SystemApp: App {
     
-    @StateObject var loginVM = LoginViewModel()
-    @StateObject var registerVM = RegisterViewModel()
-    @StateObject var modelService = ModelService(shop: Shop(currentUser: User(id: "", name: ""), users: [], items: []), webService: WebService(authManager: AuthManager()))
+    @ObservedObject var loginVM = LoginViewModel()
+    @ObservedObject var registerVM = RegisterViewModel()
+    @ObservedObject var shop = Shop(modelService: ModelService(webService: WebService(authManager: AuthManager())), currentUser: User(id: "", name: ""), users: [], items: [])
+    @ObservedObject var viewState = ViewState()
     
     var body: some Scene {
         WindowGroup {
-            //if checkToken() {
-            if loginVM.isAuthenticated {
+            if loginVM.isAuthenticated && viewState.state == 0 {
                 MainView().environmentObject(loginVM)
-                    .environmentObject(modelService)
-            } else {
-                //RegisterView().environmentObject(registerVM)
+                    .environmentObject(shop)
+                    .environmentObject(viewState)
+            } else if !loginVM.isAuthenticated && viewState.state == 0{
                 LoginView().environmentObject(loginVM)
-                    .environmentObject(modelService)
+                    .environmentObject(shop)
+                    .environmentObject(registerVM)
+                    .environmentObject(viewState)
+            } else if viewState.state == 1{
+                AdminMenue()
             }
         }
     }
-    
-//    func checkToken() -> Bool {
-//        let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8)!
-//
-//        do {
-//            let jwt = try decode(jwt: tokenID)
-//            if !(jwt.expired) {
-//                loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
-//                loginVM.id = jwt.claim(name: "id").string!
-//                print(tokenID)
-//                loginVM.login()
-//                return true
-//            }
-//            else {
-//                return false
-//            }
-//        } catch let error {
-//            print(error.localizedDescription)
-//        }
-//        return false
-//    }
 }

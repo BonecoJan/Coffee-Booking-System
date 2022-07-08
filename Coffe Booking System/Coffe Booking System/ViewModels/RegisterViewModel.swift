@@ -1,10 +1,3 @@
-//
-//  RegisterViewModel.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 02.07.22.
-//
-
 import Foundation
 
 class RegisterViewModel: ObservableObject {

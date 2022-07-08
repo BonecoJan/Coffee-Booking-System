@@ -1,15 +1,9 @@
-//
-//  SignUpView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 04.07.22.
-//
-
 import SwiftUI
 
 struct SignUpView: View {
     
-    @State var registerVM = RegisterViewModel()
+    @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var registerVM: RegisterViewModel
     @EnvironmentObject var loginVM: LoginViewModel
     
     var body: some View {
@@ -50,13 +44,11 @@ struct SignUpView: View {
         Button(action: {
             if registerVM.password.count >= 8 && registerVM.password == registerVM.repeatedPassword {
                 registerVM.register(id: registerVM.id, name: registerVM.name, password: registerVM.password)
-                DispatchQueue.main.async {
                     if registerVM.isRegistered == true {
                         loginVM.id = registerVM.id
                         loginVM.password = registerVM.password
                         loginVM.login()
                     }
-                }
             }
         },
         label: {

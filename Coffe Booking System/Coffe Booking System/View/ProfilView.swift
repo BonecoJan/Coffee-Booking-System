@@ -1,15 +1,10 @@
-//
-//  ProfilView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 14.06.22.
-//
-
 import SwiftUI
 
 struct ProfilView: View {
     
-    @EnvironmentObject var modelService: ModelService
+    @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var shop: Shop
+    @EnvironmentObject var profileVM: ProfileViewModel
     @EnvironmentObject var loginVM: LoginViewModel
     @State var userName: String = ""
     @State var userID: String = ""
@@ -17,7 +12,7 @@ struct ProfilView: View {
     var body: some View {
         //TODO: If isAdmin == true then show AdminMenue (with WindowGroup?)
         VStack {
-            Text("Your Profile")
+            Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                 .font(.title)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -28,8 +23,7 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "person")
                     .padding()
-                //Text(modelService.shop.currentUser.name)
-                Text(self.userName)
+                Text(profileVM.name)
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {/*TODO: Username Change*/}, label: {
@@ -43,11 +37,20 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "person.text.rectangle")
                     .padding()
-                //Text(modelService.shop.currentUser.id)
-                Text(self.userID)
+                Text(profileVM.id)
+                //Text(self.userID)
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
+            //this Button is hidden if the user is not an admin
+            if self.$profileVM.isAdmin.wrappedValue {
+                Button (action: {
+                    //go to Admin Menue
+                    viewState.state = 1
+                }, label: {
+                    Text("Admin Menue")
+                })
+            }
             Button(action: {
                 //TODO: Password Change
             }, label: {
@@ -62,18 +65,14 @@ struct ProfilView: View {
     func loadData() {
         Task{
             do {
-                let user = try await WebService(authManager: AuthManager()).getUser()
+                let user = try await self.shop.modelService.webService.getUser()
                 print(user.id)
                 print(user.name)
                 print("test")
                 self.userID = user.id
                 self.userName = user.name
-                self.modelService.shop.currentUser.id = user.id
-                self.modelService.shop.currentUser.name = user.name
-                print("Test:" + self.modelService.shop.currentUser.id)
-                
-                try await WebService(authManager: AuthManager()).purchaseItem(id: "27a739a8-300c-468f-aa5f-715adafa06a7", amount: 1)
-                try await WebService(authManager: AuthManager()).changeUser(name: "Herr Funke", password: "SaschWalon")
+                self.shop.currentUser.id = user.id
+                self.shop.currentUser.name = user.name
             } catch {
                 print("fail")
             }

@@ -7,13 +7,9 @@ class LoginViewModel: ObservableObject {
     @Published var isAuthenticated: Bool = false
     
     func login() {
-        let defaults = UserDefaults.standard
-                
         WebService(authManager: AuthManager()).login(id: id, password: password) { result in
             switch result {
                 case .success(let loginResponse):
-                print(self.password)
-                defaults.setValue(loginResponse.token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.isAuthenticated = true
                     }
@@ -24,8 +20,8 @@ class LoginViewModel: ObservableObject {
     }
     
     func logout() {
-        let defaults = UserDefaults.standard
-        defaults.removeObject(forKey: "jsonwebtoken")
+        KeychainWrapper.standard.delete(service: "access-token", account: "Coffe-Booking-System")
+        KeychainWrapper.standard.delete(service: "password", account: "Coffe-Booking-System")
         DispatchQueue.main.async {
             self.isAuthenticated = false
         }

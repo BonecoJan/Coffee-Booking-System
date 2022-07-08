@@ -1,15 +1,8 @@
-//
-//  HomeView.swift
-//  Coffe Booking System
-//
-//  Created by Tobias Stuhldreier on 14.06.22.
-//
-
 import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var modelService: ModelService
+    @EnvironmentObject var shop: Shop
     
     var body: some View {
         ItemList()
