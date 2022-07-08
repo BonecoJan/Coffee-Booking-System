@@ -11,6 +11,9 @@ class ProfileViewModel: ObservableObject {
         self.isAdmin = false
         self.name = ""
         self.id = ""
+    }
+    
+    func loadUserData() {
         Task{
             do {
                 let user = try await WebService(authManager: AuthManager()).getUser()

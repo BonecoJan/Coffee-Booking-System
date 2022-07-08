@@ -31,6 +31,7 @@ struct MainView: View {
                 .environmentObject(profileVM)
                 .environmentObject(viewState)
         }
+        .onAppear(perform: profileVM.loadUserData)
     }
 }
 
