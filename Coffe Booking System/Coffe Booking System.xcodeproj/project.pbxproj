@@ -33,7 +33,6 @@
 		F6D4B6C228780C4B0037E821 /* AdminUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C128780C4B0037E821 /* AdminUserView.swift */; };
 		F6D4B6C628781A680037E821 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C528781A680037E821 /* UserView.swift */; };
 		F6D4B6C828781BE10037E821 /* AdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C728781BE10037E821 /* AdminViewModel.swift */; };
-		F6D4B6CA287851A20037E821 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C9287851A20037E821 /* CreateView.swift */; };
 		F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66D2858F2F900829739 /* ProfilView.swift */; };
 		F6E9E6702858F40800829739 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66F2858F40800829739 /* OrderView.swift */; };
 		F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E6722859BE4C00829739 /* LoginViewModel.swift */; };
@@ -67,7 +66,6 @@
 		F6D4B6C128780C4B0037E821 /* AdminUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminUserView.swift; sourceTree = "<group>"; };
 		F6D4B6C528781A680037E821 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		F6D4B6C728781BE10037E821 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
-		F6D4B6C9287851A20037E821 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		F6E9E66D2858F2F900829739 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
 		F6E9E66F2858F40800829739 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		F6E9E6722859BE4C00829739 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -134,7 +132,6 @@
 				F6D4B6C128780C4B0037E821 /* AdminUserView.swift */,
 				C3450DAC287211ED00555DF0 /* ItemView.swift */,
 				F6D4B6C528781A680037E821 /* UserView.swift */,
-				F6D4B6C9287851A20037E821 /* CreateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,7 +254,6 @@
 				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
 				C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */,
 				F6E9E6702858F40800829739 /* OrderView.swift in Sources */,
-				F6D4B6CA287851A20037E821 /* CreateView.swift in Sources */,
 				F6D4B6BA287807190037E821 /* Item.swift in Sources */,
 				F6D4B6C228780C4B0037E821 /* AdminUserView.swift in Sources */,
 				F6D4B6C828781BE10037E821 /* AdminViewModel.swift in Sources */,

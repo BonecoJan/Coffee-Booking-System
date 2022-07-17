@@ -7,13 +7,18 @@ struct AdminMenue: View {
     
     var body: some View {
         VStack {
-            Button(action: {
-                viewState.state = 0
-            }, label: {
-                Image(systemName: "arrow.backward")
-            })
-            .padding()
-            .frame(alignment: .leading)
+            HStack{
+                Button(action: {
+                    viewState.state = 0
+                }, label: {
+                    Image(systemName: "arrow.backward")
+                        .multilineTextAlignment(.leading)
+                })
+                .padding()
+                Text("Admin Menu")
+                    .bold()
+                    .multilineTextAlignment(.center)
+            }
             TabView {
                 AdminItemView()
                     .tabItem{
@@ -27,11 +32,6 @@ struct AdminMenue: View {
                         Text("User")
                     }
                     .environmentObject(adminVM)
-                CreateView()
-                    .tabItem{
-                        Image(systemName: "plus")
-                        Text("Add Item/User")
-                    }
             }
         }
     }

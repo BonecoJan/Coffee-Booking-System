@@ -32,15 +32,17 @@ struct LoginView: View {
                         .foregroundColor(.black)
                 })
             }
+            .offset(y: -20)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
         }
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                .fill(Color(UIColor.white))
+                .fill(Color(hex: 0xCCB9B1))
         )
         .onAppear(perform: checkToken)
+        .ignoresSafeArea()
     }
     
     func checkToken() {
@@ -77,6 +79,8 @@ struct ForgotPasswordView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .environmentObject(ModelService(webService: WebService(authManager: AuthManager())))
+            .environmentObject(LoginViewModel())
     }
 }
 

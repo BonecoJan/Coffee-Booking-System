@@ -11,8 +11,7 @@ struct SignUpView: View {
         Text("Register")
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
-            .padding(.bottom)
+            .padding()
         
         //Register Fields
         HStack{
@@ -27,19 +26,21 @@ struct SignUpView: View {
             TextField("User ID", text: $registerVM.id)
                 .cornerRadius(5.0)
         }
+        .offset(y: -20)
         HStack{
             Image(systemName: "lock")
                 .padding()
             SecureField("Password", text: $registerVM.password)
                 .cornerRadius(5.0)
         }
+        .offset(y: -40)
         HStack{
             Image(systemName: "lock")
                 .padding()
             SecureField("Repeat password", text: $registerVM.repeatedPassword)
                 .cornerRadius(5.0)
         }
-        
+        .offset(y: -60)
         //try to register with given account data and in case of success login with the new registered account
         Button(action: {
             if registerVM.password.count >= 8 && registerVM.password == registerVM.repeatedPassword {
@@ -53,11 +54,12 @@ struct SignUpView: View {
         },
         label: {
             Text("Sign up")
-                .background(.brown)
-                .padding(.top)
+                .frame(width: 244, height: 39)
+                .background(Color(hex: 0xC08267))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
-                .cornerRadius(5.0)
         })
+        .offset(y: -60)
     }
 }
 

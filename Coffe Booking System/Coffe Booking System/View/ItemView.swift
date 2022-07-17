@@ -3,7 +3,7 @@ import Combine
 
 struct ItemView: View {
     
-    var item: WebService.ItemResponse
+    var item: AdminViewModel.ItemResponse
     @State var showEditOverlay: Bool = false
     @State var showDeleteOverlay: Bool = false
     @State var newName: String = ""
@@ -31,13 +31,25 @@ struct ItemView: View {
                     Text("Edit")
                 })
                 .sheet(isPresented: $showEditOverlay, content: {
-                    VStack{
+                    VStack(alignment: .leading){
                         Text("Edit the item:")
+                            .padding()
+                            .multilineTextAlignment(.leading)
                         Text("Item ID: " + item.id)
+                            .padding()
+                            .multilineTextAlignment(.leading)
                         Text("Current Name: " + item.name)
+                            .multilineTextAlignment(.leading)
+                            .padding()
                         TextField("New name", text: $newName)
-                        Text("Current amount: ")
+                            .padding()
+                            .multilineTextAlignment(.leading)
+                        Text("Current amount: " + String(item.amount))
+                            .padding()
+                            .multilineTextAlignment(.leading)
                         TextField("New amount: ", text: $newAmount)
+                            .padding()
+                            .multilineTextAlignment(.leading)
                             .keyboardType(.numberPad)
                                         .onReceive(Just(newAmount)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
@@ -45,8 +57,12 @@ struct ItemView: View {
                                                 self.newAmount = filtered
                                             }
                                     }
-                        Text("Current price: ")
+                        Text("Current price: " + String(item.price))
+                            .padding()
+                            .multilineTextAlignment(.leading)
                         TextField("New price: ",text: $newPrice)
+                            .padding()
+                            .multilineTextAlignment(.leading)
                             .keyboardType(.numberPad)
                                         .onReceive(Just(newPrice)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
@@ -66,10 +82,15 @@ struct ItemView: View {
                             if newPrice == "" {
                                 newPrice = String(item.price)
                             }
-                            adminVM.updateItems(itemID: item.id, name: item.name, amount: Int(item.amount), price: Double(item.price))
-                            adminVM.getItems()
+                            adminVM.updateItem(itemID: item.id, name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
                         }, label: {
                             Text("Update item")
+                                .frame(width: 244, height: 39)
+                                .background(Color(hex: 0xD9D9D9))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .foregroundColor(.black)
+                                .multilineTextAlignment(.center)
+                                .padding()
                         })
                     }
                 })
@@ -80,7 +101,7 @@ struct ItemView: View {
                     Text("Delete")
                 })
                 .sheet(isPresented: $showDeleteOverlay, content: {
-                    VStack{
+                    VStack(alignment: .leading){
                         Text("Do you really want to delete this item?")
                             .frame(alignment: .leading)
                         Button(action: {
@@ -88,6 +109,12 @@ struct ItemView: View {
                             adminVM.getItems()
                         }, label: {
                             Text("Yes")
+                                .frame(width: 244, height: 39)
+                                .background(Color(hex: 0xD9D9D9))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .foregroundColor(.black)
+                                .multilineTextAlignment(.center)
+                                .padding()
                         })
                     }
                 })
@@ -96,5 +123,9 @@ struct ItemView: View {
             }
         })
         .padding()
+        .background(
+            RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
+                .fill(Color(hex: 0xD9D9D9))
+            )
     }
 }

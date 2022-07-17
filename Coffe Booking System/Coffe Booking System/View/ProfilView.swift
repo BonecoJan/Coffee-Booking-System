@@ -48,17 +48,35 @@ struct ProfilView: View {
                     viewState.state = 1
                 }, label: {
                     Text("Admin Menue")
+                        .frame(width: 244, height: 39)
+                        .background(Color(hex: 0xD9D9D9))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundColor(.black)
                 })
             }
             Button(action: {
                 //TODO: Password Change
             }, label: {
                 Text("Change password")
+                    .frame(width: 244, height: 39)
+                    .background(Color(hex: 0xD9D9D9))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(.black)
             })
-            Button("Logout") {
+            Button(action: {
                 loginVM.logout()
-            }
-        }
+            }, label: {
+                Text("Logout")
+                    .frame(width: 244, height: 39)
+                    .background(Color(hex: 0xD9D9D9))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(.black)
+            })
+            Spacer()
+        }.background(
+            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
+                .fill(Color(hex: 0xCCB9B1))
+            )
     }
 }
 

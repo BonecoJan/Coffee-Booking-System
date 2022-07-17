@@ -8,8 +8,7 @@ struct SignInView: View {
         Text("Login")
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
-            .padding(.bottom)
+            .padding()
         
         //Login Fields
         HStack{
@@ -24,6 +23,7 @@ struct SignInView: View {
             SecureField("Password", text: $loginVM.password)
                 .cornerRadius(5.0)
         }
+        .offset(y: -20)
         
         //Forgot password Button
         Button(action: {}, label: {
@@ -39,16 +39,19 @@ struct SignInView: View {
         },
         label: {
             Text("Sign in")
-                .background(.brown)
-                .padding(.top)
+                .frame(width: 244, height: 39)
+                .background(Color(hex: 0xC08267))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
-                .cornerRadius(5.0)
         })
     }
 }
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView()
+        Group {
+            SignInView().environmentObject(LoginViewModel())
+            SignInView().environmentObject(LoginViewModel())
+        }
     }
 }

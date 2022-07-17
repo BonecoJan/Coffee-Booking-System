@@ -1,7 +1,14 @@
 import Foundation
 import JWTDecode
+import SwiftUI
 
 class ProfileViewModel: ObservableObject {
+    
+    struct UserResponse: Codable, Identifiable {
+        var id: String
+        var name: String
+        var balance: Double
+    }
     
     @Published var id:  String
     @Published var name: String
@@ -14,12 +21,24 @@ class ProfileViewModel: ObservableObject {
     }
     
     func loadUserData() {
-        Task{
+        Task {
             do {
-                let user = try await WebService(authManager: AuthManager()).getUser()
+                //try to get user id from Keychain
+                if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+                let tokenID = String(data: readToken, encoding: .utf8)!
+                let jwt = try decode(jwt: tokenID)
+                let userID = jwt.claim(name: "id").string!
+                
+                let body: WebService.empty? = nil
+                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self)
+                    
                 DispatchQueue.main.async {
                     self.id = user.id
                     self.name = user.name
+                }
+                    
+                } else {
+                    print("cannot fetch current user data - missing token")
                 }
                 
             } catch {
@@ -46,5 +65,4 @@ class ProfileViewModel: ObservableObject {
             return
         }
     }
-    
 }
