@@ -21,6 +21,10 @@ class AdminViewModel: ObservableObject {
         var price: Double
     }
     
+    struct CreateUserResponse: Codable {
+        var id: String
+    }
+    
     @Published var items: [ItemResponse] = []
     @Published var users:  [UsersResponse] = []
     @Published var success: Bool = false
@@ -133,5 +137,22 @@ class AdminViewModel: ObservableObject {
     }
     
     //TODO: Create Users and Items
+    
+    func createUser(userID: String, name: String, isAdmin: Bool, password: String) {
+        Task {
+            do {
+                let body = UserRequest(id: userID, name: name, isAdmin: isAdmin, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                if response.response == userID {
+                    DispatchQueue.main.async {
+                        self.getUsers()
+                    }
+                }
+            } catch {
+                print("failed to create user with id " + userID)
+            }
+        }
+    }
+    
     //TODO: Give credits to user
 }

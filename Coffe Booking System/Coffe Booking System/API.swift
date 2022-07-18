@@ -51,6 +51,8 @@ class WebService {
         let id: String?
     }
 
+    
+    
     //generic request function
     func request<Request: Encodable, Response: Decodable>(
         allowRetry: Bool = true,

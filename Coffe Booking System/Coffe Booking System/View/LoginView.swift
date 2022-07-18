@@ -23,7 +23,7 @@ struct LoginView: View {
             }
             
             HStack{
-                Text(showSignUp ? "No member yet? " : "Already member? ")
+                Text(showSignUp ? "Already Member? " : "No Member yet? ")
                     .foregroundColor(.black)
                 Button(action: {
                     showSignUp = !showSignUp
