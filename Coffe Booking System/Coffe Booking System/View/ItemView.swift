@@ -63,13 +63,13 @@ struct ItemView: View {
                         TextField("New price: ",text: $newPrice)
                             .padding()
                             .multilineTextAlignment(.leading)
-                            .keyboardType(.numberPad)
-                                        .onReceive(Just(newPrice)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.newPrice = filtered
-                                            }
-                                    }
+//                            .keyboardType(.numberPad)
+//                                        .onReceive(Just(newPrice)) { newValue in
+//                                            let filtered = newValue.filter { "0123456789".contains($0) }
+//                                            if filtered != newValue {
+//                                                self.newPrice = filtered
+//                                            }
+//                                    }
                         Button(action: {
                             if newName == "" {
                                 newName = item.name

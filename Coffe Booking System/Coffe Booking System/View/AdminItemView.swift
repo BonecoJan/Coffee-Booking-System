@@ -52,6 +52,7 @@ struct AdminItemView: View {
                         .multilineTextAlignment(.leading)
                     Button(action: {
                         //TODO: Create Item here
+                        adminVM.createItem(name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
                     }, label: {
                         Text("Create Item")
                             .frame(width: 244, height: 39)

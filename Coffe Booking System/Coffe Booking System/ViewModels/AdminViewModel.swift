@@ -21,6 +21,12 @@ class AdminViewModel: ObservableObject {
         var price: Double
     }
     
+    struct ItemRequest: Codable {
+        var name: String
+        var amount: Int
+        var price: Double
+    }
+    
     struct CreateUserResponse: Codable {
         var id: String
     }
@@ -67,8 +73,8 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "DELETE", authReq: true, body: body, responseType: String.self)
-                if response == "Item deleted successfully." {
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                if response.response == "Item deleted successfully." {
                     DispatchQueue.main.async {
                         self.success = true
                         self.getItems()
@@ -150,6 +156,24 @@ class AdminViewModel: ObservableObject {
                 }
             } catch {
                 print("failed to create user with id " + userID)
+            }
+        }
+    }
+    
+    //Create Item
+    func createItem(name: String, amount: Int, price: Double) {
+        self.success = false
+        Task {
+            do {
+                let body = ItemRequest(name: name, amount: amount, price: price)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                print(response.response)
+                    DispatchQueue.main.async {
+                        self.success = true
+                        self.getItems()
+                    }
+            } catch {
+                print("could not create item.")
             }
         }
     }
