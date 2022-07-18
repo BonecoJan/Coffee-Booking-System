@@ -13,11 +13,13 @@ class ProfileViewModel: ObservableObject {
     @Published var id:  String
     @Published var name: String
     @Published var isAdmin: Bool
+    @Published var balance: Double
     
     init() {
         self.isAdmin = false
         self.name = ""
         self.id = ""
+        self.balance = 0.0
     }
     
     func loadUserData() {
@@ -35,6 +37,7 @@ class ProfileViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.id = user.id
                     self.name = user.name
+                    self.balance = user.balance
                 }
                     
                 } else {

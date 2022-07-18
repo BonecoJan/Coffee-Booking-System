@@ -3,9 +3,21 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var shop: Shop
+    @EnvironmentObject var profilVM: ProfileViewModel
+    @ObservedObject var homeVM = HomeViewModel()
+    @StateObject var orderVM = OrderViewModel()
     
     var body: some View {
-        Text("Home View")
+        ScrollView(.vertical, showsIndicators: false, content: {
+            VStack{
+                ForEach(homeVM.products) { product in
+                    ProductView(product: product)
+                        .environmentObject(homeVM)
+                }
+            }
+        })
+        .padding()
+        .background(Color(hex: 0xCCB9B1))
     }
 }
 

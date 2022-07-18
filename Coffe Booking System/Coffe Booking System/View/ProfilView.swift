@@ -37,10 +37,12 @@ struct ProfilView: View {
                 Image(systemName: "person.text.rectangle")
                     .padding()
                 Text(profileVM.id)
-                //Text(self.userID)
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
+            Text("Balance: " + String(profileVM.balance) + " €")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
             //this Button is hidden if the user is not an admin
             if self.$profileVM.isAdmin.wrappedValue {
                 Button (action: {
