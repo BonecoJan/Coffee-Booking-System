@@ -27,19 +27,19 @@ struct ProfilView: View {
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
-//            Button (action: {
-//                //TODO update user
-//                withAnimation {
-//                    editMode?.wrappedValue = .inactive
-//                }
-//                if self.userName != profileVM.name {
-//                    profileVM.updateUser(name: self.userName)
-//                }
-//            }, label: {
-//                Text("Save")
-//                    .frame(maxWidth: .infinity, alignment: .trailing)
-//                    .padding(.trailing)
-//            })
+            Button (action: {
+                //TODO update user
+                withAnimation {
+                    editMode?.wrappedValue = .inactive
+                }
+                if self.userName != profileVM.name {
+                    profileVM.updateUser(name: self.userName)
+                }
+            }, label: {
+                Text("Save")
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing)
+            })
             Text("Name")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
@@ -49,8 +49,6 @@ struct ProfilView: View {
                 TextField("", text: $userName)
                     //.fontWeight(.bold)
                     .disabled(!isEditing)
-                
-                
                 Spacer()
                 Button(action: {
                             withAnimation {
@@ -90,6 +88,58 @@ struct ProfilView: View {
                         .foregroundColor(.black)
                 })
             }
+            bottomSection
+            Spacer()
+        }.background(
+            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
+                .fill(Color(hex: 0xCCB9B1))
+            )
+        .onAppear(perform: {
+            self.userName = profileVM.name
+            //self.isVisible = (self.userName != profileVM.name)
+        })
+    }
+    
+    var changePassword: some View {
+            VStack(alignment: .leading){
+                Text("Current password:")
+                    .padding()
+                    .multilineTextAlignment(.leading)
+                TextField("Password", text: $currentPassword)
+                    .padding()
+                    .multilineTextAlignment(.leading)
+                Text("New Password")
+                    .multilineTextAlignment(.leading)
+                    .padding()
+                TextField("username", text: $newPassword)
+                    .padding()
+                    .multilineTextAlignment(.leading)
+                Text("Repeat new password")
+                    .padding()
+                    .multilineTextAlignment(.leading)
+                TextField("password: ", text: $repeatedPassword)
+                    .padding()
+                    .multilineTextAlignment(.leading)
+                Button(action: {
+                    if newPassword.count >= 8 && newPassword == repeatedPassword {
+                        if checkPassword(password: currentPassword) {
+                            profileVM.updateUser(name: self.userName, password: newPassword)
+                        }
+                    }
+                }, label: {
+                    Text("Change password")
+                        .frame(width: 244, height: 39)
+                        .background(Color(hex: 0xD9D9D9))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                })
+            }
+    }
+    
+    var bottomSection: some View {
+        VStack{
             Button(action: {
                 //TODO: Password Change
                 showChangeOverlay = true
@@ -100,43 +150,7 @@ struct ProfilView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
             })
-            .sheet(isPresented: $showChangeOverlay, content: {
-                VStack(alignment: .leading){
-                    Text("Current password:")
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                    TextField("Password", text: $currentPassword)
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                    Text("New Password")
-                        .multilineTextAlignment(.leading)
-                        .padding()
-                    TextField("username", text: $newPassword)
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                    Text("Repeat new password")
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                    TextField("password: ", text: $repeatedPassword)
-                        .padding()
-                        .multilineTextAlignment(.leading)
-                    Button(action: {
-                        if newPassword.count >= 8 && newPassword == repeatedPassword {
-                            if checkPassword(password: currentPassword) {
-                                profileVM.updateUser(name: self.userName, password: newPassword)
-                            }
-                        }
-                    }, label: {
-                        Text("Change password")
-                            .frame(width: 244, height: 39)
-                            .background(Color(hex: 0xD9D9D9))
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .foregroundColor(.black)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                    })
-                }
-            })
+            .sheet(isPresented: $showChangeOverlay, content: {changePassword})
             Button(action: {
                 loginVM.logout()
             }, label: {
@@ -146,15 +160,7 @@ struct ProfilView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
             })
-            Spacer()
-        }.background(
-            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                .fill(Color(hex: 0xCCB9B1))
-            )
-        .onAppear(perform: {
-            self.userName = profileVM.name
-            //self.isVisible = (self.userName != profileVM.name)
-        })
+        }
     }
     
     func checkPassword(password: String) -> Bool {
