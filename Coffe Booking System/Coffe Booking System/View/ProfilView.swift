@@ -15,6 +15,7 @@ struct ProfilView: View {
     @State var repeatedPassword: String = ""
     //@State var isVisible: Bool = false
     
+    @State var menuOpen: Bool = false
     @State var showChangeOverlay: Bool = false
     @Environment(\.editMode) var editMode
     private var isEditing: Bool {
@@ -22,25 +23,29 @@ struct ProfilView: View {
     }
     
     var body: some View {
+        ZStack{
         VStack {
             Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                 .font(.title)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
-            Button (action: {
-                //TODO update user
-                withAnimation {
-                    editMode?.wrappedValue = .inactive
-                }
-                if self.userName != profileVM.name {
-                    profileVM.updateUser(name: self.userName)
-                }
-            }, label: {
-                Text("Save")
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.trailing)
-            })
+            if !self.menuOpen {
+                Button (action: {
+                    //TODO update user
+                    self.openMenu()
+                    withAnimation {
+                        editMode?.wrappedValue = .inactive
+                    }
+                    if self.userName != profileVM.name {
+                        profileVM.updateUser(name: self.userName)
+                    }
+                }, label: {
+                    Text("Save")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.trailing)
+                })
+            }
             Text("Name")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
@@ -90,7 +95,8 @@ struct ProfilView: View {
                 })
             }
             bottomSection
-            Spacer()
+            //TODO: zu viele Elemente
+            //Spacer()
         }.background(
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                 .fill(Color(hex: 0xCCB9B1))
@@ -99,6 +105,10 @@ struct ProfilView: View {
             self.userName = profileVM.name
             //self.isVisible = (self.userName != profileVM.name)
         })
+            SideMenu(width: 270,
+                     isOpen: self.menuOpen,
+                     menuClose: self.openMenu)
+        }
     }
     
     var changePassword: some View {
@@ -189,6 +199,10 @@ struct ProfilView: View {
                     }
 
         return true
+    }
+    
+    func openMenu() {
+        self.menuOpen.toggle()
     }
 }
 

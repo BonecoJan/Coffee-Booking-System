@@ -25,6 +25,5 @@ struct UserViewObj: View {
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
                 .fill(Color(hex: 0xD9D9D9))
             )
-        
     }
 }
