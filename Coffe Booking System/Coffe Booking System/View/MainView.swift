@@ -23,7 +23,15 @@ struct MainView: View {
                     .multilineTextAlignment(.leading)
             }
             Spacer()
-            Image(systemName: "list.bullet.rectangle.portrait")
+            Button(action: {
+                //TODO: Show Transaction History
+            }, label: {
+                Image(systemName: "list.bullet.rectangle.portrait")
+                    .resizable()
+                    .frame(width: 20, height: 25)
+                    .foregroundColor(.black)
+            })
+            
             Image(systemName: "location")
         }.padding()
         TabView{
@@ -46,6 +54,7 @@ struct MainView: View {
                 }
                 .environmentObject(shop)
                 .environmentObject(orderVM)
+                .environmentObject(profileVM)
             ProfilView()
                 .tabItem{
                     Image(systemName: "person")

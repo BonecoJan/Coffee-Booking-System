@@ -42,3 +42,4 @@ struct ProductView_Previews: PreviewProvider {
         ProductView(product: AdminViewModel.ItemResponse(id: "", name: "", amount: 0, price: 0.0))
     }
 }
+
