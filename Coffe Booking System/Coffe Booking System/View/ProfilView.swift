@@ -6,6 +6,7 @@ struct ProfilView: View {
     @EnvironmentObject var shop: Shop
     @EnvironmentObject var profileVM: ProfileViewModel
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @State var userName: String = ""
     @State var userID: String = ""
     
@@ -140,6 +141,16 @@ struct ProfilView: View {
     
     var bottomSection: some View {
         VStack{
+            Button(action: {
+                //TODO: bool
+                viewState.state = 3
+            }, label: {
+                Text("Show Users")
+                    .frame(width: 244, height: 39)
+                    .background(Color(hex: 0xD9D9D9))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(.black)
+            })
             Button(action: {
                 //TODO: Password Change
                 showChangeOverlay = true

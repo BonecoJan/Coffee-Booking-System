@@ -8,6 +8,7 @@ struct MainView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var homeVM = HomeViewModel()
     @StateObject var orderVM = OrderViewModel()
+    @StateObject var userVM = UserViewModel()
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: 0xC08267))

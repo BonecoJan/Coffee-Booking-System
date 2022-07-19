@@ -10,6 +10,9 @@
 		C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */; };
 		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
 		C34584D7287649A900CAE221 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C34584D6287649A900CAE221 /* JWTDecode */; };
+		C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF12886DBD000F7694A /* UserViewObj.swift */; };
+		C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF32886DBE600F7694A /* UserViewTest.swift */; };
+		C34F7AF62886DC0900F7694A /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF52886DC0900F7694A /* UserViewModel.swift */; };
 		C359E80028736E36007DB305 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359E7FF28736E36007DB305 /* Auth.swift */; };
 		C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359E80228737282007DB305 /* KeychainWrapper.swift */; };
 		C35E10602857DBC70030B4C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35E104B2857DBC70030B4C7 /* Assets.xcassets */; };
@@ -47,6 +50,9 @@
 /* Begin PBXFileReference section */
 		C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		C3450DAC287211ED00555DF0 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		C34F7AF12886DBD000F7694A /* UserViewObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewObj.swift; sourceTree = "<group>"; };
+		C34F7AF32886DBE600F7694A /* UserViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewTest.swift; sourceTree = "<group>"; };
+		C34F7AF52886DC0900F7694A /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		C359E7FF28736E36007DB305 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		C359E80228737282007DB305 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		C35E104B2857DBC70030B4C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +153,8 @@
 				F692ECC72885769400C6E92B /* ProductView.swift */,
 				F62165AE2886D45500415D15 /* TransactionView.swift */,
 				F62165B02886D49800415D15 /* CartProductView.swift */,
+				C34F7AF12886DBD000F7694A /* UserViewObj.swift */,
+				C34F7AF32886DBE600F7694A /* UserViewTest.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -189,6 +197,7 @@
 				F692ECC52885736800C6E92B /* HomeViewModel.swift */,
 				F692ECC928857CE200C6E92B /* OrderViewModel.swift */,
 				F62165AC2886D2BC00415D15 /* TransactionViewModel.swift */,
+				C34F7AF52886DC0900F7694A /* UserViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -298,8 +307,11 @@
 				F6D4B6B7287807190037E821 /* Shop.swift in Sources */,
 				F6D4B6B9287807190037E821 /* Order.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
+				C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */,
+				C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				F692ECCA28857CE200C6E92B /* OrderViewModel.swift in Sources */,
+				C34F7AF62886DC0900F7694A /* UserViewModel.swift in Sources */,
 				F62165AD2886D2BC00415D15 /* TransactionViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

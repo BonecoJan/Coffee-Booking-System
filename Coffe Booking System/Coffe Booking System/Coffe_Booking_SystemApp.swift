@@ -31,6 +31,12 @@ struct Coffe_Booking_SystemApp: App {
             } else if viewState.state == 1{
                 AdminMenue()
                     .environmentObject(viewState)
+            } else if viewState.state == 2{
+                TransactionView()
+                    .environmentObject(viewState)
+            } else if viewState.state == 3 {
+                UserViewTest()
+                    .environmentObject(viewState)
             }
         }
     }

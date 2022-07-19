@@ -15,6 +15,11 @@ class ProfileViewModel: ObservableObject {
         var password: String
     }
     
+    struct sendMoneyRequest: Codable {
+        var amount: Double
+        var recipientId: String
+    }
+    
     @Published var id:  String
     @Published var name: String
     @Published var isAdmin: Bool
@@ -116,5 +121,25 @@ class ProfileViewModel: ObservableObject {
             print("Error while reading token")
             return
         }
+    }
+    
+    func sendMoney(amount: Double, recipientId: String) {
+        self.success = false
+        Task {
+            do {
+                let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                print(response.response)
+                //if response.response == "User updated successfully." {
+                    DispatchQueue.main.async {
+                        self.success = true
+                        self.loadUserData()
+                    }
+                //}
+            } catch {
+                print("failed to update user with id " + self.id)
+            }
+        }
+        
     }
 }
