@@ -10,10 +10,16 @@ class ProfileViewModel: ObservableObject {
         var balance: Double
     }
     
+    struct UserRequest: Codable {
+        var name: String
+        var password: String
+    }
+    
     @Published var id:  String
     @Published var name: String
     @Published var isAdmin: Bool
     @Published var balance: Double
+    @Published var success: Bool = false
     
     init() {
         self.isAdmin = false
@@ -49,6 +55,49 @@ class ProfileViewModel: ObservableObject {
             }
         }
         self.getAdminData()
+    }
+    
+    func updateUser(name: String) {
+        self.success = false
+        Task {
+            do {
+                //try to get user password from Keychain
+                if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
+                let password = String(data: password, encoding: .utf8)!
+                    
+                let body = UserRequest(name: name, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                print(response.response)
+                if response.response == "User updated successfully." {
+                    DispatchQueue.main.async {
+                        self.success = true
+                        self.loadUserData()
+                    }
+                }
+                }
+            } catch {
+                print("failed to update user with id " + self.id)
+            }
+        }
+    }
+    
+    func updateUser(name: String, password: String) {
+        self.success = false
+        Task {
+            do {
+                let body = UserRequest(name: name, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                print(response.response)
+                if response.response == "User updated successfully." {
+                    DispatchQueue.main.async {
+                        self.success = true
+                        self.loadUserData()
+                    }
+                }
+            } catch {
+                print("failed to update user with id " + self.id)
+            }
+        }
     }
     
     func getAdminData() {
