@@ -4,6 +4,8 @@ struct TransactionView: View {
     
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var profilVM: ProfileViewModel
+    @ObservedObject var transactionVM = TransactionViewModel()
     
     var body: some View {
         HStack {
@@ -19,6 +21,11 @@ struct TransactionView: View {
         }
         VStack {
             //TODO: list all User Transactions
+            Button(action:{
+                transactionVM.getTransactions(userID: profilVM.id)
+            }, label: {
+                Text("print transactions")
+            })
             Spacer()
         }.background(
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)

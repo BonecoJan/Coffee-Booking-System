@@ -16,6 +16,7 @@ struct Coffe_Booking_SystemApp: App {
     @ObservedObject var registerVM = RegisterViewModel()
     @ObservedObject var shop = Shop(modelService: ModelService(webService: WebService(authManager: AuthManager())), currentUser: User(id: "", name: ""), users: [], items: [])
     @ObservedObject var viewState = ViewState()
+    @ObservedObject var profilVM = ProfileViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -23,6 +24,7 @@ struct Coffe_Booking_SystemApp: App {
                 MainView().environmentObject(loginVM)
                     .environmentObject(shop)
                     .environmentObject(viewState)
+                    .environmentObject(profilVM)
             } else if !loginVM.isAuthenticated && viewState.state == 0{
                 LoginView().environmentObject(loginVM)
                     .environmentObject(shop)
@@ -34,6 +36,7 @@ struct Coffe_Booking_SystemApp: App {
             } else if viewState.state == 2{
                 TransactionView()
                     .environmentObject(viewState)
+                    .environmentObject(profilVM)
             } else if viewState.state == 3 {
                 UserViewTest()
                     .environmentObject(viewState)

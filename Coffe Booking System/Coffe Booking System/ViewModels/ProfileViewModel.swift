@@ -130,14 +130,14 @@ class ProfileViewModel: ObservableObject {
                 let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
                 print(response.response)
-                //if response.response == "User updated successfully." {
+                if response.response == "Funding processed successfully." {
                     DispatchQueue.main.async {
                         self.success = true
                         self.loadUserData()
                     }
-                //}
+                }
             } catch {
-                print("failed to update user with id " + self.id)
+                print("failed to send money to user with id " + recipientId)
             }
         }
         
