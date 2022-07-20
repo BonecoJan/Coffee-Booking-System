@@ -10,10 +10,12 @@ struct ProfilView: View {
     @State var userName: String = ""
     @State var userID: String = ""
     
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
+    
     @State var currentPassword: String = ""
     @State var newPassword: String = ""
     @State var repeatedPassword: String = ""
-    //@State var isVisible: Bool = false
     
     @State var menuOpen: Bool = false
     @State var showChangeOverlay: Bool = false
@@ -45,6 +47,13 @@ struct ProfilView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.trailing)
                 })
+            }
+            Button(action: {
+                showingImagePicker = true
+            }, label: {
+                Text("Knowsch?")
+            }).sheet(isPresented: $showingImagePicker) {
+                ImagePicker(image: $inputImage)
             }
             Text("Name")
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -182,6 +191,11 @@ struct ProfilView: View {
                     .foregroundColor(.black)
             })
         }
+    }
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        //ImagePicker.image = Image(uiImage: inputImage)
     }
     
     func checkPassword(password: String) -> Bool {

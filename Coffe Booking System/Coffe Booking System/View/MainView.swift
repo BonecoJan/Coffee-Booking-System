@@ -5,7 +5,7 @@ struct MainView: View {
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var shop: Shop
-    @StateObject var profileVM = ProfileViewModel()
+    @EnvironmentObject var profileVM : ProfileViewModel
     @StateObject var homeVM = HomeViewModel()
     @StateObject var orderVM = OrderViewModel()
     @StateObject var userVM = UserViewModel()
