@@ -21,7 +21,7 @@ struct TransactionView: View {
         VStack {
             //TODO: list all User Transactions
             Button(action:{
-                //transactionVM.getTransactions(userID: profilVM.id)
+                transactionVM.getTransactions(userID: profilVM.id)
             }, label: {
                 Text("print transactions")
             })

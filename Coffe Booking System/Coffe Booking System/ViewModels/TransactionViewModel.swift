@@ -2,30 +2,25 @@ import Foundation
 
 class TransactionViewModel: ObservableObject {
     
-    struct PurchaseResponse: Codable {
+    struct TransactionResponse: Codable {
+        var type: String
         var value: Double
         var timestamp : Int
-        var itemID: String
-        var itemName: String
-        var amount: Int
-    }
-    
-    struct FundingResponse: Codable {
-        var value: Double
-        var timestamp: Int
+        var itemId: String?
+        var itemName: String?
+        var amount: Int?
     }
 
-    @Published var purchases : [PurchaseResponse] = []
-    @Published var fundings : [FundingResponse] = []
+    @Published var transactions : [TransactionResponse] = []
     
-    //func getTransactions(userID: String) {
-    //    Task {
-    //        do {
-    //            let body: WebService.empty? = nil
-    //            let users = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: false, body: body, responseType: NSObject.self, unknownType: true)
-     //       } catch {
-     //           print("failed to get users from server")
-     //       }
-     //   }
-     //}
+    func getTransactions(userID: String) {
+        Task {
+            do {
+                let body: WebService.empty? = nil
+                let purchases = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
+            } catch {
+                print("failed to get transactions from server")
+            }
+        }
+     }
 }

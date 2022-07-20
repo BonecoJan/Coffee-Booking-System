@@ -51,6 +51,9 @@ struct ProfilView: View {
                 .padding()
             if !self.menuOpen {
                 Button (action: {
+                    withAnimation {
+                        editMode?.wrappedValue = .inactive
+                    }
                     if self.userName != profileVM.name {
                         profileVM.updateUser(name: self.userName)
                     }

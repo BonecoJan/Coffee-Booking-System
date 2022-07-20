@@ -51,7 +51,7 @@ struct MenuContent: View {
                     viewState.state = 3
                 }
                 Text("Statistics").onTapGesture {
-                    print("Upload picture")
+                    viewState.state = 2
                 }
                 Text("Logout").onTapGesture {
                     viewState.state = 0
