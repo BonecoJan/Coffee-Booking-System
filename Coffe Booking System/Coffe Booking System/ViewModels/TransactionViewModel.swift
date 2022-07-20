@@ -2,8 +2,7 @@ import Foundation
 
 class TransactionViewModel: ObservableObject {
     
-    struct TransactionResponse: Codable {
-        var type: String
+    struct PurchaseResponse: Codable {
         var value: Double
         var timestamp : Int
         var itemID: String
@@ -11,20 +10,22 @@ class TransactionViewModel: ObservableObject {
         var amount: Int
     }
     
-    @Published var transactions : [TransactionResponse] = []
-    
-    func getTransactions(userID: String) {
-        Task {
-            do {
-                let body: WebService.empty? = nil
-                let transactions = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: false, body: body, responseType: [TransactionResponse].self)
-                print(transactions)
-                DispatchQueue.main.async {
-                    self.transactions = transactions
-                }
-            } catch {
-                print("failed to get transactions for current user")
-            }
-        }
+    struct FundingResponse: Codable {
+        var value: Double
+        var timestamp: Int
     }
+
+    @Published var purchases : [PurchaseResponse] = []
+    @Published var fundings : [FundingResponse] = []
+    
+    //func getTransactions(userID: String) {
+    //    Task {
+    //        do {
+    //            let body: WebService.empty? = nil
+    //            let users = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: false, body: body, responseType: NSObject.self, unknownType: true)
+     //       } catch {
+     //           print("failed to get users from server")
+     //       }
+     //   }
+     //}
 }

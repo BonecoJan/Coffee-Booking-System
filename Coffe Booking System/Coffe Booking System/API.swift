@@ -60,7 +60,8 @@ class WebService {
         reqMethod: String,
         authReq: Bool,
         body: Request? = nil,
-        responseType: Response.Type
+        responseType: Response.Type,
+        unknownType: Bool
     ) async throws -> Response {
         
         guard let url = URL(string: apiUrl + reqUrl) else {
@@ -90,13 +91,18 @@ class WebService {
         if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
             if allowRetry {
                 _ = try await authManager.refreshToken()
-                return try await request(allowRetry: false, reqUrl: reqUrl, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType)
+                return try await request(allowRetry: false, reqUrl: reqUrl, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType, unknownType: unknownType)
             }
 
             throw AuthenticationError.invalidCredentials
         }
 
         do {
+            //If the JSON Response is more complex return the raw data and parse manually
+            if unknownType {
+                let rawResponse = try? JSONSerialization.jsonObject(with: data)
+                return rawResponse as! Response
+            }
             let response = try JSONDecoder().decode(Response.self, from: data)
             return response
         } catch {

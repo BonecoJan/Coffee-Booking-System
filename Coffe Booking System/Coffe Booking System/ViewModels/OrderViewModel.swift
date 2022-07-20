@@ -70,7 +70,7 @@ class OrderViewModel: ObservableObject {
         Task {
             do {
                 print(purchase)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + profilVM.id + "/purchases", reqMethod: "POST", authReq: true, body: purchase, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + profilVM.id + "/purchases", reqMethod: "POST", authReq: true, body: purchase, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Purchase processed successfully." {
                     DispatchQueue.main.async {
                         profilVM.loadUserData()

@@ -43,7 +43,7 @@ class ProfileViewModel: ObservableObject {
                 let userID = jwt.claim(name: "id").string!
                 
                 let body: WebService.empty? = nil
-                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self)
+                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self, unknownType: false)
                     
                 DispatchQueue.main.async {
                     self.id = user.id
@@ -71,7 +71,7 @@ class ProfileViewModel: ObservableObject {
                 let password = String(data: password, encoding: .utf8)!
                     
                 let body = UserRequest(name: name, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
@@ -91,7 +91,7 @@ class ProfileViewModel: ObservableObject {
         Task {
             do {
                 let body = UserRequest(name: name, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
@@ -128,7 +128,8 @@ class ProfileViewModel: ObservableObject {
         Task {
             do {
                 let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                print(body)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                 if response.response == "Funding processed successfully." {
                     DispatchQueue.main.async {

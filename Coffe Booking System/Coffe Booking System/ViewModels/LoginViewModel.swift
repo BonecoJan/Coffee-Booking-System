@@ -20,7 +20,7 @@ class LoginViewModel: ObservableObject {
         Task {
             do {
                 let loginResponse = try await WebService(authManager: AuthManager())
-                    .request(reqUrl: "login", reqMethod: "POST", authReq: false, body: LoginRequestBody(id: id, password: password), responseType: LoginResponse.self)
+                    .request(reqUrl: "login", reqMethod: "POST", authReq: false, body: LoginRequestBody(id: id, password: password), responseType: LoginResponse.self, unknownType: false)
                 
                 KeychainWrapper.standard.create(Data((loginResponse.token!).utf8), service: "access-token", account: "Coffe-Booking-System")
                 KeychainWrapper.standard.create(Data(password.utf8), service: "password", account: "Coffe-Booking-System")

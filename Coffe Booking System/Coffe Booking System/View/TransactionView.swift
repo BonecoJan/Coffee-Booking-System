@@ -3,7 +3,6 @@ import SwiftUI
 struct TransactionView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var transactionVM: TransactionViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
     @ObservedObject var transactionVM = TransactionViewModel()
     
@@ -22,7 +21,7 @@ struct TransactionView: View {
         VStack {
             //TODO: list all User Transactions
             Button(action:{
-                transactionVM.getTransactions(userID: profilVM.id)
+                //transactionVM.getTransactions(userID: profilVM.id)
             }, label: {
                 Text("print transactions")
             })
@@ -31,7 +30,7 @@ struct TransactionView: View {
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                 .fill(Color(hex: 0xCCB9B1))
             )
-    }//.onAppear(perform: transactionVM.getTransactions())
+    }
 }
 
 struct TransactionView_Previews: PreviewProvider {

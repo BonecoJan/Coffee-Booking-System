@@ -44,7 +44,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let items = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [ItemResponse].self)
+                let items = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [ItemResponse].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.items = items
                 }
@@ -58,7 +58,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let users = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: "GET", authReq: false, body: body, responseType: [UsersResponse].self)
+                let users = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: "GET", authReq: false, body: body, responseType: [UsersResponse].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.users = users
                 }
@@ -73,7 +73,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Item deleted successfully." {
                     DispatchQueue.main.async {
                         self.success = true
@@ -91,7 +91,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body = ItemResponse(id: itemID, name: name, amount: amount, price: price)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                 if response.response == "Item updated successfully." {
                     DispatchQueue.main.async {
@@ -110,7 +110,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body = UserRequest(id: userID, name: name, isAdmin: isAdmin, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
@@ -129,7 +129,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "User deleted successfully." {
                     DispatchQueue.main.async {
                         self.success = true
@@ -148,7 +148,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body = UserRequest(id: userID, name: name, isAdmin: isAdmin, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == userID {
                     DispatchQueue.main.async {
                         self.getUsers()
@@ -166,7 +166,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let body = ItemRequest(name: name, amount: amount, price: price)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 print(response.response)
                     DispatchQueue.main.async {
                         self.success = true

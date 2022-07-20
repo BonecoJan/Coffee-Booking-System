@@ -12,7 +12,7 @@ class HomeViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let products = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [AdminViewModel.ItemResponse].self)
+                let products = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [AdminViewModel.ItemResponse].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.products = products
                 }

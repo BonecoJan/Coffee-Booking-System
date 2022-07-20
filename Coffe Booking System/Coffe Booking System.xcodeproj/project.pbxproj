@@ -29,6 +29,7 @@
 		F692ECC62885736800C6E92B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC52885736800C6E92B /* HomeViewModel.swift */; };
 		F692ECC82885769400C6E92B /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC72885769400C6E92B /* ProductView.swift */; };
 		F692ECCA28857CE200C6E92B /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC928857CE200C6E92B /* OrderViewModel.swift */; };
+		F69B73E02887FF6000FDCED7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */; };
 		F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B666287361640037E821 /* CustomViewStructs.swift */; };
 		F6D4B669287361E50037E821 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B668287361E50037E821 /* SignInView.swift */; };
 		F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B66A287361F90037E821 /* SignUpView.swift */; };
@@ -72,6 +73,7 @@
 		F692ECC52885736800C6E92B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F692ECC72885769400C6E92B /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		F692ECC928857CE200C6E92B /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
+		F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		F6D4B666287361640037E821 /* CustomViewStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewStructs.swift; sourceTree = "<group>"; };
 		F6D4B668287361E50037E821 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F6D4B66A287361F90037E821 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				C35E104C2857DBC70030B4C7 /* Preview Content */,
 				C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */,
 				C35E10582857DBC70030B4C7 /* View */,
+				F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */,
 				C35E105C2857DBC70030B4C7 /* API.swift */,
 				C37223D72875EE6000035FB2 /* model */,
 			);
@@ -289,6 +292,7 @@
 				F692ECC82885769400C6E92B /* ProductView.swift in Sources */,
 				F6D4B6C228780C4B0037E821 /* AdminUserView.swift in Sources */,
 				F6D4B6C828781BE10037E821 /* AdminViewModel.swift in Sources */,
+				F69B73E02887FF6000FDCED7 /* ImagePicker.swift in Sources */,
 				F6D4B6C628781A680037E821 /* UserView.swift in Sources */,
 				C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */,
 				F6D4B6C028780C3A0037E821 /* AdminItemView.swift in Sources */,

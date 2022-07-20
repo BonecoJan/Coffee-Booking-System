@@ -40,6 +40,7 @@ struct Coffe_Booking_SystemApp: App {
             } else if viewState.state == 3 {
                 UserViewTest()
                     .environmentObject(viewState)
+                    .environmentObject(profilVM)
             }
         }
     }
