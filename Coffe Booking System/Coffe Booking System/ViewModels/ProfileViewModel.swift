@@ -113,6 +113,8 @@ class ProfileViewModel: ObservableObject {
             let adminInfo = jwt.body["isAdmin"]! as? Int
             if adminInfo! == 1 {
                 self.isAdmin = true
+            } else {
+                self.isAdmin = false
             }
         } catch {
             print("Error while trying to decode token")

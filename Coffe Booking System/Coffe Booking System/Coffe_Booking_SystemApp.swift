@@ -27,6 +27,7 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(profilVM)
             } else if !loginVM.isAuthenticated && viewState.state == 0{
                 LoginView().environmentObject(loginVM)
+                    .environmentObject(profilVM)
                     .environmentObject(shop)
                     .environmentObject(registerVM)
                     .environmentObject(viewState)

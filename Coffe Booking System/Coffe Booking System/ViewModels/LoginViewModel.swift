@@ -16,7 +16,7 @@ class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var isAuthenticated: Bool = false
     
-    func login() {
+    func login(profilVM: ProfileViewModel) {
         Task {
             do {
                 let loginResponse = try await WebService(authManager: AuthManager())
@@ -27,6 +27,7 @@ class LoginViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.isAuthenticated = true
+                    profilVM.loadUserData()
                 }
             } catch {
                 print("failed to login")

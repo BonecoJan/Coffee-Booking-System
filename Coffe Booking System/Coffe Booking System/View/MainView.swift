@@ -55,7 +55,7 @@ struct MainView: View {
                 .environmentObject(orderVM)
                 .environmentObject(profilVM)
         }
-        .onAppear(perform: profilVM.loadUserData)
+        //.onAppear(perform: profilVM.loadUserData)
     }
 }
 

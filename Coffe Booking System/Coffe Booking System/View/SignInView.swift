@@ -3,6 +3,7 @@ import SwiftUI
 struct SignInView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var profilVM: ProfileViewModel
     
     var body: some View {
         Text("Login")
@@ -35,7 +36,7 @@ struct SignInView: View {
         
         //Sign in button
         Button(action: {
-            loginVM.login()
+            loginVM.login(profilVM: profilVM)
         },
         label: {
             Text("Sign in")

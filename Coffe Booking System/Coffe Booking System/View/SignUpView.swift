@@ -5,6 +5,7 @@ struct SignUpView: View {
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var registerVM: RegisterViewModel
     @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var profilVM: ProfileViewModel
     
     var body: some View {
         
@@ -48,7 +49,7 @@ struct SignUpView: View {
                     if registerVM.isRegistered == true {
                         loginVM.id = registerVM.id
                         loginVM.password = registerVM.password
-                        loginVM.login()
+                        loginVM.login(profilVM: profilVM)
                     }
             }
         },

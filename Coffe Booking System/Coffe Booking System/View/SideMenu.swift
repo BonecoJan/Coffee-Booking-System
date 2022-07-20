@@ -11,6 +11,7 @@ struct SideMenu: View {
     let width: CGFloat
     let isOpen: Bool
     let menuClose: () -> Void
+    @State var state: Int = 0
     
     var body: some View {
         ZStack {
@@ -38,51 +39,30 @@ struct SideMenu: View {
 }
 
 struct MenuContent: View {
+    @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var profileVM: ProfileViewModel
+
+    @State private var overText = false
+
     var body: some View {
-        List {
-            Text("My Profile").onTapGesture {
-                print("My Profile")
+            List {
+                Text("Send money").onTapGesture {
+                    viewState.state = 3
+                }
+                Text("Statistics").onTapGesture {
+                    print("Upload picture")
+                }
+                Text("Logout").onTapGesture {
+                    viewState.state = 0
+                    loginVM.logout()
+                }
+                if $profileVM.isAdmin.wrappedValue {
+                    Text("Admin Menue").onTapGesture {
+                        viewState.state = 1
+                    }
+
+                }
             }
-            Text("Posts").onTapGesture {
-                print("Posts")
-            }
-            Text("Logout").onTapGesture {
-                print("Logout")
-            }
-        }
     }
 }
-
-
-struct ContentView: View {
-    @State var menuOpen: Bool = false
-    
-    var body: some View {
-        ZStack {
-            if !self.menuOpen {
-                Button(action: {
-                    self.openMenu()
-                }, label: {
-                    Text("Open")
-                })
-            }
-            
-            SideMenu(width: 270,
-                     isOpen: self.menuOpen,
-                     menuClose: self.openMenu)
-        }
-    }
-    
-    func openMenu() {
-        self.menuOpen.toggle()
-    }
-}
-
-
-
-//
-//struct SideMenu_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SideMenu(width: 0.0, isOpen: false, menuClose: ())
-//    }
-//}

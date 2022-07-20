@@ -37,6 +37,13 @@ struct ProfilView: View {
                 }).padding()
                 Spacer()
             }.padding()
+            if !self.menuOpen {
+                            Button(action: {
+                                self.openMenu()
+                            }, label: {
+                                Image(systemName: "list.bullet")
+                            })
+                        }
             Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                 .font(.title)
                 .fontWeight(.bold)
@@ -44,11 +51,6 @@ struct ProfilView: View {
                 .padding()
             if !self.menuOpen {
                 Button (action: {
-                    //TODO update user
-                    self.openMenu()
-                    withAnimation {
-                        editMode?.wrappedValue = .inactive
-                    }
                     if self.userName != profileVM.name {
                         profileVM.updateUser(name: self.userName)
                     }
@@ -115,7 +117,7 @@ struct ProfilView: View {
 //            }
             bottomSection
             //TODO: zu viele Elemente
-            Spacer()
+            //Spacer()
         }.ignoresSafeArea()
             //.background(
 //            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
