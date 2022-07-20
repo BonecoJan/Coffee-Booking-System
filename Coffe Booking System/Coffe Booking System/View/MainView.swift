@@ -5,7 +5,7 @@ struct MainView: View {
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var shop: Shop
-    @EnvironmentObject var profileVM : ProfileViewModel
+    @EnvironmentObject var profilVM : ProfileViewModel
     @StateObject var homeVM = HomeViewModel()
     @StateObject var orderVM = OrderViewModel()
     @StateObject var userVM = UserViewModel()
@@ -19,21 +19,19 @@ struct MainView: View {
             VStack{
                 Text("Welcome")
                     .multilineTextAlignment(.leading)
-                Text(profileVM.name)
+                Text(profilVM.name)
                     .bold()
                     .multilineTextAlignment(.leading)
             }
             Spacer()
             Button(action: {
-                //TODO: Show Transaction History
+                viewState.state = 4
             }, label: {
-                Image(systemName: "list.bullet.rectangle.portrait")
+                Image(systemName: "person")
                     .resizable()
-                    .frame(width: 20, height: 25)
+                    .frame(width: 25, height: 25)
                     .foregroundColor(.black)
             })
-            
-            Image(systemName: "location")
         }.padding()
         TabView{
             HomeView()
@@ -44,7 +42,7 @@ struct MainView: View {
                         .foregroundColor(.black)
                 }
                 .environmentObject(shop)
-                .environmentObject(profileVM)
+                .environmentObject(profilVM)
                 .environmentObject(orderVM)
             OrderView()
                 .tabItem{
@@ -55,20 +53,9 @@ struct MainView: View {
                 }
                 .environmentObject(shop)
                 .environmentObject(orderVM)
-                .environmentObject(profileVM)
-            ProfilView()
-                .tabItem{
-                    Image(systemName: "person")
-                        .foregroundColor(.black)
-                    Text("Profil")
-                        .foregroundColor(.black)
-                }
-                .environmentObject(shop)
-                .environmentObject(loginVM)
-                .environmentObject(profileVM)
-                .environmentObject(viewState)
+                .environmentObject(profilVM)
         }
-        .onAppear(perform: profileVM.loadUserData)
+        .onAppear(perform: profilVM.loadUserData)
     }
 }
 

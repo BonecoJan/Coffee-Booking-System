@@ -27,6 +27,16 @@ struct ProfilView: View {
     var body: some View {
         ZStack{
         VStack {
+            HStack{
+                Button(action: {
+                    viewState.state = 0
+                }, label: {
+                    Image(systemName: "arrow.left")
+                        .resizable()
+                        .frame(width: 25, height: 25, alignment: .leading)
+                }).padding()
+                Spacer()
+            }.padding()
             Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                 .font(.title)
                 .fontWeight(.bold)
@@ -48,13 +58,13 @@ struct ProfilView: View {
                         .padding(.trailing)
                 })
             }
-            Button(action: {
-                showingImagePicker = true
-            }, label: {
-                Text("Knowsch?")
-            }).sheet(isPresented: $showingImagePicker) {
-                ImagePicker(image: $inputImage)
-            }
+//            Button(action: {
+//                showingImagePicker = true
+//            }, label: {
+//                Text("Knowsch?")
+//            }).sheet(isPresented: $showingImagePicker) {
+//                ImagePicker(image: $inputImage)
+//            }
             Text("Name")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
@@ -91,25 +101,26 @@ struct ProfilView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
             //this Button is hidden if the user is not an admin
-            if self.$profileVM.isAdmin.wrappedValue {
-                Button (action: {
-                    //go to Admin Menue
-                    viewState.state = 1
-                }, label: {
-                    Text("Admin Menue")
-                        .frame(width: 244, height: 39)
-                        .background(Color(hex: 0xD9D9D9))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .foregroundColor(.black)
-                })
-            }
+//            if self.$profileVM.isAdmin.wrappedValue {
+//                Button (action: {
+//                    //go to Admin Menue
+//                    viewState.state = 1
+//                }, label: {
+//                    Text("Admin Menue")
+//                        .frame(width: 244, height: 39)
+//                        .background(Color(hex: 0xD9D9D9))
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        .foregroundColor(.black)
+//                })
+//            }
             bottomSection
             //TODO: zu viele Elemente
-            //Spacer()
-        }.background(
-            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                .fill(Color(hex: 0xCCB9B1))
-            )
+            Spacer()
+        }.ignoresSafeArea()
+            //.background(
+//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
+//                .fill(Color(hex: 0xCCB9B1))
+//            )
         .onAppear(perform: {
             self.userName = profileVM.name
             //self.isVisible = (self.userName != profileVM.name)
@@ -117,7 +128,7 @@ struct ProfilView: View {
             SideMenu(width: 270,
                      isOpen: self.menuOpen,
                      menuClose: self.openMenu)
-        }
+        }.ignoresSafeArea()
     }
     
     var changePassword: some View {
@@ -160,16 +171,16 @@ struct ProfilView: View {
     
     var bottomSection: some View {
         VStack{
-            Button(action: {
-                //TODO: bool
-                viewState.state = 3
-            }, label: {
-                Text("Show Users")
-                    .frame(width: 244, height: 39)
-                    .background(Color(hex: 0xD9D9D9))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .foregroundColor(.black)
-            })
+//            Button(action: {
+//                //TODO: bool
+//                viewState.state = 3
+//            }, label: {
+//                Text("Show Users")
+//                    .frame(width: 244, height: 39)
+//                    .background(Color(hex: 0xD9D9D9))
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
+//                    .foregroundColor(.black)
+//            })
             Button(action: {
                 //TODO: Password Change
                 showChangeOverlay = true
@@ -181,15 +192,15 @@ struct ProfilView: View {
                     .foregroundColor(.black)
             })
             .sheet(isPresented: $showChangeOverlay, content: {changePassword})
-            Button(action: {
-                loginVM.logout()
-            }, label: {
-                Text("Logout")
-                    .frame(width: 244, height: 39)
-                    .background(Color(hex: 0xD9D9D9))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .foregroundColor(.black)
-            })
+//            Button(action: {
+//                loginVM.logout()
+//            }, label: {
+//                Text("Logout")
+//                    .frame(width: 244, height: 39)
+//                    .background(Color(hex: 0xD9D9D9))
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
+//                    .foregroundColor(.black)
+//            })
         }
     }
     

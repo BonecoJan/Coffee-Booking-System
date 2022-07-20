@@ -41,6 +41,13 @@ struct Coffe_Booking_SystemApp: App {
                 UserViewTest()
                     .environmentObject(viewState)
                     .environmentObject(profilVM)
+            } else if viewState.state == 4 {
+                ProfilView()
+                    .environmentObject(shop)
+                    .environmentObject(loginVM)
+                    .environmentObject(profilVM)
+                    .environmentObject(viewState)
+                    .background(Color(hex: 0xCCB9B1))
             }
         }
     }
