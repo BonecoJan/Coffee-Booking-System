@@ -17,7 +17,10 @@ struct HomeView: View {
             }
         })
         .padding()
-        .background(Color(hex: 0xCCB9B1))
+        .background(
+            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
+                .fill(Color(hex: 0xCCB9B1))
+            )
     }
 }
 
@@ -26,3 +29,4 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
+

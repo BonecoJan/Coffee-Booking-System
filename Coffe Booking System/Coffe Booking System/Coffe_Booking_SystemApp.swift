@@ -17,6 +17,7 @@ struct Coffe_Booking_SystemApp: App {
     @ObservedObject var shop = Shop(modelService: ModelService(webService: WebService(authManager: AuthManager())), currentUser: User(id: "", name: ""), users: [], items: [])
     @ObservedObject var viewState = ViewState()
     @ObservedObject var profilVM = ProfileViewModel()
+    @ObservedObject var transactionVM = TransactionViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -35,19 +36,28 @@ struct Coffe_Booking_SystemApp: App {
                 AdminMenue()
                     .environmentObject(viewState)
             } else if viewState.state == 2{
-                TransactionView()
+                BookingView()
                     .environmentObject(viewState)
                     .environmentObject(profilVM)
+                    .environmentObject(transactionVM)
             } else if viewState.state == 3 {
                 UserViewTest()
                     .environmentObject(viewState)
                     .environmentObject(profilVM)
+                    .background(Color(hex: 0xCCB9B1))
             } else if viewState.state == 4 {
                 ProfilView()
                     .environmentObject(shop)
                     .environmentObject(loginVM)
                     .environmentObject(profilVM)
                     .environmentObject(viewState)
+                    .environmentObject(transactionVM)
+                    .background(Color(hex: 0xCCB9B1))
+            } else if viewState.state == 5{
+                BookingView()
+                    .environmentObject(viewState)
+                    .environmentObject(profilVM)
+                    .environmentObject(transactionVM)
                     .background(Color(hex: 0xCCB9B1))
             }
         }

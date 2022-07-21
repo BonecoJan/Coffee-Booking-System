@@ -2,7 +2,9 @@ import Foundation
 
 class TransactionViewModel: ObservableObject {
     
-    struct TransactionResponse: Codable {
+    struct TransactionResponse: Codable, Identifiable {
+        var id: Int { timestamp }
+        
         var type: String
         var value: Double
         var timestamp : Int
@@ -17,7 +19,10 @@ class TransactionViewModel: ObservableObject {
         Task {
             do {
                 let body: WebService.empty? = nil
-                let purchases = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
+                DispatchQueue.main.async {
+                    self.transactions = response
+                }
             } catch {
                 print("failed to get transactions from server")
             }

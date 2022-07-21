@@ -8,23 +8,22 @@ struct ProductView: View {
     
     var body: some View {
         HStack {
-            VStack{
+            VStack(alignment: .leading){
                 Text(product.name)
-                    .multilineTextAlignment(.leading)
                 Text(String(product.price) + " €")
-                    .multilineTextAlignment(.leading)
             }
             Spacer()
             Button (action: {
                 orderVM.addProductToCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: 1, price: product.price))
             }, label: {
                 Image(systemName: "plus")
+                    .resizable()
                     .background(
                         RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 5)
                         .fill(Color(hex: 0xC08267))
                     )
                     .foregroundColor(.black)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 20, height: 20)
                     .padding()
             })
         }

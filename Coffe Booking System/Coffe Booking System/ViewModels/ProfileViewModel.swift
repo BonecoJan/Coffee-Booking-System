@@ -130,9 +130,7 @@ class ProfileViewModel: ObservableObject {
         Task {
             do {
                 let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
-                print(body)
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                print(response.response)
                 if response.response == "Funding processed successfully." {
                     DispatchQueue.main.async {
                         self.success = true
@@ -143,6 +141,23 @@ class ProfileViewModel: ObservableObject {
                 print("failed to send money to user with id " + recipientId)
             }
         }
-        
+    }
+    
+    func cancelLastPurchase() {
+        self.success = false
+        Task {
+            do {
+                let body: WebService.empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/purchases/refund", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                if response.response == "Purchase refunded successfully." {
+                    DispatchQueue.main.async {
+                        self.success = true
+                        self.loadUserData()
+                    }
+                }
+            } catch {
+                print("failed to cancel last purchase")
+            }
+        }
     }
 }

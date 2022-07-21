@@ -19,7 +19,7 @@ struct UserViewTest: View {
     var body: some View {
         HStack {
             Button(action: {
-                viewState.state = 0
+                viewState.state = 4
             }, label: {
                 Image(systemName: "arrow.left")
                     .resizable()

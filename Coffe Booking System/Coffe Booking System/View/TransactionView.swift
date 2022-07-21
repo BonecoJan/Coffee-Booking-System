@@ -2,40 +2,34 @@ import SwiftUI
 
 struct TransactionView: View {
     
-    @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @ObservedObject var transactionVM = TransactionViewModel()
+    var transaction: TransactionViewModel.TransactionResponse
+    @EnvironmentObject var transactionVM: TransactionViewModel
+    let formatter = DateComponentsFormatter()
     
     var body: some View {
-        HStack {
-            Button(action: {
-                viewState.state = 0
-            }, label: {
-                Image(systemName: "arrow.left")
-                    .resizable()
-                    .frame(width: 25, height: 25, alignment: .leading)
-            })
-            Spacer()
-            Text("My Bookings")
+        VStack(alignment: .leading){
+            HStack{
+                Text("Transaction timestamp: ")
+                    .multilineTextAlignment(.leading)
+                Spacer()
+                Text(String(transaction.timestamp))
+            }
+            Text(transaction.type == "purchase" ? ("Item ID: " + transaction.itemId!) : "")
+            Text(transaction.type == "purchase" ? ("Item Name: " + transaction.itemName!) : "")
+            Text(transaction.type == "purchase" ? ("Amount: " + String(transaction.amount!)) : "")
+            Text(transaction.value < 0.0 ? "Value: " + String(-transaction.value) : String(transaction.value))
+
         }
-        VStack {
-            //TODO: list all User Transactions
-            Button(action:{
-                transactionVM.getTransactions(userID: profilVM.id)
-            }, label: {
-                Text("print transactions")
-            })
-            Spacer()
-        }.background(
-            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                .fill(Color(hex: 0xCCB9B1))
+        .padding()
+        .background(
+            RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
+                .fill(Color(hex: 0xD9D9D9))
             )
     }
 }
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView()
+        TransactionView(transaction: TransactionViewModel.TransactionResponse(type: "", value: 0.0, timestamp: 0))
     }
 }
-

@@ -16,6 +16,12 @@ struct OrderView: View {
                     }
                 }
             })
+            VStack{
+                Text("Your Cart is empty... add some coffee to it first!")
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .opacity(orderVM.total > 0.0 ? 0 : 1)
+            }
             HStack {
                 Text(orderVM.total > 0.0 ? "Total:" : "")
                 Spacer()
@@ -29,6 +35,7 @@ struct OrderView: View {
                     .background(Color(hex: 0xC08267))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
+                    .opacity(orderVM.total > 0.0 ? 1 : 0)
             })
             Spacer()
         }.background(
