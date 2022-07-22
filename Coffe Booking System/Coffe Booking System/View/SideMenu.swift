@@ -11,7 +11,7 @@ struct SideMenu: View {
     let width: CGFloat
     let isOpen: Bool
     let menuClose: () -> Void
-    
+    @EnvironmentObject var userVM: UserViewModel
     @State var state: Int = 0
     
     var body: some View {
@@ -32,6 +32,7 @@ struct SideMenu: View {
                     .background(Color.white)
                     .offset(x: self.isOpen ? 0 : -self.width)
                     .animation(.default)
+                    .environmentObject(userVM)
                 Spacer()
             }
         }
@@ -43,6 +44,7 @@ struct MenuContent: View {
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var profileVM: ProfileViewModel
     @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     @State private var overText = false
     @State private var showPopUp = false
@@ -54,6 +56,7 @@ struct MenuContent: View {
                     self.showPopUp = true
                 }
                 Text("Send money").onTapGesture {
+                    userVM.getUsers()
                     viewState.state = 3
                 }
                 Text("Transaction History").onTapGesture {

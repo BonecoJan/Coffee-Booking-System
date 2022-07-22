@@ -1,41 +1,37 @@
 //
-//  UserViewTest.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 19.07.22.
-//
-
 import SwiftUI
 
 
 
 struct UserViewTest: View {
     
-    //@EnvironmentObject var userVM : UserViewModel
-    @ObservedObject var userVM = UserViewModel()
+    @EnvironmentObject var userVM : UserViewModel
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var profilVM: ProfileViewModel
     
     var body: some View {
-        HStack {
-            Button(action: {
-                viewState.state = 4
-            }, label: {
-                Image(systemName: "arrow.left")
-                    .resizable()
-                    .frame(width: 25, height: 25, alignment: .leading)
-            }).padding()
-        }
-        ScrollView(.vertical, showsIndicators: false, content: {
-            VStack{
-                ForEach(userVM.users) { user in
-                    UserViewObj(user: user)
-                        .environmentObject(userVM)
-                        .environmentObject(profilVM)
-                }
+        VStack {
+            HStack {
+                Button(action: {
+                    viewState.state = 4
+                }, label: {
+                    Image(systemName: "arrow.left")
+                        .resizable()
+                        .frame(width: 25, height: 20, alignment: .leading)
+                }).padding()
+                Text("Send money")
+                    .padding()
+                Spacer()
             }
-        })
-        .onAppear(perform: userVM.getUsers)
+            ScrollView(.vertical, showsIndicators: false, content: {
+                VStack{
+                    ForEach(userVM.users) { user in
+                        UserViewObj(user: user)
+                            .environmentObject(profilVM)
+                    }
+                }
+            })
+        }
     }
 }
 

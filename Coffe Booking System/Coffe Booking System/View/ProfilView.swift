@@ -6,13 +6,13 @@ struct ProfilView: View {
     @EnvironmentObject var shop: Shop
     @EnvironmentObject var profileVM: ProfileViewModel
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @State var userName: String = ""
     @State var userID: String = ""
     
     @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @State private var selectedImage: Image? = Image("")
     
     @State var currentPassword: String = ""
     @State var newPassword: String = ""
@@ -36,6 +36,10 @@ struct ProfilView: View {
                         Image(systemName: "list.bullet")
                     })
                 }
+                Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 Spacer()
                 Button(action: {
                     viewState.state = 0
@@ -45,11 +49,70 @@ struct ProfilView: View {
                         .frame(width: 25, height: 20, alignment: .leading)
                 }).padding()
             }.padding()
-            Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
-                .font(.title)
-                .fontWeight(.bold)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding()
+            profilPicture
+            showUserData
+            bottomSection
+        }.ignoresSafeArea()
+
+        .onAppear(perform: {
+            self.userName = profileVM.name
+
+        })
+            SideMenu(width: 270,
+                     isOpen: self.menuOpen,
+                     menuClose: self.openMenu)
+            .environmentObject(userVM)
+        }.ignoresSafeArea()
+    }
+    
+    var profilPicture: some View {
+        VStack{
+            if profileVM.image.encodedImage == "empty" {
+                Image("noProfilPicture")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 200, height: 200)
+                    .clipShape(Circle())
+                    .clipped()
+                    .padding()
+            } else {
+                Image(base64String: profileVM.image.encodedImage!)!
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 200, height: 200)
+                    .clipShape(Circle())
+                    .clipped()
+                    .padding()
+            }
+            HStack{
+                Button(action: {
+                    self.showingImagePicker = true
+                }, label: {
+                    Text("Select Image")
+                })
+                Button(action: {
+                    let uiImage: UIImage = self.selectedImage.asUIImage()
+                    profileVM.uploadImage(image: uiImage)
+                }, label: {
+                    Text("Change")
+                })
+                Button(action: {
+                    profileVM.deleteImage()
+                }, label: {
+                    Text("Delete")
+                        .opacity(profileVM.image.encodedImage == "empty" ? 0 : 1)
+                })
+            }
+            .sheet(isPresented: $showingImagePicker, content: {
+                ImagePicker(image: self.$selectedImage)
+            }
+            )
+            
+        }
+    }
+    
+    var showUserData: some View {
+        VStack{
             if !self.menuOpen {
                 Button (action: {
                     withAnimation {
@@ -64,9 +127,6 @@ struct ProfilView: View {
                         .padding(.trailing)
                 })
             }
-            Text("Name")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
             HStack{
                 Image(systemName: "person")
                     .padding()
@@ -85,9 +145,6 @@ struct ProfilView: View {
                             .padding()
                         })
             }.offset(y: -20)
-            Text("ID")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
             HStack{
                 Image(systemName: "person.text.rectangle")
                     .padding()
@@ -95,17 +152,14 @@ struct ProfilView: View {
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
-            bottomSection
-        }.ignoresSafeArea()
-
-        .onAppear(perform: {
-            self.userName = profileVM.name
-
-        })
-            SideMenu(width: 270,
-                     isOpen: self.menuOpen,
-                     menuClose: self.openMenu)
-        }.ignoresSafeArea()
+            HStack{
+                Image(systemName: "eurosign.circle")
+                    .padding()
+                Text(String(profileVM.balance))
+                    .fontWeight(.bold)
+                Spacer()
+            }.offset(y: -20)
+        }
     }
     
     var changePassword: some View {
@@ -162,25 +216,19 @@ struct ProfilView: View {
         }
     }
     
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        //ImagePicker.image = Image(uiImage: inputImage)
-    }
-    
     func checkPassword(password: String) -> Bool {
-                    //try to get user password from Keychain
-                    if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
-                    let password = String(data: password, encoding: .utf8)!
+        //try to get user password from Keychain
+        if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
+        let password = String(data: password, encoding: .utf8)!
 
-                        if password != currentPassword {
-                            return false
-                        }
+            if password != currentPassword {
+                return false
+            }
 
-                    } else {
-                        print("cannot fetch current user data - missing token")
-                        return false
-                    }
-
+        } else {
+            print("cannot fetch current user data - missing token")
+            return false
+        }
         return true
     }
     

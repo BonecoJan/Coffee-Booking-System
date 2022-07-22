@@ -60,7 +60,7 @@ struct BookingView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false, content: {
                     VStack{
-                        ForEach(transactionVM.transactions) { transaction in
+                        ForEach(transactionVM.transactions.reversed()) { transaction in
                             if transactionType == 0 && transaction.type == "purchase" {
                                 TransactionView(transaction: transaction)
                                     .environmentObject(transactionVM)

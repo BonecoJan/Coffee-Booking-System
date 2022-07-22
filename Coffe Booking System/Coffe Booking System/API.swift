@@ -1,5 +1,6 @@
 import Foundation
 import JWTDecode
+import SwiftUI
 
 class WebService {
     
@@ -97,7 +98,12 @@ class WebService {
             throw AuthenticationError.invalidCredentials
         }
 
-        do {
+        if responseType == ChangeResponse.self {
+            //if there is no data response but a string with change status
+            let response = ChangeResponse(response: String(data: data, encoding: .utf8)!)
+            print(response)
+            return response as! Response
+        } else {
             //If the JSON Response is more complex return the raw data and parse manually
             if unknownType {
                 let rawResponse = try? JSONSerialization.jsonObject(with: data)
@@ -105,13 +111,48 @@ class WebService {
             }
             let response = try JSONDecoder().decode(Response.self, from: data)
             return response
-        } catch {
-            //if there is no data response but a string with change status
-            let response = ChangeResponse(response: String(data: data, encoding: .utf8)!)
-            print(response)
-            return response as! Response
         }
+    }
     
+    //uploading image. source: https://gist.github.com/codecat15/6c1eaa5b7ea48b26b10d907fef68abf2
+    func uploadImage(allowRetry: Bool = true, image: UIImage, userID: String) async throws -> ChangeResponse {
+        let url = URL(string: apiUrl + "users/" + userID + "/image")
+        var httpRequest = URLRequest(url: url!)
+        httpRequest.httpMethod = "POST"
+        let bodyBoundary = "--------------------------\(UUID().uuidString)"
+                httpRequest.addValue("multipart/form-data; boundary=\(bodyBoundary)", forHTTPHeaderField: "Content-Type")
+        let imageData = image.jpegData(compressionQuality: 0.7)
+        let requestData = createRequestBody(imageData: imageData!, boundary: bodyBoundary, attachmentKey: "profilePicture", fileName: "profilPicture.jpg")
+        httpRequest = try await authorizedRequest(with: httpRequest)
+        
+        httpRequest.addValue("\(requestData.count)", forHTTPHeaderField: "content-length")
+                httpRequest.httpBody = requestData
+        
+        let (data, urlResponse) = try await URLSession.shared.data(for: httpRequest)
+        // check the http status code and refresh + retry if we received 401 Unauthorized
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            if allowRetry {
+                _ = try await authManager.refreshToken()
+                return try await uploadImage(allowRetry: true, image: image, userID: userID)
+            }
+
+            throw AuthenticationError.invalidCredentials
+        }
+        let response = ChangeResponse(response: String(data: data, encoding: .utf8)!)
+        return response
+    }
+    
+    func createRequestBody(imageData: Data, boundary: String, attachmentKey: String, fileName: String) -> Data {
+            let lineBreak = "\r\n"
+            var requestBody = Data()
+
+            requestBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
+            requestBody.append("Content-Disposition: form-data; name=\"\(attachmentKey)\"; filename=\"\(fileName)\"\(lineBreak)" .data(using: .utf8)!)
+            requestBody.append("Content-Type: image/jpeg \(lineBreak + lineBreak)" .data(using: .utf8)!) // you can change the type accordingly if you want to
+            requestBody.append(imageData)
+            requestBody.append("\(lineBreak)--\(boundary)--\(lineBreak)" .data(using: .utf8)!)
+
+            return requestBody
     }
     
     private func authorizedRequest(with urlRequest: URLRequest) async throws -> URLRequest {

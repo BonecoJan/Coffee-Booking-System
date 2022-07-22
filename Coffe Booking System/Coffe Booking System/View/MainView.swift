@@ -8,7 +8,6 @@ struct MainView: View {
     @EnvironmentObject var profilVM : ProfileViewModel
     @StateObject var homeVM = HomeViewModel()
     @StateObject var orderVM = OrderViewModel()
-    @StateObject var userVM = UserViewModel()
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: 0xC08267))
@@ -54,8 +53,16 @@ struct MainView: View {
                 .environmentObject(shop)
                 .environmentObject(orderVM)
                 .environmentObject(profilVM)
+            QRView()
+                .tabItem{
+                    Image(systemName: "qrcode")
+                        .foregroundColor(.black)
+                    Text("QR-Buy")
+                        .foregroundColor(.black)
+                }
+                .environmentObject(orderVM)
+                .environmentObject(profilVM)
         }
-        //.onAppear(perform: profilVM.loadUserData)
     }
 }
 

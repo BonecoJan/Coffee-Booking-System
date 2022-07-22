@@ -4,7 +4,6 @@ struct TransactionView: View {
     
     var transaction: TransactionViewModel.TransactionResponse
     @EnvironmentObject var transactionVM: TransactionViewModel
-    let formatter = DateComponentsFormatter()
     
     var body: some View {
         VStack(alignment: .leading){

@@ -18,6 +18,7 @@ struct Coffe_Booking_SystemApp: App {
     @ObservedObject var viewState = ViewState()
     @ObservedObject var profilVM = ProfileViewModel()
     @ObservedObject var transactionVM = TransactionViewModel()
+    @ObservedObject var userVM = UserViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -45,6 +46,7 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(viewState)
                     .environmentObject(profilVM)
                     .background(Color(hex: 0xCCB9B1))
+                    .environmentObject(userVM)
             } else if viewState.state == 4 {
                 ProfilView()
                     .environmentObject(shop)
@@ -52,6 +54,7 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(profilVM)
                     .environmentObject(viewState)
                     .environmentObject(transactionVM)
+                    .environmentObject(userVM)
                     .background(Color(hex: 0xCCB9B1))
             } else if viewState.state == 5{
                 BookingView()

@@ -10,6 +10,11 @@ class ProfileViewModel: ObservableObject {
         var balance: Double
     }
     
+    struct ImageResponse: Codable {
+        var encodedImage: String?
+        var timestamp: Int?
+    }
+    
     struct UserRequest: Codable {
         var name: String
         var password: String
@@ -25,12 +30,14 @@ class ProfileViewModel: ObservableObject {
     @Published var isAdmin: Bool
     @Published var balance: Double
     @Published var success: Bool = false
+    @Published var image: ImageResponse
     
     init() {
         self.isAdmin = false
         self.name = ""
         self.id = ""
         self.balance = 0.0
+        self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
     }
     
     func loadUserData() {
@@ -49,6 +56,7 @@ class ProfileViewModel: ObservableObject {
                     self.id = user.id
                     self.name = user.name
                     self.balance = user.balance
+                    self.getImage()
                 }
                     
                 } else {
@@ -157,6 +165,51 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch {
                 print("failed to cancel last purchase")
+            }
+        }
+    }
+    
+    func getImage() {
+        Task {
+            do {
+                let body: WebService.empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/image", reqMethod: "GET", authReq: true, body: body, responseType: ImageResponse.self, unknownType: false)
+                DispatchQueue.main.async {
+                    self.image = response
+                }
+            } catch {
+                print("failed while loading image from server")
+            }
+        }
+    }
+    
+    func uploadImage(image: UIImage) {
+        Task {
+            do {
+                let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: self.id)
+                if response.response == "Image uploaded successfully." {
+                    DispatchQueue.main.async {
+                        self.loadUserData()
+                    }
+                }
+            } catch {
+                print("failed while trying to upload image to server")
+            }
+        }
+    }
+    
+    func deleteImage() {
+        Task {
+            do {
+                let body : WebService.empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + self.id + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                if response.response == "Image deleted successfully." {
+                    DispatchQueue.main.async {
+                        self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
+                    }
+                }
+            } catch {
+                print("failed while trying to delete image from server")
             }
         }
     }

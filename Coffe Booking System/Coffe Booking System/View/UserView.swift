@@ -63,7 +63,6 @@ struct UserView: View {
                         })
                     }
                 })
-                
                 Button(action: {
                     showDeleteOverlay = true
                 }, label: {
@@ -87,6 +86,7 @@ struct UserView: View {
                         })
                     }
                 })
+                Spacer()
             }
         })
         .padding()
