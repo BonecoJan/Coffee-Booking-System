@@ -64,7 +64,7 @@ struct MenuContent: View {
                     viewState.state = 5
                 }
                 Text("Statistics").onTapGesture {
-                    viewState.state = 2
+                    viewState.state = 6
                 }
                 Text("Logout").onTapGesture {
                     viewState.state = 0

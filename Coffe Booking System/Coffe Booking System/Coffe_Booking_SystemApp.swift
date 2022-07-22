@@ -62,6 +62,10 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(profilVM)
                     .environmentObject(transactionVM)
                     .background(Color(hex: 0xCCB9B1))
+            } else if viewState.state == 6 {
+                ChartSelection()
+                    .environmentObject(viewState)
+                    .environmentObject(transactionVM)
             }
         }
     }

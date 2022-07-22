@@ -31,6 +31,7 @@ struct ProfilView: View {
             HStack{
                 if !self.menuOpen {
                     Button(action: {
+                        transactionVM.getTransactions(userID: profileVM.id)
                         self.openMenu()
                     }, label: {
                         Image(systemName: "list.bullet")

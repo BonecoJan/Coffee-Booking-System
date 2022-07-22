@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C324FEBB2870DF5C00FDF0CB /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C324FEBA2870DF5C00FDF0CB /* RegisterViewModel.swift */; };
 		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
-		C34584D7287649A900CAE221 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C34584D6287649A900CAE221 /* JWTDecode */; };
 		C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF12886DBD000F7694A /* UserViewObj.swift */; };
 		C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF32886DBE600F7694A /* UserViewTest.swift */; };
 		C34F7AF62886DC0900F7694A /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF52886DC0900F7694A /* UserViewModel.swift */; };
@@ -21,6 +20,10 @@
 		C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */; };
 		C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105A2857DBC70030B4C7 /* LoginView.swift */; };
 		C35E106D2857DBC70030B4C7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105C2857DBC70030B4C7 /* API.swift */; };
+		C3A228A1288AD9A800020F83 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C3A228A0288AD9A800020F83 /* JWTDecode */; };
+		C3A228A3288AD9C300020F83 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A228A2288AD9C300020F83 /* Chart.swift */; };
+		C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A228A4288AD9D500020F83 /* ChartSelection.swift */; };
+		C3A228A8288ADAB600020F83 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C3A228A7288ADAB600020F83 /* Charts */; };
 		F62165AD2886D2BC00415D15 /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AC2886D2BC00415D15 /* TransactionViewModel.swift */; };
 		F62165AF2886D45500415D15 /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AE2886D45500415D15 /* BookingView.swift */; };
 		F62165B12886D49800415D15 /* CartProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165B02886D49800415D15 /* CartProductView.swift */; };
@@ -67,6 +70,8 @@
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_SystemApp.swift; sourceTree = "<group>"; };
 		C35E105A2857DBC70030B4C7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C35E105C2857DBC70030B4C7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C3A228A2288AD9C300020F83 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
+		C3A228A4288AD9D500020F83 /* ChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSelection.swift; sourceTree = "<group>"; };
 		C3F91BA828743DC80066E197 /* Coffe Booking System.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Coffe Booking System.entitlements"; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62165AC2886D2BC00415D15 /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
@@ -106,8 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3A228A1288AD9A800020F83 /* JWTDecode in Frameworks */,
+				C3A228A8288ADAB600020F83 /* Charts in Frameworks */,
 				F68EDDF528898D9A00CF2689 /* CodeScanner in Frameworks */,
-				C34584D7287649A900CAE221 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +179,8 @@
 				C34F7AF72886EB4C00F7694A /* SideMenu.swift */,
 				F68EDDF12889360C00CF2689 /* TransactionView.swift */,
 				F68EDDF628898ECF00CF2689 /* QRView.swift */,
+				C3A228A2288AD9C300020F83 /* Chart.swift */,
+				C3A228A4288AD9D500020F83 /* ChartSelection.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -238,8 +246,9 @@
 			);
 			name = "Coffe Booking System";
 			packageProductDependencies = (
-				C34584D6287649A900CAE221 /* JWTDecode */,
 				F68EDDF428898D9A00CF2689 /* CodeScanner */,
+				C3A228A0288AD9A800020F83 /* JWTDecode */,
+				C3A228A7288ADAB600020F83 /* Charts */,
 			);
 			productName = "Coffe Booking System";
 			productReference = F61D90D628531DF100F275E8 /* Coffe Booking System.app */;
@@ -270,8 +279,9 @@
 			);
 			mainGroup = F61D90CD28531DF100F275E8;
 			packageReferences = (
-				C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 				F68EDDF328898D9A00CF2689 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				C3A2289F288AD9A800020F83 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				C3A228A6288ADAB600020F83 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = F61D90D728531DF100F275E8 /* Products */;
 			projectDirPath = "";
@@ -333,10 +343,12 @@
 				F6D4B6B9287807190037E821 /* Order.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
 				C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */,
+				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
 				C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */,
 				F68EDDFA288994BF00CF2689 /* QRViewModel.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				F692ECCA28857CE200C6E92B /* OrderViewModel.swift in Sources */,
+				C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */,
 				C34F7AF62886DC0900F7694A /* UserViewModel.swift in Sources */,
 				F62165AD2886D2BC00415D15 /* TransactionViewModel.swift in Sources */,
 			);
@@ -551,12 +563,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+		C3A2289F288AD9A800020F83 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				branch = master;
+				kind = branch;
+			};
+		};
+		C3A228A6288ADAB600020F83 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		F68EDDF328898D9A00CF2689 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -570,10 +590,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C34584D6287649A900CAE221 /* JWTDecode */ = {
+		C3A228A0288AD9A800020F83 /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C34584D5287649A900CAE221 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			package = C3A2289F288AD9A800020F83 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
+		};
+		C3A228A7288ADAB600020F83 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3A228A6288ADAB600020F83 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
 		};
 		F68EDDF428898D9A00CF2689 /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
