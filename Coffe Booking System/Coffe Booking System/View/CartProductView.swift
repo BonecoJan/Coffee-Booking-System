@@ -7,30 +7,29 @@ struct CartProductView: View {
     
     var body: some View {
         HStack{
-            VStack {
+            VStack(alignment: .leading) {
                 Text(product.name)
-                    .multilineTextAlignment(.leading)
                 Text(String(product.price) + " €")
-                    .multilineTextAlignment(.leading)
             }.padding()
             Spacer()
             Button(action: {
                 orderVM.addProductToCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: product.amount, price: product.price))
             }, label: {
                 Image(systemName: "plus.circle")
+                    .resizable()
                     .foregroundColor(.black)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 20, height: 20)
             }).padding()
             Text(String(product.amount))
             Button(action: {
                 orderVM.deleteProductFromCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: product.amount, price: product.price))
             }, label: {
                 Image(systemName: "minus.circle")
+                    .resizable()
                     .foregroundColor(.black)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 20, height: 20)
             }).padding()
         }
-        .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
                 .fill(Color(hex: 0xD9D9D9))

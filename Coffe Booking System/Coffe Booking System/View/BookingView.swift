@@ -18,10 +18,10 @@ struct BookingView: View {
                         Image(systemName: "arrow.left")
                             .resizable()
                             .frame(width: 30, height: 25, alignment: .leading)
-            
                     })
-                    Text("My Bookings")
-                        .multilineTextAlignment(.center)
+                    Text("My Transactions")
+                        .font(.title)
+                        .padding()
                     Spacer()
                 }.padding()
                 HStack(alignment: .center){
@@ -29,32 +29,36 @@ struct BookingView: View {
                         transactionType = 0
                     }, label: {
                         Text("Purchases")
-                            .frame(width: 80, height: 20)
+                            .frame(width: 100, height: 30)
                             .background(Color(hex: 0xC08267))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
-                        .padding()
+                    .padding(.leading)
+                    .padding(.top)
+                    .padding(.bottom)
                     Button(action: {
                         transactionType = 1
                     }, label: {
                         Text("Transfers")
-                            .frame(width: 80, height: 20)
+                            .frame(width: 100, height: 30)
                             .background(Color(hex: 0xC08267))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
-                        .padding()
+                    .padding()
                     Button(action: {
                         transactionType = 2
                     }, label: {
                         Text("Fundings")
-                            .frame(width: 80, height: 20)
+                            .frame(width: 100, height: 30)
                             .background(Color(hex: 0xC08267))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
-                        .padding()
+                    .padding(.top)
+                    .padding(.bottom)
+                    .padding(.trailing)
                 }
             }
             VStack {
@@ -71,10 +75,10 @@ struct BookingView: View {
                                 TransactionView(transaction: transaction)
                                     .environmentObject(transactionVM)
                             }
-                            
                         }
                     }
                 })
+                .padding()
                 Spacer()
             }
         }

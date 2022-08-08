@@ -13,12 +13,13 @@ class ViewState: ObservableObject {
 struct Coffe_Booking_SystemApp: App {
     
     @ObservedObject var loginVM = LoginViewModel()
-    @ObservedObject var registerVM = RegisterViewModel()
     @ObservedObject var shop = Shop(modelService: ModelService(webService: WebService(authManager: AuthManager())), currentUser: User(id: "", name: ""), users: [], items: [])
     @ObservedObject var viewState = ViewState()
     @ObservedObject var profilVM = ProfileViewModel()
     @ObservedObject var transactionVM = TransactionViewModel()
     @ObservedObject var userVM = UserViewModel()
+    @ObservedObject var homeVM = HomeViewModel()
+    @ObservedObject var orderVM = OrderViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -27,12 +28,15 @@ struct Coffe_Booking_SystemApp: App {
                     .environmentObject(shop)
                     .environmentObject(viewState)
                     .environmentObject(profilVM)
+                    .environmentObject(orderVM)
+                    .environmentObject(homeVM)
+                    .environmentObject(transactionVM)
             } else if !loginVM.isAuthenticated && viewState.state == 0{
                 LoginView().environmentObject(loginVM)
                     .environmentObject(profilVM)
                     .environmentObject(shop)
-                    .environmentObject(registerVM)
                     .environmentObject(viewState)
+                    .background(Color(hex: 0xCCB9B1))
             } else if viewState.state == 1{
                 AdminMenue()
                     .environmentObject(viewState)
@@ -66,6 +70,12 @@ struct Coffe_Booking_SystemApp: App {
                 ChartSelection()
                     .environmentObject(viewState)
                     .environmentObject(transactionVM)
+            } else if viewState.state == 7 {
+                AchievementView()
+                    .environmentObject(viewState)
+                    .environmentObject(transactionVM)
+                    .environmentObject(profilVM)
+                    .background(Color(hex: 0xCCB9B1))
             }
         }
     }

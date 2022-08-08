@@ -6,8 +6,9 @@ struct MainView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var shop: Shop
     @EnvironmentObject var profilVM : ProfileViewModel
-    @StateObject var homeVM = HomeViewModel()
-    @StateObject var orderVM = OrderViewModel()
+    @EnvironmentObject var homeVM : HomeViewModel
+    @EnvironmentObject var orderVM : OrderViewModel
+    @EnvironmentObject var transactionVM: TransactionViewModel
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: 0xC08267))
@@ -43,6 +44,7 @@ struct MainView: View {
                 .environmentObject(shop)
                 .environmentObject(profilVM)
                 .environmentObject(orderVM)
+                .environmentObject(homeVM)
             OrderView()
                 .tabItem{
                     Image(systemName: "cart")
@@ -53,6 +55,7 @@ struct MainView: View {
                 .environmentObject(shop)
                 .environmentObject(orderVM)
                 .environmentObject(profilVM)
+                .environmentObject(transactionVM)
             QRView()
                 .tabItem{
                     Image(systemName: "qrcode")

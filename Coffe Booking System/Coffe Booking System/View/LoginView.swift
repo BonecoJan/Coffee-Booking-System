@@ -10,45 +10,36 @@ struct LoginView: View {
     
     var body: some View {
         
-        GeometryReader { reader in
-            VStack{
-                Image("loginCoffeeShop")
-                    .resizable()
-                    .scaledToFit()
-                    .ignoresSafeArea()
-                    .frame(width: 320, height: reader.size.height*0.35)
-                VStack {
-                    if showSignUp == false{
-                        SignInView().environmentObject(loginVM)
-                            .environmentObject(profilVM)
-                    } else {
-                        SignUpView().environmentObject(loginVM)
-                            .environmentObject(profilVM)
-                    }
-                    Spacer()
-                    HStack{
-                        Text(showSignUp ? "Already Member? " : "No Member yet? ")
-                            .foregroundColor(.black)
-                        Button(action: {
-                            showSignUp = !showSignUp
-                        }, label: {
-                            Text(showSignUp ? "Sign in" : "Sign up")
-                                .foregroundColor(.black)
-                        })
-                    }
-                    .offset(y: -20)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .background(
-                    RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                        .fill(Color(hex: 0xCCB9B1))
-                )
-                .onAppear(perform: checkToken)
-                .ignoresSafeArea()
-                .frame(height: reader.size.height*0.65)
+        VStack{
+            Image("loginCoffeeShop")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 200, height: 200)
+                .clipShape(Circle())
+                .clipped()
+                .padding(.top)
+            if showSignUp == false{
+                SignInView().environmentObject(loginVM)
+                    .environmentObject(profilVM)
+            } else {
+                SignUpView().environmentObject(loginVM)
+                    .environmentObject(profilVM)
             }
+            Spacer()
+            HStack{
+                Text(showSignUp ? "Already Member? " : "No Member yet? ")
+                    .foregroundColor(.black)
+                Button(action: {
+                    showSignUp = !showSignUp
+                }, label: {
+                    Text(showSignUp ? "Sign in" : "Sign up")
+                })
+            }
+            .offset(y: -20)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .onAppear(perform: checkToken)
     }
     
     func checkToken() {
@@ -81,7 +72,6 @@ struct ForgotPasswordView: View {
     }
 }
 
-//Preview this View
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()

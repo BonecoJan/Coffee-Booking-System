@@ -3,9 +3,13 @@ import SwiftUI
 struct SignUpView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var registerVM: RegisterViewModel
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
+    @State var newID: String = ""
+    @State var newName: String = ""
+    @State var newPassword: String = ""
+    @State var repeatedPassword: String = ""
+    @State var invalidUserData: Bool = false
     
     var body: some View {
         
@@ -13,44 +17,42 @@ struct SignUpView: View {
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+            .font(.title)
         
         //Register Fields
         HStack{
             Image(systemName: "person.circle")
                 .padding()
-            TextField("Name", text: $registerVM.name)
+            TextField("Name", text: $newName)
                 .cornerRadius(5.0)
         }
         HStack{
-            Image(systemName: "person.circle")
+            Image(systemName: "person.text.rectangle")
                 .padding()
-            TextField("User ID", text: $registerVM.id)
+            TextField("User ID (Optional)", text: $newID)
                 .cornerRadius(5.0)
         }
         .offset(y: -20)
         HStack{
             Image(systemName: "lock")
                 .padding()
-            SecureField("Password", text: $registerVM.password)
+            SecureField("Password (at least 8 characters)", text: $newPassword)
                 .cornerRadius(5.0)
         }
         .offset(y: -40)
         HStack{
             Image(systemName: "lock")
                 .padding()
-            SecureField("Repeat password", text: $registerVM.repeatedPassword)
+            SecureField("Repeat password", text: $repeatedPassword)
                 .cornerRadius(5.0)
         }
         .offset(y: -60)
         //try to register with given account data and in case of success login with the new registered account
         Button(action: {
-            if registerVM.password.count >= 8 && registerVM.password == registerVM.repeatedPassword {
-                registerVM.register(id: registerVM.id, name: registerVM.name, password: registerVM.password)
-                    if registerVM.isRegistered == true {
-                        loginVM.id = registerVM.id
-                        loginVM.password = registerVM.password
-                        loginVM.login(profilVM: profilVM)
-                    }
+            if newPassword.count >= 8 && newName != "" && newPassword == repeatedPassword{
+                    loginVM.register(id: newID, name: newName, password: newPassword, profilVM: profilVM)
+            } else {
+                invalidUserData = true
             }
         },
         label: {
@@ -61,6 +63,9 @@ struct SignUpView: View {
                 .foregroundColor(.black)
         })
         .offset(y: -60)
+        Text(invalidUserData ? "Please check your password and username" : "")
+            .offset(y: -60)
+            .foregroundColor(.red)
     }
 }
 

@@ -16,14 +16,10 @@ struct ProductView: View {
             Button (action: {
                 orderVM.addProductToCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: 1, price: product.price))
             }, label: {
-                Image(systemName: "plus")
+                Image(systemName: "plus.app")
                     .resizable()
-                    .background(
-                        RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 5)
-                        .fill(Color(hex: 0xC08267))
-                    )
                     .foregroundColor(.black)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 25, height: 25)
                     .padding()
             })
         }

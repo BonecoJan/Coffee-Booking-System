@@ -30,8 +30,7 @@ class OrderViewModel: ObservableObject {
     }
     
     func addProductToCart(product: AdminViewModel.ItemResponse) {
-        //TODO: Check if user has enough credits for product (?)
-        total = total + product.price
+        total = (total + product.price).rounded(toPlaces: 2)
         for item in cart {
             if item.id == product.id {
                 item.amount = item.amount + 1
@@ -42,7 +41,7 @@ class OrderViewModel: ObservableObject {
     }
     
     func deleteProductFromCart(product: AdminViewModel.ItemResponse) {
-        total = total - product.price
+        total = (total - product.price).rounded(toPlaces: 2)
         var deleteAt: Int = 0
         for (index, item) in cart.enumerated() {
             if item.id == product.id {

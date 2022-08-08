@@ -12,6 +12,12 @@ class LoginViewModel: ObservableObject {
         let expiration: Int?
     }
     
+    struct RegisterRequest: Codable {
+        let id: String?
+        let name: String
+        let password: String?
+    }
+    
     @Published var id: String = ""
     @Published var password: String = ""
     @Published var isAuthenticated: Bool = false
@@ -35,8 +41,19 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    func register() {
-        //TODO: register and login afterwards
+    func register(id: String, name: String, password: String, profilVM: ProfileViewModel) {
+        Task {
+            do {
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: "POST", authReq: false, body: RegisterRequest(id: id, name: name, password: password), responseType: WebService.ChangeResponse.self, unknownType: false)
+                if response.response == id {
+                    DispatchQueue.main.async {
+                        self.login(profilVM: profilVM)
+                    }
+                }
+            } catch {
+                print("failed to register")
+            }
+        }
     }
     
     func logout() {

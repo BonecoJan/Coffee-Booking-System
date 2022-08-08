@@ -39,6 +39,14 @@ extension Date
 
 }
 
+//For rounding a double to x places
+extension Double {
+    func rounded(toPlaces: Int) -> Double {
+        let divisor = pow(10.0, Double(toPlaces))
+        return (self * divisor).rounded() / divisor
+    }
+}
+
 //Decode encoded Image returned by API
 extension Image {
     init?(base64String: String) {
@@ -48,6 +56,20 @@ extension Image {
     }
 }
 
+//For the background color of the NavigationView https://stackoverflow.com/questions/56505528/swiftui-update-navigation-bar-title-color
+struct NavigationConfigurator: UIViewControllerRepresentable {
+    var configure: (UINavigationController) -> Void = { _ in }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
+        UIViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavigationConfigurator>) {
+        if let nc = uiViewController.navigationController {
+            self.configure(nc)
+        }
+    }
+
+}
 
 
 

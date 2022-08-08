@@ -54,15 +54,11 @@ struct ProfilView: View {
             showUserData
             bottomSection
         }.ignoresSafeArea()
-
         .onAppear(perform: {
             self.userName = profileVM.name
-
         })
-            SideMenu(width: 270,
-                     isOpen: self.menuOpen,
-                     menuClose: self.openMenu)
-            .environmentObject(userVM)
+        SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
+        .environmentObject(userVM)
         }.ignoresSafeArea()
     }
     
@@ -96,19 +92,18 @@ struct ProfilView: View {
                     profileVM.uploadImage(image: uiImage)
                 }, label: {
                     Text("Change")
-                })
+                        .opacity(self.selectedImage == Image("") ? 0 : 1)
+                }).disabled(self.selectedImage == Image(""))
                 Button(action: {
                     profileVM.deleteImage()
                 }, label: {
                     Text("Delete")
                         .opacity(profileVM.image.encodedImage == "empty" ? 0 : 1)
-                })
+                }).disabled(profileVM.image.encodedImage == "empty")
             }
             .sheet(isPresented: $showingImagePicker, content: {
                 ImagePicker(image: self.$selectedImage)
-            }
-            )
-            
+            })
         }
     }
     
@@ -135,9 +130,9 @@ struct ProfilView: View {
                     .disabled(!isEditing)
                 Spacer()
                 Button(action: {
-                            withAnimation {
-                                editMode?.wrappedValue = isEditing ? .inactive : .active
-                            }
+                    withAnimation {
+                        editMode?.wrappedValue = isEditing ? .inactive : .active
+                    }
                     if !isEditing {
                         self.userName = profileVM.name
                     }
@@ -164,25 +159,26 @@ struct ProfilView: View {
     }
     
     var changePassword: some View {
-            VStack(alignment: .leading){
+            VStack{
                 Text("Current password:")
+                    .multilineTextAlignment(.leading)
+                    .padding(.top)
+                TextField("current password", text: $currentPassword)
                     .padding()
                     .multilineTextAlignment(.leading)
-                TextField("Password", text: $currentPassword)
+                    .textFieldStyle(.roundedBorder)
+                
+                Text("New password")
+                    .multilineTextAlignment(.leading)
+                TextField("new password", text: $newPassword)
                     .padding()
                     .multilineTextAlignment(.leading)
-                Text("New Password")
-                    .multilineTextAlignment(.leading)
-                    .padding()
-                TextField("username", text: $newPassword)
+                    .textFieldStyle(.roundedBorder)
+                TextField("repeat new password: ", text: $repeatedPassword)
                     .padding()
                     .multilineTextAlignment(.leading)
-                Text("Repeat new password")
-                    .padding()
-                    .multilineTextAlignment(.leading)
-                TextField("password: ", text: $repeatedPassword)
-                    .padding()
-                    .multilineTextAlignment(.leading)
+                    .textFieldStyle(.roundedBorder)
+                Spacer()
                 Button(action: {
                     if newPassword.count >= 8 && newPassword == repeatedPassword {
                         if checkPassword(password: currentPassword) {
@@ -201,11 +197,52 @@ struct ProfilView: View {
             }
     }
     
+    func changePassword2() {
+        let alert = UIAlertController(title: "Change your password", message: "Enter your current password first and then type in the new one", preferredStyle: .alert)
+        
+        alert.addTextField{ (pass) in
+            pass.isSecureTextEntry = true
+            pass.placeholder = "current password"
+        }
+        
+        alert.addTextField{ (newPass) in
+            newPass.isSecureTextEntry = true
+            newPass.placeholder = "new password"
+        }
+        
+        alert.addTextField() { (repPass) in
+            repPass.isSecureTextEntry = true
+            repPass.placeholder = "repeat new password"
+        }
+        
+        let change = UIAlertAction(title: "Change", style: .default) { (_) in
+            currentPassword = alert.textFields![0].text!
+            newPassword = alert.textFields![1].text!
+            repeatedPassword = alert.textFields![2].text!
+            if newPassword.count >= 8 && newPassword == repeatedPassword {
+                if checkPassword(password: currentPassword) {
+                    profileVM.updateUser(name: self.userName, password: newPassword)
+                }
+            }
+        }
+        
+        let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in
+            //Do nothing
+        }
+        
+        alert.addAction(change)
+        
+        alert.addAction(abort)
+        
+        //present alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
+    }
+    
     var bottomSection: some View {
         VStack{
             Button(action: {
-                //TODO: Password Change
-                showChangeOverlay = true
+                //showChangeOverlay = true
+                changePassword2()
             }, label: {
                 Text("Change password")
                     .frame(width: 244, height: 39)
@@ -213,7 +250,7 @@ struct ProfilView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
             })
-            .sheet(isPresented: $showChangeOverlay, content: {changePassword})
+            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: 0xCCB9B1).edgesIgnoringSafeArea(.all))})
         }
     }
     

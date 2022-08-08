@@ -4,7 +4,7 @@ import Charts
 class TransactionViewModel: ObservableObject {
     
     struct TransactionResponse: Codable, Identifiable {
-        var id: Int { timestamp }
+        var id: Int { timestamp } //needs to be done for the Identifiable protocol
         
         var type: String
         var value: Double
@@ -50,6 +50,18 @@ class TransactionViewModel: ObservableObject {
 //            ChartDataEntry(x: $0.month, y: $0.quantity)
 //        }
 //    }
+    
+    func countPurchases(userID: String) -> Int {
+        self.getTransactions(userID: userID)
+        var count : Int = 0
+        for transaction in self.transactions {
+            if transaction.type == "purchase" {
+                count += 1
+            }
+        }
+        return count
+    }
+    
     func dataCoffeesForMonth(_ type: String, _ year: Int, _ month: Double, transactions:[CoffeeSum]) -> [BarChartDataEntry] {
         let yearValues = self.dailyCoffees.filter{
             $0.year == year
@@ -196,7 +208,6 @@ class TransactionViewModel: ObservableObject {
     func getDataFromTimestamp(timestamp: Int) -> DateComponents {
         let date = Date(timeIntervalSince1970: Double(timestamp)/1000)
         let calendarDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
-        
         return calendarDate
     }
     

@@ -8,22 +8,29 @@ struct TransactionView: View {
     var body: some View {
         VStack(alignment: .leading){
             HStack{
-                Text("Transaction timestamp: ")
+                Text("Transaction on: ")
                     .multilineTextAlignment(.leading)
                 Spacer()
-                Text(String(transaction.timestamp))
+                Text(String(timestampToString(timestamp: transaction.timestamp)))
             }
-            Text(transaction.type == "purchase" ? ("Item ID: " + transaction.itemId!) : "")
-            Text(transaction.type == "purchase" ? ("Item Name: " + transaction.itemName!) : "")
-            Text(transaction.type == "purchase" ? ("Amount: " + String(transaction.amount!)) : "")
+            if transaction.type == "purchase" {
+                Text("Item ID: " + transaction.itemId!)
+                Text("Item Name: " + transaction.itemName!)
+                Text("Amount: " + String(transaction.amount!))
+            }
             Text(transaction.value < 0.0 ? "Value: " + String(-transaction.value) : String(transaction.value))
-
         }
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
                 .fill(Color(hex: 0xD9D9D9))
             )
+    }
+    
+    func timestampToString(timestamp: Int) -> String {
+        let date = transactionVM.getDataFromTimestamp(timestamp: timestamp)
+        let str = TransactionViewModel.months[date.month! - 1] + " " + String(date.day!) + ", " + String(date.year!)
+        return str
     }
 }
 
