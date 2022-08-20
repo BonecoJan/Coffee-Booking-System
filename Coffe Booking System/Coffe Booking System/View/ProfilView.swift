@@ -60,6 +60,18 @@ struct ProfilView: View {
         SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
         .environmentObject(userVM)
         }.ignoresSafeArea()
+        .alert("Error", isPresented: $profileVM.hasError, presenting: profileVM.error) { detail in
+            Button("Ok", role: .cancel) { }
+        } message: { detail in
+            if case let error = detail {
+                Text(error)
+            }
+        }
+        .alert("User updated successfully.", isPresented: $profileVM.updatedUser) {
+            Button("OK", role: .cancel) {
+                profileVM.updatedUser = false
+            }
+        }
     }
     
     var profilPicture: some View {
@@ -115,7 +127,7 @@ struct ProfilView: View {
                         editMode?.wrappedValue = .inactive
                     }
                     if self.userName != profileVM.name {
-                        profileVM.updateUser(name: self.userName)
+                        confirmChange(type: "username")
                     }
                 }, label: {
                     Text("Save")
@@ -167,17 +179,22 @@ struct ProfilView: View {
                     .padding()
                     .multilineTextAlignment(.leading)
                     .textFieldStyle(.roundedBorder)
-                
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
                 Text("New password")
                     .multilineTextAlignment(.leading)
                 TextField("new password", text: $newPassword)
                     .padding()
                     .multilineTextAlignment(.leading)
                     .textFieldStyle(.roundedBorder)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
                 TextField("repeat new password: ", text: $repeatedPassword)
                     .padding()
                     .multilineTextAlignment(.leading)
                     .textFieldStyle(.roundedBorder)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
                 Spacer()
                 Button(action: {
                     if newPassword.count >= 8 && newPassword == repeatedPassword {
@@ -219,10 +236,49 @@ struct ProfilView: View {
             currentPassword = alert.textFields![0].text!
             newPassword = alert.textFields![1].text!
             repeatedPassword = alert.textFields![2].text!
-            if newPassword.count >= 8 && newPassword == repeatedPassword {
+            do {
                 if checkPassword(password: currentPassword) {
-                    profileVM.updateUser(name: self.userName, password: newPassword)
+                    if newPassword.count >= 8 && newPassword == repeatedPassword {
+                        confirmChange(type: "password")
+                    } else {
+                        if newPassword.count < 8 && newPassword != repeatedPassword {
+                            throw WebService.RequestError.custom(errorMessage: "Your new password must have a length of 8 at least. Also check that the repeated password is the same")
+                        } else if newPassword.count < 8 && newPassword == repeatedPassword {
+                            throw WebService.RequestError.custom(errorMessage: "Your new password must have a length of 8 at least.")
+                        } else {
+                            throw WebService.RequestError.custom(errorMessage: "Repeated password has to be the same")
+                        }
+                    }
+                } else {
+                    throw WebService.RequestError.custom(errorMessage: "Current password is not correct")
                 }
+            } catch let error {
+                profileVM.error = error.localizedDescription
+                profileVM.hasError = true
+            }
+            
+        }
+        
+        let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in
+            //Do nothing
+        }
+        
+        alert.addAction(change)
+        
+        alert.addAction(abort)
+        
+        //present alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
+    }
+    
+    func confirmChange(type: String) {
+        let alert = UIAlertController(title: "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
+        
+        let change = UIAlertAction(title: "Yes", style: .default) { (_) in
+            if type == "username" {
+                profileVM.updateUser(name: self.userName)
+            } else {
+                profileVM.updateUser(name: self.userName, password: newPassword)
             }
         }
         

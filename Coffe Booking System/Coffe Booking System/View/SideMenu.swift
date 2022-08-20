@@ -53,7 +53,19 @@ struct MenuContent: View {
     var body: some View {
             List {
                 Text("Cancel last purchase").onTapGesture {
-                    confirmFunding()
+                    confirmRefund()
+                }.alert("Error", isPresented: $profileVM.hasError, presenting: profileVM.error) { detail in
+                    Button("Ok", role: .cancel) {}
+                } message: { detail in
+                    if case let error = detail {
+                        Text(error)
+                            .foregroundColor(.red)
+                    }
+                }
+                .alert("Purchase refunded successfully.", isPresented: $profileVM.success) {
+                    Button("OK", role: .cancel) {
+                        profileVM.success = false
+                    }
                 }
                 Text("Send money").onTapGesture {
                     userVM.getUsers()
@@ -82,7 +94,7 @@ struct MenuContent: View {
             }
     }
     
-    func confirmFunding() {
+    func confirmRefund() {
         let alert = UIAlertController(title: "Cancel last purchase", message: "Are you sure?", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "Yes", style: .default) { (_) in

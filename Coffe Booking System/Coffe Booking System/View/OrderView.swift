@@ -41,21 +41,36 @@ struct OrderView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .foregroundColor(.black)
                         .opacity(orderVM.total > 0.0 ? 1 : 0)
-                }).disabled(orderVM.total <= 0.0)
+                })
+                .disabled(orderVM.total <= 0.0)
+                .alert("Error", isPresented: $orderVM.hasError, presenting: orderVM.error) { detail in
+                    Button("Ok", role: .cancel) { }
+                } message: { detail in
+                    if case let error = detail {
+                        Text(error)
+                            .foregroundColor(.red)
+                    }
+                }
+                .alert("Purchase processed successfully.", isPresented: $orderVM.success) {
+                    Button("OK", role: .cancel) {
+                        orderVM.success = false
+                    }
+                }
+
                 Spacer()
             }.background(
                 RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                     .fill(Color(hex: 0xCCB9B1))
                 )
-            if transactionsVM.countPurchases(userID: profilVM.id) == 5 {
-                AchievementAlertView(purchases: 5)
-            } else if transactionsVM.countPurchases(userID: profilVM.id) == 20 {
-                AchievementAlertView(purchases: 20)
-            } else if transactionsVM.countPurchases(userID: profilVM.id) == 50 {
-                AchievementAlertView(purchases: 50)
-            } else if transactionsVM.countPurchases(userID: profilVM.id) == 100 {
-                AchievementAlertView(purchases: 100)
-            }
+//            if transactionsVM.countPurchases(userID: profilVM.id) == 5 {
+//                AchievementAlertView(purchases: 5)
+//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 20 {
+//                AchievementAlertView(purchases: 20)
+//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 50 {
+//                AchievementAlertView(purchases: 50)
+//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 100 {
+//                AchievementAlertView(purchases: 100)
+//            }
         }
     }
 }

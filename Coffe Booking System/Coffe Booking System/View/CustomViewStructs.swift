@@ -2,6 +2,21 @@ import SwiftUI
 import Foundation
 import UIKit
 
+extension WebService.RequestError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return self.localizedDescription
+        case .encodingError:
+            return self.localizedDescription
+        case .decodingError:
+            return self.localizedDescription
+        case .custom(errorMessage: let errorMessage):
+            return errorMessage
+        }
+    }
+}
+
 //Struct for the use of custom rounded corners
 struct RoundedCornerShape: Shape {
     let corners: UIRectCorner

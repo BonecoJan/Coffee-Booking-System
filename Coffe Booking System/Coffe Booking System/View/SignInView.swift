@@ -5,8 +5,6 @@ struct SignInView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
     
-    @State var invalidUserData: Bool = false
-    
     var body: some View {
         Text("Login")
             .fontWeight(.bold)
@@ -19,6 +17,8 @@ struct SignInView: View {
                 .padding()
             TextField("User ID", text: $loginVM.id)
                 .cornerRadius(5.0)
+                .disableAutocorrection(true)
+                .autocapitalization(.none)
         }
         HStack{
             Image(systemName: "lock")
@@ -39,9 +39,6 @@ struct SignInView: View {
         //Sign in button
         Button(action: {
             loginVM.login(profilVM: profilVM)
-            if !loginVM.isAuthenticated {
-                invalidUserData = true
-            }
         },
         label: {
             Text("Sign in")
@@ -50,9 +47,20 @@ struct SignInView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
         })
-        
-        Text(invalidUserData ? "ID or password is not correct" : "")
-            .foregroundColor(.red)
+        .alert("Error", isPresented: $loginVM.hasError, presenting: loginVM.error) { detail in
+            Button("Ok", role: .cancel) { }
+        } message: { detail in
+            if case let error = detail {
+                Text(error)
+                    .foregroundColor(.red)
+            }
+        }
+        .alert("Successfully logged in", isPresented: $loginVM.success) {
+            Button("OK", role: .cancel) {
+                loginVM.success = false
+                loginVM.isAuthenticated = true
+            }
+        }
     }
 }
 

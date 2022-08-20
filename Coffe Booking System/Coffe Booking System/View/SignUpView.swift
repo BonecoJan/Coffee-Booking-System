@@ -25,12 +25,16 @@ struct SignUpView: View {
                 .padding()
             TextField("Name", text: $newName)
                 .cornerRadius(5.0)
+                .disableAutocorrection(true)
+                .autocapitalization(.none)
         }
         HStack{
             Image(systemName: "person.text.rectangle")
                 .padding()
             TextField("User ID (Optional)", text: $newID)
                 .cornerRadius(5.0)
+                .disableAutocorrection(true)
+                .autocapitalization(.none)
         }
         .offset(y: -20)
         HStack{
@@ -62,6 +66,22 @@ struct SignUpView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
         })
+        .alert("Error", isPresented: $loginVM.hasError, presenting: loginVM.error) { detail in
+            Button("Ok") {
+                //Do nothing
+            }
+        } message: { detail in
+            if case let error = detail {
+                Text(error)
+                    .foregroundColor(.red)
+            }
+        }
+        .alert("Successfully registered", isPresented: $loginVM.success) {
+            Button("OK", role: .cancel) {
+                loginVM.success = false
+                loginVM.isAuthenticated = true
+            }
+        }
         .offset(y: -60)
         Text(invalidUserData ? "Please check your password and username" : "")
             .offset(y: -60)

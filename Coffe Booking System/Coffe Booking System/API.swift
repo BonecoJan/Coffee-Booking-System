@@ -2,6 +2,8 @@ import Foundation
 import JWTDecode
 import SwiftUI
 
+
+
 class WebService {
     
     let authManager: AuthManager
@@ -18,9 +20,8 @@ class WebService {
         case custom(errorMessage: String)
     }
     
-    enum NetworkError: Error {
+    enum RequestError: Error {
         case invalidURL
-        case noData
         case decodingError
         case encodingError
         case custom(errorMessage: String)
@@ -64,7 +65,7 @@ class WebService {
     ) async throws -> Response {
         
         guard let url = URL(string: apiUrl + reqUrl) else {
-            throw NetworkError.invalidURL
+            throw RequestError.invalidURL
         }
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = reqMethod
@@ -73,11 +74,12 @@ class WebService {
             httpRequest.addValue("application/json", forHTTPHeaderField: "Content-type")
         }
         
+        //try to encode the body
         if let body = body {
             do {
                 httpRequest.httpBody = try JSONEncoder().encode(body)
             } catch {
-                throw NetworkError.encodingError
+                throw RequestError.encodingError
             }
         }
         
@@ -86,18 +88,20 @@ class WebService {
         }
         
         let (data, urlResponse) = try await URLSession.shared.data(for: httpRequest)
+        print(String(data: data, encoding: .utf8)!)
         // check the http status code and refresh + retry if we received 401 Unauthorized
-        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 401 {
-            if allowRetry {
-                _ = try await authManager.refreshToken()
-                return try await request(allowRetry: false, reqUrl: reqUrl, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType, unknownType: unknownType)
+        if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode != 200 {
+            if httpResponse.statusCode == 401 {
+                if allowRetry {
+                    _ = try await authManager.refreshToken()
+                    return try await request(allowRetry: false, reqUrl: reqUrl, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType, unknownType: unknownType)
+                }
             }
-
-            throw AuthenticationError.invalidCredentials
+            throw RequestError.custom(errorMessage: String(data: data, encoding: .utf8)! + " (StatusCode: " + String(httpResponse.statusCode) + ")")
         }
-
+        
         if responseType == ChangeResponse.self {
-            //if there is no data response but a string with change status
+            //if there is no json response but a string with change status
             let response = ChangeResponse(response: String(data: data, encoding: .utf8)!)
             print(response)
             return response as! Response
@@ -107,8 +111,13 @@ class WebService {
                 let rawResponse = try? JSONSerialization.jsonObject(with: data)
                 return rawResponse as! Response
             }
-            let response = try JSONDecoder().decode(Response.self, from: data)
-            return response
+            //try to decode fetched data
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                return response
+            } catch {
+                throw RequestError.decodingError
+            }
         }
     }
     
@@ -173,7 +182,7 @@ class WebService {
         let (data, urlResponse) = try await URLSession.shared.data(for: request)
             
         if let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode != 200 {
-            throw AuthenticationError.invalidCredentials
+            throw RequestError.custom(errorMessage: String(httpResponse.statusCode))
         }
 
         let decoder = JSONDecoder()

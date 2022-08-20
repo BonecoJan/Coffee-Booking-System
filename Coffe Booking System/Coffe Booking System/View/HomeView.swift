@@ -15,6 +15,8 @@ struct HomeView: View {
             HStack {
                 Image(systemName: "magnifyingglass").foregroundColor(.gray)
                 TextField("Search item", text: $searchText)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
             }
             .padding()
             .cornerRadius(50)

@@ -8,7 +8,19 @@ struct QRView: View {
     
     var body: some View {
         VStack{
-            CodeScannerView(codeTypes: [.qr], simulatedData: "testing@gmx.de", completion: handleScan)
+            CodeScannerView(codeTypes: [.qr], simulatedData: "testing", completion: handleScan)
+        }
+        .alert("Error", isPresented: $orderVM.hasError, presenting: orderVM.error) { detail in
+            Button("Ok", role: .cancel) { }
+        } message: { detail in
+            if case let error = detail {
+                Text(error)
+            }
+        }
+        .alert("Purchase processed successfully.", isPresented: $orderVM.success) {
+            Button("OK", role: .cancel) {
+                orderVM.success = false
+            }
         }
     }
     
@@ -21,11 +33,33 @@ struct QRView: View {
                     id.append(str)
                 }
             }
-            orderVM.purchaseRequest(purchase: OrderViewModel.PurchaseRequest(itemId: id, amount: 1), profilVM: profilVM)
+            print(id)
+            confirmPurchase(itemID: id, orderVM: orderVM, profilVM: profilVM)
                 
         case .failure(let error):
-            print("Scanning failed: \(error.localizedDescription)")
+            orderVM.hasError = true
+            orderVM.error = error.localizedDescription
         }
+    }
+    
+    func confirmPurchase(itemID: String, orderVM: OrderViewModel, profilVM: ProfileViewModel) {
+        print(itemID)
+        let alert = UIAlertController(title: "Confirm your Purchase", message: "Are you sure you want to purchase the item with id \(itemID)?", preferredStyle: .alert)
+        
+        let purchase = UIAlertAction(title: "Yes", style: .default) { (_) in
+            orderVM.purchaseRequest(purchase: OrderViewModel.PurchaseRequest(itemId: itemID, amount: 1), profilVM: profilVM)
+        }
+        
+        let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in
+            //Do nothing
+        }
+        
+        alert.addAction(purchase)
+        
+        alert.addAction(abort)
+        
+        //present alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
     }
 }
 

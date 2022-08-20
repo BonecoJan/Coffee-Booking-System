@@ -1,15 +1,8 @@
-//
-//  UserViewObj.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 19.07.22.
-//
-
 import SwiftUI
 
 struct UserViewObj: View {
 
-    var user: UserViewModel.UsersResponse
+    var user: UserViewModel.User
     @State var amount: String = ""
     @State var showPopUp: Bool = false
     @State var notEnoughMoney: Bool = false
@@ -18,17 +11,63 @@ struct UserViewObj: View {
     @EnvironmentObject var profilVM: ProfileViewModel
     
     var body: some View {
-        HStack{
-            VStack(alignment: .leading){
-                Text("name: " + user.name)
+        VStack(alignment: .leading) {
+            HStack{
+                VStack(alignment: .leading){
+                    if user.image.encodedImage == "empty" {
+                        Image("noProfilPicture")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .clipped()
+                    } else {
+                        Image(base64String: user.image.encodedImage!)!
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .clipped()
+                    }
+                }
+                Text(user.userResponse.name)
+                    .padding()
+                Spacer()
+                Button(action: {
+                    sendMoneyPopUp()
+                }, label: {
+                    Text("Send Money")
+                })
+                
+            }
+            HStack{
+                VStack{
+                    Image(systemName: "person.text.rectangle")
+                    Text("ID")
+                        .font(.footnote)
+                }
+                
+                Text(user.userResponse.id)
                     .padding()
             }
-            Spacer()
-            Button(action: {
-                sendMoneyPopUp()
-            }, label: {
-                Text("Send Money")
-            })
+        }
+        
+        .alert("Error", isPresented: $profilVM.hasError, presenting: profilVM.error) { detail in
+            Button("Ok", role: .cancel) { }
+        } message: { detail in
+            if case let error = detail {
+                Text(error)
+            }
+        }
+        .alert("Funding processed successfully.", isPresented: $profilVM.success) {
+            Button("OK", role: .cancel) {
+                profilVM.success = false
+            }
+        }
+        .alert("Not enough money.", isPresented: $notEnoughMoney) {
+            Button("OK", role: .cancel) {
+                notEnoughMoney = false
+            }
         }
         .padding()
         .background(
@@ -47,12 +86,7 @@ struct UserViewObj: View {
         let change = UIAlertAction(title: "Send", style: .default) { (_) in
             amount = alert.textFields![0].text!
             if profilVM.balance - Double(amount)! >= 0.0 {
-                profilVM.sendMoney(amount: Double(amount)!, recipientId: user.id)
-                if profilVM.success {
-                    sendMoneySuccess()
-                } else {
-                    sendMoneyFailure()
-                }
+                profilVM.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
             } else {
                 notEnoughMoney = true
             }
@@ -70,25 +104,4 @@ struct UserViewObj: View {
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
     }
     
-    func sendMoneySuccess() {
-        let alert = UIAlertController(title: "Send Money", message: "money sent successfully", preferredStyle: .alert)
-        
-        let ok = UIAlertAction(title: "OK", style: .default)
-        
-        alert.addAction(ok)
-        
-        //present alertView
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
-    }
-    
-    func sendMoneyFailure() {
-        let alert = UIAlertController(title: "Send Money", message: "failed to send money", preferredStyle: .alert)
-        
-        let ok = UIAlertAction(title: "OK", style: .default)
-        
-        alert.addAction(ok)
-        
-        //present alertView
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
-    }
 }

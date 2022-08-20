@@ -29,8 +29,12 @@ class ProfileViewModel: ObservableObject {
     @Published var name: String
     @Published var isAdmin: Bool
     @Published var balance: Double
-    @Published var success: Bool = false
     @Published var image: ImageResponse
+    
+    @Published var hasError: Bool = false
+    @Published var success: Bool = false
+    @Published var updatedUser: Bool = false
+    @Published var error: String = ""
     
     init() {
         self.isAdmin = false
@@ -53,6 +57,8 @@ class ProfileViewModel: ObservableObject {
                 let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self, unknownType: false)
                     
                 DispatchQueue.main.async {
+                    //self.hasError = false
+                    //self.success = true
                     self.id = user.id
                     self.name = user.name
                     self.balance = user.balance
@@ -60,18 +66,18 @@ class ProfileViewModel: ObservableObject {
                 }
                     
                 } else {
-                    print("cannot fetch current user data - missing token")
+                    throw WebService.RequestError.custom(errorMessage: "missing token")
                 }
                 
-            } catch {
-                print("failed to get current user from server")
+            } catch let error {
+                print(error.localizedDescription)
+                //TODO:  Fehlermeldung dem User anzeigen
             }
         }
         self.getAdminData()
     }
     
     func updateUser(name: String) {
-        self.success = false
         Task {
             do {
                 //try to get user password from Keychain
@@ -83,19 +89,20 @@ class ProfileViewModel: ObservableObject {
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
-                        self.success = true
+                        self.updatedUser = true
+                        self.hasError = false
                         self.loadUserData()
                     }
                 }
                 }
-            } catch {
-                print("failed to update user with id " + self.id)
+            } catch let error {
+                self.hasError = true
+                self.error = error.localizedDescription
             }
         }
     }
     
     func updateUser(name: String, password: String) {
-        self.success = false
         Task {
             do {
                 let body = UserRequest(name: name, password: password)
@@ -103,12 +110,16 @@ class ProfileViewModel: ObservableObject {
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
-                        self.success = true
+                        self.updatedUser = true
+                        self.hasError = false
                         self.loadUserData()
                     }
                 }
-            } catch {
-                print("failed to update user with id " + self.id)
+            } catch let error {
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }
@@ -134,37 +145,43 @@ class ProfileViewModel: ObservableObject {
     }
     
     func sendMoney(amount: Double, recipientId: String) {
-        self.success = false
         Task {
             do {
                 let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Funding processed successfully." {
                     DispatchQueue.main.async {
+                        self.hasError = false
                         self.success = true
                         self.loadUserData()
                     }
                 }
-            } catch {
-                print("failed to send money to user with id " + recipientId)
+            } catch let error{
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }
     
     func cancelLastPurchase() {
-        self.success = false
         Task {
             do {
                 let body: WebService.empty? = nil
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/purchases/refund", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Purchase refunded successfully." {
                     DispatchQueue.main.async {
+                        self.hasError = false
                         self.success = true
                         self.loadUserData()
                     }
                 }
-            } catch {
-                print("failed to cancel last purchase")
+            } catch let error{
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }

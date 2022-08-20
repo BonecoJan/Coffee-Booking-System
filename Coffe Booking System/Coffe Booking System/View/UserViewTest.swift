@@ -30,6 +30,8 @@ struct UserViewTest: View {
             HStack {
                 Image(systemName: "magnifyingglass").foregroundColor(.gray)
                 TextField("Search", text: $searchText)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
             }
             .padding()
             .cornerRadius(50)
@@ -47,11 +49,11 @@ struct UserViewTest: View {
     }
     
     //filter the search results by names
-    var searchResults: [UserViewModel.UsersResponse] {
+    var searchResults: [UserViewModel.User] {
         if searchText.isEmpty {
             return userVM.users
         } else {
-            return userVM.users.filter { $0.name.contains(searchText)}
+            return userVM.users.filter { $0.userResponse.name.contains(searchText)}
         }
     }
 }

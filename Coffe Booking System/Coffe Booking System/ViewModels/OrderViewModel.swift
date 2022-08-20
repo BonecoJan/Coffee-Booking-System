@@ -24,6 +24,10 @@ class OrderViewModel: ObservableObject {
     @Published var cart: [ProductInCart]
     @Published var total: Double
     
+    @Published var hasError: Bool = false
+    @Published var success: Bool = false
+    @Published var error: String = ""
+    
     init() {
         cart = []
         total = 0.0
@@ -68,15 +72,19 @@ class OrderViewModel: ObservableObject {
     func purchaseRequest(purchase: PurchaseRequest, profilVM: ProfileViewModel) {
         Task {
             do {
-                print(purchase)
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + profilVM.id + "/purchases", reqMethod: "POST", authReq: true, body: purchase, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Purchase processed successfully." {
                     DispatchQueue.main.async {
+                        self.hasError = false
+                        self.success = true
                         profilVM.loadUserData()
                     }
                 }
-            } catch {
-                print("failed to purchase item with id " + purchase.itemId)
+            } catch let error {
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }

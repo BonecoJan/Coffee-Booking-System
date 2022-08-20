@@ -44,12 +44,16 @@ struct ItemView: View {
                         TextField("New name", text: $newName)
                             .padding()
                             .multilineTextAlignment(.leading)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
                         Text("Current amount: " + String(item.amount))
                             .padding()
                             .multilineTextAlignment(.leading)
                         TextField("New amount: ", text: $newAmount)
                             .padding()
                             .multilineTextAlignment(.leading)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
                             .keyboardType(.numberPad)
                                         .onReceive(Just(newAmount)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
@@ -63,6 +67,8 @@ struct ItemView: View {
                         TextField("New price: ",text: $newPrice)
                             .padding()
                             .multilineTextAlignment(.leading)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
                         Button(action: {
                             if newName == "" {
                                 newName = item.name

@@ -31,12 +31,16 @@ struct AdminUserView: View {
                         .padding()
                         .multilineTextAlignment(.leading)
                     TextField("User ID", text: $newID)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
                     Text("what is the username? ")
                         .multilineTextAlignment(.leading)
                         .padding()
                     TextField("username", text: $newName)
                         .padding()
                         .multilineTextAlignment(.leading)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
                     //TODO: Admin checkbox
                     Text("should the User be an Admin? ")
                         .padding()
@@ -44,6 +48,8 @@ struct AdminUserView: View {
                     TextField("password: ", text: $newPassword)
                         .padding()
                         .multilineTextAlignment(.leading)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
                     Button(action: {
                         if newPassword.count >= 8{
                             adminVM.createUser(userID: newID, name: newName, isAdmin: false, password: newPassword)

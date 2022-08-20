@@ -31,7 +31,6 @@
 		F68EDDF22889360C00CF2689 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF12889360C00CF2689 /* TransactionView.swift */; };
 		F68EDDF528898D9A00CF2689 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = F68EDDF428898D9A00CF2689 /* CodeScanner */; };
 		F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF628898ECF00CF2689 /* QRView.swift */; };
-		F68EDDFA288994BF00CF2689 /* QRViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF9288994BF00CF2689 /* QRViewModel.swift */; };
 		F692ECC62885736800C6E92B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC52885736800C6E92B /* HomeViewModel.swift */; };
 		F692ECC82885769400C6E92B /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC72885769400C6E92B /* ProductView.swift */; };
 		F692ECCA28857CE200C6E92B /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC928857CE200C6E92B /* OrderViewModel.swift */; };
@@ -82,7 +81,6 @@
 		F68EDDF12889360C00CF2689 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		F68EDDF628898ECF00CF2689 /* QRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRView.swift; sourceTree = "<group>"; };
 		F68EDDF828898F8900CF2689 /* Coffe-Booking-System-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Coffe-Booking-System-Info.plist"; sourceTree = SOURCE_ROOT; };
-		F68EDDF9288994BF00CF2689 /* QRViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewModel.swift; sourceTree = "<group>"; };
 		F692ECC52885736800C6E92B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F692ECC72885769400C6E92B /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		F692ECC928857CE200C6E92B /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 				F692ECC928857CE200C6E92B /* OrderViewModel.swift */,
 				F62165AC2886D2BC00415D15 /* TransactionViewModel.swift */,
 				C34F7AF52886DC0900F7694A /* UserViewModel.swift */,
-				F68EDDF9288994BF00CF2689 /* QRViewModel.swift */,
 				F693E879289E549800F06D3B /* AchievementViewModel.swift */,
 			);
 			path = ViewModels;
@@ -349,7 +346,6 @@
 				C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */,
 				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
 				C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */,
-				F68EDDFA288994BF00CF2689 /* QRViewModel.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				F692ECCA28857CE200C6E92B /* OrderViewModel.swift in Sources */,
 				C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */,

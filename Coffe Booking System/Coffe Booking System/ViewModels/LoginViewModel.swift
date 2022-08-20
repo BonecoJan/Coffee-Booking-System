@@ -21,6 +21,9 @@ class LoginViewModel: ObservableObject {
     @Published var id: String = ""
     @Published var password: String = ""
     @Published var isAuthenticated: Bool = false
+    @Published var hasError: Bool = false
+    @Published var success: Bool = false
+    @Published var error: String = ""
     
     func login(profilVM: ProfileViewModel) {
         Task {
@@ -32,11 +35,20 @@ class LoginViewModel: ObservableObject {
                 KeychainWrapper.standard.create(Data(password.utf8), service: "password", account: "Coffe-Booking-System")
                 
                 DispatchQueue.main.async {
-                    self.isAuthenticated = true
+                    self.hasError = false
+                    self.success = true
                     profilVM.loadUserData()
                 }
-            } catch {
-                print("failed to login")
+            } catch let error {
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    if error.localizedDescription == "missing token" {
+                        self.error = "ID or password incorrect"
+                    } else {
+                        self.error = error.localizedDescription
+                    }
+                }
             }
         }
     }
@@ -45,13 +57,24 @@ class LoginViewModel: ObservableObject {
         Task {
             do {
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: "POST", authReq: false, body: RegisterRequest(id: id, name: name, password: password), responseType: WebService.ChangeResponse.self, unknownType: false)
+                print(response.response)
                 if response.response == id {
                     DispatchQueue.main.async {
+                        self.hasError = false
+                        self.id = id
+                        self.password = password
                         self.login(profilVM: profilVM)
                     }
                 }
-            } catch {
-                print("failed to register")
+            } catch let error {
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    if error.localizedDescription == "409" {
+                        self.error = "A User with that ID already exists"
+                    } else {
+                        self.error = "An error was thrown while trying to communicate with the server. Status Code: " + error.localizedDescription
+                    }
+                }
             }
         }
     }

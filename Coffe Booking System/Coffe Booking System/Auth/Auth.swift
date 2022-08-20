@@ -8,10 +8,6 @@ actor AuthManager {
         let expiration: Int?
     }
 
-    enum AuthError: Error {
-        case missingToken
-    }
-    
     private var currentToken: Token?
     private var refreshTask: Task<Token, Error>?
 
@@ -40,7 +36,7 @@ actor AuthManager {
             return try await refreshToken()
             
         } else {
-            throw AuthError.missingToken
+            throw WebService.RequestError.custom(errorMessage: "missing token")
         }
 
     }
@@ -71,7 +67,7 @@ actor AuthManager {
                 
                 
             } else {
-                throw AuthError.missingToken
+                throw WebService.RequestError.custom(errorMessage: "missing token")
             }
         }
 

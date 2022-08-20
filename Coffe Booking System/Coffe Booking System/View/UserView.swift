@@ -36,6 +36,8 @@ struct UserView: View {
                         TextField("New Name", text: $newName)
                             .padding()
                             .multilineTextAlignment(.leading)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
                         Text("Should the User be an Admin?")
                             .padding()
                             .multilineTextAlignment(.leading)
@@ -47,6 +49,8 @@ struct UserView: View {
                         TextField("New password",text: $newPassword)
                             .padding()
                             .multilineTextAlignment(.leading)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
                         Button(action: {
                             if newName == "" {
                                 newName = user.name
