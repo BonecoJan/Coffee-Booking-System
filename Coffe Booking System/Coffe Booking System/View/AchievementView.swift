@@ -23,72 +23,67 @@ struct AchievementView: View {
             }
             ScrollView(){
                 
-                let countPurchases = transactionVM.countPurchases(userID: profilVM.id)
-                
                 VStack{
                     Text("Coffee bought: ")
                         .font(.title)
                         .padding()
                         .multilineTextAlignment(.leading)
                     HStack{
-                        VStack{
-                            Image(countPurchases < 5 ? "grayMedal" : "bronze")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Text(countPurchases < 5 ? "Buy 5 coffees" : "Bought 5 coffees")
-                                .padding()
-                        }.padding()
-                        .background(
+                        Image(transactionVM.purchaseCount < 5 ? "grayMedal" : "bronze")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 75, height: 75)
+                            .clipped()
+                        Spacer()
+                        Text(transactionVM.purchaseCount < 5 ? "Buy 5 coffees" : "Bought 5 coffees")
+                            .padding()
+                    }.padding()
+                    .background(
                             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                                .fill(Color(hex: 0xD9D9D9))
+                                .fill(transactionVM.purchaseCount < 5 ? Color(hex: 0xD9D9D9) : Color(hex: 0xC08267))
                             )
-                        VStack{
-                            Image(countPurchases < 20 ? "grayMedal" : "silver")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Text(countPurchases < 5 ? "Buy 20 coffees" : "Bought 20 coffees")
-                                .padding()
-                        }.padding()
-                        .background(
-                            RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                                .fill(Color(hex: 0xD9D9D9))
-                            )
-                    }
-                    .fixedSize(horizontal: true, vertical: true)
-                    
                     HStack{
-                        VStack{
-                            Image(countPurchases < 50 ? "grayMedal" : "gold")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Text(countPurchases < 5 ? "Buy 50 coffees" : "Bought 50 coffees")
-                                .padding()
-                        }.padding()
-                        .background(
+                        Image(transactionVM.purchaseCount < 20 ? "grayMedal" : "silver")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 75, height: 75)
+                            .clipped()
+                        Spacer()
+                        Text(transactionVM.purchaseCount < 5 ? "Buy 20 coffees" : "Bought 20 coffees")
+                            .padding()
+                    }.padding()
+                    .background(
                             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                                .fill(Color(hex: 0xD9D9D9))
+                                .fill(transactionVM.purchaseCount < 20 ? Color(hex: 0xD9D9D9) : Color(hex: 0xC08267))
                             )
-                        VStack{
-                            Image(countPurchases < 100 ? "grayTrophy" : "trophy")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Text(countPurchases < 5 ? "Buy 100 coffees" : "Bought 100 coffees")
-                                .padding()
-                        }.padding()
-                        .background(
+                    HStack{
+                        Image(transactionVM.purchaseCount < 50 ? "grayMedal" : "gold")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 75, height: 75)
+                            .clipped()
+                        Spacer()
+                        Text(transactionVM.purchaseCount < 50 ? "Buy 50 coffees" : "Bought 50 coffees")
+                            .padding()
+                    }.padding()
+                    .background(
                             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                                .fill(Color(hex: 0xD9D9D9))
+                                .fill(transactionVM.purchaseCount < 50 ? Color(hex: 0xD9D9D9) : Color(hex: 0xC08267))
                             )
-                    }
-                    .fixedSize(horizontal: true, vertical: true)
+                    HStack{
+                        Image(transactionVM.purchaseCount < 100 ? "grayTrophy" : "trophy")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 75, height: 75)
+                            .clipped()
+                        Spacer()
+                        Text(transactionVM.purchaseCount < 100 ? "Buy 100 coffees" : "Bought 100 coffees")
+                            .padding()
+                    }.padding()
+                    .background(
+                        RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
+                            .fill(Color(hex: 0xD9D9D9))
+                        )
                 }
             }.padding()
         }

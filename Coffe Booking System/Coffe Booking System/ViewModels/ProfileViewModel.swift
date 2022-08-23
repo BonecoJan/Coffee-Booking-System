@@ -34,6 +34,7 @@ class ProfileViewModel: ObservableObject {
     @Published var hasError: Bool = false
     @Published var success: Bool = false
     @Published var updatedUser: Bool = false
+    @Published var updatedImage: Bool = false
     @Published var error: String = ""
     
     init() {
@@ -206,11 +207,16 @@ class ProfileViewModel: ObservableObject {
                 let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: self.id)
                 if response.response == "Image uploaded successfully." {
                     DispatchQueue.main.async {
+                        self.hasError = false
+                        self.updatedImage = true
                         self.loadUserData()
                     }
                 }
-            } catch {
-                print("failed while trying to upload image to server")
+            } catch let error{
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }
@@ -222,11 +228,16 @@ class ProfileViewModel: ObservableObject {
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + self.id + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Image deleted successfully." {
                     DispatchQueue.main.async {
+                        self.hasError = false
+                        self.updatedImage = true
                         self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
                     }
                 }
-            } catch {
-                print("failed while trying to delete image from server")
+            } catch let error{
+                DispatchQueue.main.async {
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
     }

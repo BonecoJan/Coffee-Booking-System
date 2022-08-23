@@ -69,11 +69,7 @@ class LoginViewModel: ObservableObject {
             } catch let error {
                 DispatchQueue.main.async {
                     self.hasError = true
-                    if error.localizedDescription == "409" {
-                        self.error = "A User with that ID already exists"
-                    } else {
-                        self.error = "An error was thrown while trying to communicate with the server. Status Code: " + error.localizedDescription
-                    }
+                    self.error = error.localizedDescription
                 }
             }
         }

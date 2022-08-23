@@ -72,6 +72,11 @@ struct ProfilView: View {
                 profileVM.updatedUser = false
             }
         }
+        .alert("Image updated successfully.", isPresented: $profileVM.updatedImage) {
+            Button("OK", role: .cancel) {
+                profileVM.updatedImage = false
+            }
+        }
     }
     
     var profilPicture: some View {
@@ -100,14 +105,13 @@ struct ProfilView: View {
                     Text("Select Image")
                 })
                 Button(action: {
-                    let uiImage: UIImage = self.selectedImage.asUIImage()
-                    profileVM.uploadImage(image: uiImage)
+                    confirmChange(type: "image")
                 }, label: {
                     Text("Change")
                         .opacity(self.selectedImage == Image("") ? 0 : 1)
                 }).disabled(self.selectedImage == Image(""))
                 Button(action: {
-                    profileVM.deleteImage()
+                    confirmChange(type: "deleteImage")
                 }, label: {
                     Text("Delete")
                         .opacity(profileVM.image.encodedImage == "empty" ? 0 : 1)
@@ -163,7 +167,7 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "eurosign.circle")
                     .padding()
-                Text(String(profileVM.balance))
+                Text(String(profileVM.balance.rounded(toPlaces: 2)) + (String(profileVM.balance).countDecimalPlaces() < 2 ? "0" : ""))
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
@@ -212,6 +216,42 @@ struct ProfilView: View {
                         .padding()
                 })
             }
+    }
+    
+    var bottomSection: some View {
+        VStack{
+            Button(action: {
+                //showChangeOverlay = true
+                changePassword2()
+            }, label: {
+                Text("Change password")
+                    .frame(width: 244, height: 39)
+                    .background(Color(hex: 0xD9D9D9))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(.black)
+            })
+            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: 0xCCB9B1).edgesIgnoringSafeArea(.all))})
+        }
+    }
+    
+    func checkPassword(password: String) -> Bool {
+        //try to get user password from Keychain
+        if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
+        let password = String(data: password, encoding: .utf8)!
+
+            if password != currentPassword {
+                return false
+            }
+
+        } else {
+            print("cannot fetch current user data - missing token")
+            return false
+        }
+        return true
+    }
+    
+    func openMenu() {
+        self.menuOpen.toggle()
     }
     
     func changePassword2() {
@@ -272,13 +312,18 @@ struct ProfilView: View {
     }
     
     func confirmChange(type: String) {
-        let alert = UIAlertController(title: "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
+        let alert = UIAlertController(title: type == "deleteImage" ? "Delete image" : "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
         
         let change = UIAlertAction(title: "Yes", style: .default) { (_) in
             if type == "username" {
                 profileVM.updateUser(name: self.userName)
-            } else {
+            } else if type == "password" {
                 profileVM.updateUser(name: self.userName, password: newPassword)
+            } else if type == "image" {
+                let uiImage: UIImage = self.selectedImage.asUIImage()
+                profileVM.uploadImage(image: uiImage)
+            } else if type == "deleteImage" {
+                profileVM.deleteImage()
             }
         }
         
@@ -292,42 +337,6 @@ struct ProfilView: View {
         
         //present alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
-    }
-    
-    var bottomSection: some View {
-        VStack{
-            Button(action: {
-                //showChangeOverlay = true
-                changePassword2()
-            }, label: {
-                Text("Change password")
-                    .frame(width: 244, height: 39)
-                    .background(Color(hex: 0xD9D9D9))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .foregroundColor(.black)
-            })
-            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: 0xCCB9B1).edgesIgnoringSafeArea(.all))})
-        }
-    }
-    
-    func checkPassword(password: String) -> Bool {
-        //try to get user password from Keychain
-        if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
-        let password = String(data: password, encoding: .utf8)!
-
-            if password != currentPassword {
-                return false
-            }
-
-        } else {
-            print("cannot fetch current user data - missing token")
-            return false
-        }
-        return true
-    }
-    
-    func openMenu() {
-        self.menuOpen.toggle()
     }
 }
 

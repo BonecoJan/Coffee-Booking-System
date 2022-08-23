@@ -6,6 +6,10 @@ struct OrderView: View {
     @EnvironmentObject var orderVM : OrderViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
     @EnvironmentObject var transactionsVM: TransactionViewModel
+    @EnvironmentObject var viewState: ViewState
+    
+    @State var showAchievementAlert: Bool = false
+    @State var achievementType: Int = 0
     
     var body: some View {
         ZStack{
@@ -25,7 +29,7 @@ struct OrderView: View {
                 HStack {
                     Text(orderVM.total > 0.0 ? "Total:" : "")
                     Spacer()
-                    Text(orderVM.total > 0.0 ? String(orderVM.total) + " €" : "")
+                    Text(orderVM.total > 0.0 ? String(orderVM.total) + (String(orderVM.total).countDecimalPlaces() < 2 ? "0" : "") + " €" : "")
                 }.padding()
                 Text((profilVM.balance - orderVM.total < 0.0) ? "not enough money" : "")
                     .foregroundColor(.red)
@@ -54,63 +58,35 @@ struct OrderView: View {
                 .alert("Purchase processed successfully.", isPresented: $orderVM.success) {
                     Button("OK", role: .cancel) {
                         orderVM.success = false
+                        transactionsVM.getTransactions(userID: profilVM.id)
+                        if transactionsVM.purchaseCount < 4 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  >= 5 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  < 20 {
+                            achievementType = 5
+                            showAchievementAlert = true
+                        } else if transactionsVM.purchaseCount < 20 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  >= 20 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  < 50 {
+                            achievementType = 20
+                            showAchievementAlert = true
+                        } else if transactionsVM.purchaseCount < 50 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  >= 50 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  < 100 {
+                            achievementType = 50
+                            showAchievementAlert = true
+                        } else if transactionsVM.purchaseCount < 100 && transactionsVM.purchaseCount + orderVM.countProductsInCart()  >= 100 {
+                            achievementType = 100
+                            showAchievementAlert = true
+                        }
+                        orderVM.cart = []
                     }
                 }
-
                 Spacer()
-            }.background(
+            }
+            .blur(radius: showAchievementAlert ? 30 : 0)
+            .background(
                 RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
                     .fill(Color(hex: 0xCCB9B1))
                 )
-//            if transactionsVM.countPurchases(userID: profilVM.id) == 5 {
-//                AchievementAlertView(purchases: 5)
-//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 20 {
-//                AchievementAlertView(purchases: 20)
-//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 50 {
-//                AchievementAlertView(purchases: 50)
-//            } else if transactionsVM.countPurchases(userID: profilVM.id) == 100 {
-//                AchievementAlertView(purchases: 100)
-//            }
-        }
-    }
-}
-
-//Achievement alert
-struct AchievementAlertView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
-    var purchases: Int
-    
-    var body: some View {
-        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)){
-            VStack(spacing: 25){
-                switch purchases {
-                case 5:
-                    Image("bronze")
-                case 20:
-                    Image("silver")
-                case 50:
-                    Image("gold")
-                case 100:
-                    Image("trophy")
-                default:
-                    Image("")
-                }
-                Text("Congratulations")
-                    .font(.title)
-                Text("You've bought \(purchases) drinks in our shop!")
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Text("Back")
-                })
+            if showAchievementAlert{
+                AchievementAlertView(showAchievementAlert: $showAchievementAlert, purchases: achievementType)
+                    .environmentObject(viewState)
             }
-            .padding(.vertical, 25)
-            .padding(.horizontal, 30)
-            .background(Color(hex: 0xCCB9B1))
-            .cornerRadius(25)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.primary.opacity(0.35))
+        }
     }
 }
 

@@ -62,6 +62,23 @@ extension Double {
     }
 }
 
+//For counting the decimal places of a Double that has been converted to a String before
+extension String {
+    func countDecimalPlaces() -> Int {
+        var counter = 0
+        var count = false
+        for character in self {
+            if count {
+                counter += 1
+            }
+            if character == "." {
+                count = true
+            }
+        }
+        return counter
+    }
+}
+
 //Decode encoded Image returned by API
 extension Image {
     init?(base64String: String) {
@@ -83,7 +100,6 @@ struct NavigationConfigurator: UIViewControllerRepresentable {
             self.configure(nc)
         }
     }
-
 }
 
 

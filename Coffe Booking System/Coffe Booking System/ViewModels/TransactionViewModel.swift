@@ -15,6 +15,7 @@ class TransactionViewModel: ObservableObject {
     }
 
     @Published var transactions : [TransactionResponse] = []
+    @Published var purchaseCount: Int = 0
     
     @Published var monthlySums : [TransactionSum] = []
     @Published var dailySums : [TransactionSum] = []
@@ -51,12 +52,11 @@ class TransactionViewModel: ObservableObject {
 //        }
 //    }
     
-    func countPurchases(userID: String) -> Int {
-        self.getTransactions(userID: userID)
+    func countPurchases() -> Int {
         var count : Int = 0
         for transaction in self.transactions {
             if transaction.type == "purchase" {
-                count += 1
+                count += transaction.amount!
             }
         }
         return count
@@ -240,6 +240,7 @@ class TransactionViewModel: ObservableObject {
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.transactions = response
+                    self.purchaseCount = self.countPurchases()
                 }
             } catch {
                 print("failed to get transactions from server")

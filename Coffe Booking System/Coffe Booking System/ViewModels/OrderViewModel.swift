@@ -33,6 +33,14 @@ class OrderViewModel: ObservableObject {
         total = 0.0
     }
     
+    func countProductsInCart() -> Int {
+        var counter: Int = 0
+        for product in cart {
+            counter += product.amount
+        }
+        return counter
+    }
+    
     func addProductToCart(product: AdminViewModel.ItemResponse) {
         total = (total + product.price).rounded(toPlaces: 2)
         for item in cart {
@@ -66,7 +74,6 @@ class OrderViewModel: ObservableObject {
             purchaseRequest(purchase: PurchaseRequest(itemId: product.id, amount: product.amount), profilVM: profilVM)
         }
         total = 0.0
-        cart = []
     }
     
     func purchaseRequest(purchase: PurchaseRequest, profilVM: ProfileViewModel) {

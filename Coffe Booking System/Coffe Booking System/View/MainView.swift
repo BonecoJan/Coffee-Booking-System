@@ -65,6 +65,8 @@ struct MainView: View {
                 }
                 .environmentObject(orderVM)
                 .environmentObject(profilVM)
+                .environmentObject(transactionVM)
+                .environmentObject(viewState)
         }
     }
 }

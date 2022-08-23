@@ -4,6 +4,7 @@ struct SignInView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
+    @EnvironmentObject var transactionVM: TransactionViewModel
     
     var body: some View {
         Text("Login")
@@ -59,6 +60,7 @@ struct SignInView: View {
             Button("OK", role: .cancel) {
                 loginVM.success = false
                 loginVM.isAuthenticated = true
+                transactionVM.getTransactions(userID: profilVM.id)
             }
         }
     }

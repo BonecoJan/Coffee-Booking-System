@@ -6,6 +6,7 @@ struct LoginView: View {
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var modelService: ModelService
     @EnvironmentObject var profilVM: ProfileViewModel
+    @EnvironmentObject var transactionVM: TransactionViewModel
     @State var showSignUp = false
     
     var body: some View {
@@ -21,6 +22,7 @@ struct LoginView: View {
             if showSignUp == false{
                 SignInView().environmentObject(loginVM)
                     .environmentObject(profilVM)
+                    .environmentObject(transactionVM)
             } else {
                 SignUpView().environmentObject(loginVM)
                     .environmentObject(profilVM)
@@ -53,6 +55,7 @@ struct LoginView: View {
                 loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
                 loginVM.id = jwt.claim(name: "id").string!
                 loginVM.login(profilVM: profilVM)
+                transactionVM.getTransactions(userID: profilVM.id)
             }
             else {
                 return

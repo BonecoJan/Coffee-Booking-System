@@ -9,7 +9,7 @@ struct CartProductView: View {
         HStack{
             VStack(alignment: .leading) {
                 Text(product.name)
-                Text(String(product.price) + " €")
+                Text(String(product.price) + (String(product.price).countDecimalPlaces() < 2 ? "0" : "") + " €")
             }.padding()
             Spacer()
             Button(action: {
