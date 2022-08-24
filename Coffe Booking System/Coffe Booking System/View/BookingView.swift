@@ -40,7 +40,7 @@ struct BookingView: View {
                     Button(action: {
                         transactionType = 1
                     }, label: {
-                        Text("Transfers")
+                        Text("Money Sent")
                             .frame(width: 100, height: 30)
                             .background(Color(hex: 0xC08267))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -50,7 +50,7 @@ struct BookingView: View {
                     Button(action: {
                         transactionType = 2
                     }, label: {
-                        Text("Fundings")
+                        Text("Charges")
                             .frame(width: 100, height: 30)
                             .background(Color(hex: 0xC08267))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -71,7 +71,7 @@ struct BookingView: View {
                             } else if transactionType == 1 && transaction.type == "funding" && transaction.value < 0.0 {
                                 TransactionView(transaction: transaction)
                                     .environmentObject(transactionVM)
-                            } else if transactionType == 2 && transaction.type == "funding" && transaction.value > 0.0 {
+                            } else if transactionType == 2 && (transaction.type == "funding" || transaction.type == "refund") && transaction.value > 0.0 {
                                 TransactionView(transaction: transaction)
                                     .environmentObject(transactionVM)
                             }

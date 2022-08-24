@@ -2,8 +2,6 @@ import Foundation
 import JWTDecode
 import SwiftUI
 
-
-
 class WebService {
     
     let authManager: AuthManager

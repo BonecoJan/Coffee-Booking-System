@@ -8,17 +8,34 @@ struct TransactionView: View {
     var body: some View {
         VStack(alignment: .leading){
             HStack{
-                Text("Transaction on: ")
-                    .multilineTextAlignment(.leading)
+                switch transaction.type {
+                case "purchase":
+                    Text("Purchase: ")
+                        .multilineTextAlignment(.leading)
+                case "funding":
+                    if transaction.value < 0.0 {
+                        Text("Money sent: ")
+                            .multilineTextAlignment(.leading)
+                    } else {
+                        Text("Funding: ")
+                            .multilineTextAlignment(.leading)
+                    }
+                case "refund":
+                    Text("Pruchase refund: ")
+                        .multilineTextAlignment(.leading)
+                default:
+                    Text("")
+                }
                 Spacer()
                 Text(String(timestampToString(timestamp: transaction.timestamp)))
             }
-            if transaction.type == "purchase" {
+            if transaction.type == "purchase" || transaction.type == "refund" {
                 Text("Item ID: " + transaction.itemId!)
                 Text("Item Name: " + transaction.itemName!)
                 Text("Amount: " + String(transaction.amount!))
             }
-            Text(transaction.value < 0.0 ? "Value: " + String(-transaction.value) : String(transaction.value))
+            Text((transaction.value < 0.0 ?  String(-transaction.value) : String(transaction.value)) + (String(transaction.value).countDecimalPlaces() < 2 ? "0" : "") + " €")
+                .foregroundColor(transaction.value < 0.0 ? .red : .green)
         }
         .padding()
         .background(

@@ -83,8 +83,8 @@ struct MenuContent: View {
                     viewState.state = 7
                 }
                 Text("Logout").onTapGesture {
-                    viewState.state = 0
                     loginVM.logout()
+                    viewState.state = 0
                 }
                 if $profileVM.isAdmin.wrappedValue {
                     Text("Admin Menue").onTapGesture {

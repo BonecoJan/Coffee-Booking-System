@@ -31,6 +31,7 @@ class ProfileViewModel: ObservableObject {
     @Published var balance: Double
     @Published var image: ImageResponse
     
+    @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
     @Published var success: Bool = false
     @Published var updatedUser: Bool = false
@@ -46,6 +47,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func loadUserData() {
+        self.isLoading = true
         Task {
             do {
                 //try to get user id from Keychain
@@ -58,8 +60,8 @@ class ProfileViewModel: ObservableObject {
                 let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self, unknownType: false)
                     
                 DispatchQueue.main.async {
-                    //self.hasError = false
-                    //self.success = true
+                    self.isLoading = false
+                    self.hasError = false
                     self.id = user.id
                     self.name = user.name
                     self.balance = user.balance
@@ -71,14 +73,18 @@ class ProfileViewModel: ObservableObject {
                 }
                 
             } catch let error {
-                print(error.localizedDescription)
-                //TODO:  Fehlermeldung dem User anzeigen
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
             }
         }
         self.getAdminData()
     }
     
     func updateUser(name: String) {
+        self.isLoading = true
         Task {
             do {
                 //try to get user password from Keychain
@@ -90,6 +96,7 @@ class ProfileViewModel: ObservableObject {
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.updatedUser = true
                         self.hasError = false
                         self.loadUserData()
@@ -97,6 +104,7 @@ class ProfileViewModel: ObservableObject {
                 }
                 }
             } catch let error {
+                self.isLoading = false
                 self.hasError = true
                 self.error = error.localizedDescription
             }
@@ -104,6 +112,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func updateUser(name: String, password: String) {
+        self.isLoading = true
         Task {
             do {
                 let body = UserRequest(name: name, password: password)
@@ -111,6 +120,7 @@ class ProfileViewModel: ObservableObject {
                 print(response.response)
                 if response.response == "User updated successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.updatedUser = true
                         self.hasError = false
                         self.loadUserData()
@@ -118,6 +128,7 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch let error {
                 DispatchQueue.main.async {
+                    self.isLoading = false
                     self.hasError = true
                     self.error = error.localizedDescription
                 }
@@ -146,12 +157,14 @@ class ProfileViewModel: ObservableObject {
     }
     
     func sendMoney(amount: Double, recipientId: String) {
+        self.isLoading = true
         Task {
             do {
                 let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Funding processed successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.hasError = false
                         self.success = true
                         self.loadUserData()
@@ -159,6 +172,7 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch let error{
                 DispatchQueue.main.async {
+                    self.isLoading = false
                     self.hasError = true
                     self.error = error.localizedDescription
                 }
@@ -167,12 +181,14 @@ class ProfileViewModel: ObservableObject {
     }
     
     func cancelLastPurchase() {
+        self.isLoading = true
         Task {
             do {
                 let body: WebService.empty? = nil
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/purchases/refund", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Purchase refunded successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.hasError = false
                         self.success = true
                         self.loadUserData()
@@ -180,6 +196,7 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch let error{
                 DispatchQueue.main.async {
+                    self.isLoading = false
                     self.hasError = true
                     self.error = error.localizedDescription
                 }
@@ -188,25 +205,33 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getImage() {
+        self.isLoading = true
         Task {
             do {
                 let body: WebService.empty? = nil
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/image", reqMethod: "GET", authReq: true, body: body, responseType: ImageResponse.self, unknownType: false)
                 DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasError = false
                     self.image = response
                 }
-            } catch {
-                print("failed while loading image from server")
+            } catch let error {
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    print(error.localizedDescription)
+                }
             }
         }
     }
     
     func uploadImage(image: UIImage) {
+        self.isLoading = true
         Task {
             do {
                 let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: self.id)
                 if response.response == "Image uploaded successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.hasError = false
                         self.updatedImage = true
                         self.loadUserData()
@@ -214,6 +239,7 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch let error{
                 DispatchQueue.main.async {
+                    self.isLoading = false
                     self.hasError = true
                     self.error = error.localizedDescription
                 }
@@ -222,12 +248,14 @@ class ProfileViewModel: ObservableObject {
     }
     
     func deleteImage() {
+        self.isLoading = true
         Task {
             do {
                 let body : WebService.empty? = nil
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + self.id + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
                 if response.response == "Image deleted successfully." {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         self.hasError = false
                         self.updatedImage = true
                         self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
@@ -235,6 +263,7 @@ class ProfileViewModel: ObservableObject {
                 }
             } catch let error{
                 DispatchQueue.main.async {
+                    self.isLoading = false
                     self.hasError = true
                     self.error = error.localizedDescription
                 }

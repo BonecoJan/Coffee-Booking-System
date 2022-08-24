@@ -23,6 +23,10 @@ class TransactionViewModel: ObservableObject {
     @Published var monthlyCoffees : [CoffeeSum] = []
     @Published var dailyCoffees : [CoffeeSum] = []
     
+    @Published var isLoading: Bool = false
+    @Published var hasError: Bool = false
+    @Published var error: String = ""
+    
     struct Transaction {
         var year: Int
         var month: Double
@@ -231,18 +235,24 @@ class TransactionViewModel: ObservableObject {
         ]
     }
     
-    
-    
     func getTransactions(userID: String) {
+        self.isLoading = true
         Task {
             do {
                 let body: WebService.empty? = nil
                 let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
                 DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasError = false
                     self.transactions = response
                     self.purchaseCount = self.countPurchases()
                 }
-            } catch {
+            } catch let error {
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasError = true
+                    self.error = error.localizedDescription
+                }
                 print("failed to get transactions from server")
             }
         }
