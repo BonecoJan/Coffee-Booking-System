@@ -20,18 +20,30 @@ struct AdminMenue: View {
                     .multilineTextAlignment(.center)
             }
             TabView {
-                AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
+                AdminItemView()
                     .tabItem{
                         Image(systemName: "cart")
                         Text("Items")
                     }
                     .environmentObject(adminVM)
-                AdminUserView(showCreateOverlay: false, newID: "", newName: "", isAdmin: false, newPassword: "")
+                AdminUserView()
                     .tabItem{
                         Image(systemName: "person")
                         Text("User")
                     }
                     .environmentObject(adminVM)
+//                AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
+//                    .tabItem{
+//                        Image(systemName: "cart")
+//                        Text("Items")
+//                    }
+//                    .environmentObject(adminVM)
+//                AdminUserView(showCreateOverlay: false, newID: "", newName: "", isAdmin: false, newPassword: "")
+//                    .tabItem{
+//                        Image(systemName: "person")
+//                        Text("User")
+//                    }
+//                    .environmentObject(adminVM)
             }
         }
     }

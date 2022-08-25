@@ -18,7 +18,7 @@ struct ItemView: View {
             Text("id: " + item.id)
             
             HStack{
-                Text("amount: " + String(item.amount))
+                Text("amount: " + String(item.amount ?? 0))
                 Spacer()
                 Text("price:" + String(item.price))
             }
@@ -46,7 +46,7 @@ struct ItemView: View {
                             .multilineTextAlignment(.leading)
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-                        Text("Current amount: " + String(item.amount))
+                        Text("Current amount: " + String(item.amount ?? 0))
                             .padding()
                             .multilineTextAlignment(.leading)
                         TextField("New amount: ", text: $newAmount)
@@ -75,7 +75,7 @@ struct ItemView: View {
                             }
                             
                             if newAmount == "" {
-                                newAmount = String(item.amount)
+                                newAmount = String(item.amount ?? 0)
                             }
                             
                             if newPrice == "" {
