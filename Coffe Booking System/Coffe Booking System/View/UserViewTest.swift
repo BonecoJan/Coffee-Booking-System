@@ -29,7 +29,7 @@ struct UserViewTest: View {
             //Searchbar
             HStack {
                 Image(systemName: "magnifyingglass").foregroundColor(.gray)
-                TextField("Search", text: $searchText)
+                TextField("Search user", text: $searchText)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
             }
@@ -51,9 +51,9 @@ struct UserViewTest: View {
     //filter the search results by names
     var searchResults: [UserViewModel.User] {
         if searchText.isEmpty {
-            return userVM.users
+            return userVM.users.filter { $0.userResponse.id != profilVM.id}
         } else {
-            return userVM.users.filter { $0.userResponse.name.contains(searchText)}
+            return userVM.users.filter { $0.userResponse.name.contains(searchText) && $0.userResponse.id != profilVM.id}
         }
     }
 }

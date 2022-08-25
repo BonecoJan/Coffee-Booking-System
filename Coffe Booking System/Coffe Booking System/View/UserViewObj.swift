@@ -85,11 +85,17 @@ struct UserViewObj: View {
         
         let change = UIAlertAction(title: "Send", style: .default) { (_) in
             amount = alert.textFields![0].text!
-            if profilVM.balance - Double(amount)! >= 0.0 {
-                profilVM.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
+            if Double(amount) == nil {
+                profilVM.hasError = true
+                profilVM.error = "invalid format given"
             } else {
-                notEnoughMoney = true
+                if profilVM.balance - Double(amount)! >= 0.0 {
+                    profilVM.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
+                } else {
+                    notEnoughMoney = true
+                }
             }
+            
         }
         
         let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in

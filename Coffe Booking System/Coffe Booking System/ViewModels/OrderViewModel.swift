@@ -74,7 +74,6 @@ class OrderViewModel: ObservableObject {
         for product in cart {
             purchaseRequest(purchase: PurchaseRequest(itemId: product.id, amount: product.amount), profilVM: profilVM)
         }
-        total = 0.0
     }
     
     func purchaseRequest(purchase: PurchaseRequest, profilVM: ProfileViewModel) {

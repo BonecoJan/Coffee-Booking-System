@@ -33,17 +33,18 @@ struct Coffe_Booking_SystemApp: App {
                                 .environmentObject(orderVM)
                                 .environmentObject(homeVM)
                                 .environmentObject(transactionVM)
-                        } else if !loginVM.isAuthenticated && viewState.state == 0{
+                        } else if !loginVM.isAuthenticated && viewState.state == 0 {
                             LoginView().environmentObject(loginVM)
                                 .environmentObject(profilVM)
                                 .environmentObject(shop)
                                 .environmentObject(transactionVM)
+                                .environmentObject(homeVM)
                                 .environmentObject(viewState)
                                 .background(Color(hex: 0xCCB9B1))
-                        } else if viewState.state == 1{
+                        } else if viewState.state == 1 {
                             AdminMenue()
                                 .environmentObject(viewState)
-                        } else if viewState.state == 2{
+                        } else if viewState.state == 2 {
                             BookingView()
                                 .environmentObject(viewState)
                                 .environmentObject(profilVM)
@@ -63,7 +64,7 @@ struct Coffe_Booking_SystemApp: App {
                                 .environmentObject(transactionVM)
                                 .environmentObject(userVM)
                                 .background(Color(hex: 0xCCB9B1))
-                        } else if viewState.state == 5{
+                        } else if viewState.state == 5 {
                             BookingView()
                                 .environmentObject(viewState)
                                 .environmentObject(profilVM)

@@ -26,7 +26,7 @@ struct QRView: View {
                         Button("OK", role: .cancel) {
                             orderVM.success = false
                             transactionVM.getTransactions(userID: profilVM.id)
-                            if transactionVM.purchaseCount < 200  {
+                            if transactionVM.purchaseCount == 4  {
                                 achievementType = 5
                                 showAchievementAlert = true
                             } else if transactionVM.purchaseCount == 19  {
@@ -40,6 +40,7 @@ struct QRView: View {
                                 showAchievementAlert = true
                             }
                             orderVM.cart = []
+                            orderVM.total = 0.0
                         }
                     }
             }
@@ -63,7 +64,12 @@ struct QRView: View {
             }
             DispatchQueue.main.async {
                 if id != "" {
-                    confirmPurchase(itemID: id, orderVM: orderVM, profilVM: profilVM)
+                    if profilVM.balance - orderVM.total > 0.0 {
+                        confirmPurchase(itemID: id, orderVM: orderVM, profilVM: profilVM)
+                    } else {
+                        orderVM.hasError = true
+                        orderVM.error = "Not enough money"
+                    }
                 }
             }
         case .failure(let error):

@@ -83,11 +83,16 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    func logout() {
+    func logout(profilVM: ProfileViewModel) {
         KeychainWrapper.standard.delete(service: "access-token", account: "Coffe-Booking-System")
         KeychainWrapper.standard.delete(service: "password", account: "Coffe-Booking-System")
         DispatchQueue.main.async {
             self.isAuthenticated = false
+            profilVM.isAdmin = false
+            profilVM.name = ""
+            profilVM.id = ""
+            profilVM.balance = 0.0
+            profilVM.image = ProfileViewModel.ImageResponse(encodedImage: "empty", timestamp: 0)
         }
     }
 }

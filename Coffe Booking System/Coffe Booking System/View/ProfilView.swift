@@ -58,7 +58,11 @@ struct ProfilView: View {
             self.userName = profileVM.name
         })
         SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
-        .environmentObject(userVM)
+                .environmentObject(viewState)
+                .environmentObject(loginVM)
+                .environmentObject(profileVM)
+                .environmentObject(transactionVM)
+                .environmentObject(userVM)
         }.ignoresSafeArea()
         .alert("Error", isPresented: $profileVM.hasError, presenting: profileVM.error) { detail in
             Button("Ok", role: .cancel) { }
@@ -167,7 +171,7 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: "eurosign.circle")
                     .padding()
-                Text(String(profileVM.balance.rounded(toPlaces: 2)) + (String(profileVM.balance).countDecimalPlaces() < 2 ? "0" : ""))
+                Text(String(profileVM.balance.rounded(toPlaces: 2)) + (String(profileVM.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)

@@ -31,12 +31,13 @@ struct OrderView: View {
                     Spacer()
                     Text(orderVM.total > 0.0 ? String(orderVM.total) + (String(orderVM.total).countDecimalPlaces() < 2 ? "0" : "") + " €" : "")
                 }.padding()
-                Text((profilVM.balance - orderVM.total < 0.0) ? "not enough money" : "")
-                    .foregroundColor(.red)
-                    .opacity(orderVM.total > 0.0 ? 1 : 0)
+                
                 Button(action: {
                     if profilVM.balance - orderVM.total > 0.0 {
                         orderVM.purchase(profilVM: profilVM)
+                    } else {
+                        orderVM.hasError = true
+                        orderVM.error = "Not enough money"
                     }
                 }, label: {
                     Text("Pay")
@@ -73,6 +74,7 @@ struct OrderView: View {
                             showAchievementAlert = true
                         }
                         orderVM.cart = []
+                        orderVM.total = 0.0
                     }
                 }
                 Spacer()

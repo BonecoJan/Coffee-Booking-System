@@ -11,6 +11,10 @@ struct SideMenu: View {
     let width: CGFloat
     let isOpen: Bool
     let menuClose: () -> Void
+    @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var profileVM: ProfileViewModel
+    @EnvironmentObject var transactionVM: TransactionViewModel
     @EnvironmentObject var userVM: UserViewModel
     @State var state: Int = 0
     
@@ -33,6 +37,10 @@ struct SideMenu: View {
                         .background(Color.white)
                         .offset(x: self.isOpen ? 0 : -self.width)
                         .animation(.default)
+                        .environmentObject(viewState)
+                        .environmentObject(loginVM)
+                        .environmentObject(profileVM)
+                        .environmentObject(transactionVM)
                         .environmentObject(userVM)
                 }
                 Spacer()
@@ -79,11 +87,10 @@ struct MenuContent: View {
                     viewState.state = 6
                 }
                 Text("Achievements").onTapGesture {
-                    transactionVM.getTransactions(userID: profileVM.id)
                     viewState.state = 7
                 }
                 Text("Logout").onTapGesture {
-                    loginVM.logout()
+                    loginVM.logout(profilVM: profileVM)
                     viewState.state = 0
                 }
                 if $profileVM.isAdmin.wrappedValue {
