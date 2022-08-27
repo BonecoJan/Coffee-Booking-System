@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>Privacy - Camera Usage Description</key>
-	<string></string>
+	<string>$(PRODUCT_NAME) camera use</string>
 </dict>
 </plist>

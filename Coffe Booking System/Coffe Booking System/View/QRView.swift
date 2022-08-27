@@ -14,7 +14,7 @@ struct QRView: View {
     var body: some View {
         ZStack{
             VStack{
-                CodeScannerView(codeTypes: [.qr], simulatedData: "testing", completion: handleScan)
+                CodeScannerView(codeTypes: [.qr], simulatedData: "Tobias Stuhldreier", completion: handleScan)
                     .alert("Error", isPresented: $orderVM.hasError, presenting: orderVM.error) { detail in
                         Button("Ok", role: .cancel) { }
                     } message: { detail in

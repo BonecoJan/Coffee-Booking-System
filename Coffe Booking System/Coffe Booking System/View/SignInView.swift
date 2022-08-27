@@ -30,14 +30,6 @@ struct SignInView: View {
         }
         .offset(y: -20)
         
-        //Forgot password Button
-        Button(action: {}, label: {
-            Text("Forgot password?")
-                .foregroundColor(.black)
-        })
-        .frame(maxWidth: .infinity, alignment: .trailing)
-        .padding()
-        
         //Sign in button
         Button(action: {
             loginVM.login(profilVM: profilVM)

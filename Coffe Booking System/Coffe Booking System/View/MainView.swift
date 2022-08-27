@@ -4,7 +4,6 @@ struct MainView: View {
     
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var shop: Shop
     @EnvironmentObject var profilVM : ProfileViewModel
     @EnvironmentObject var homeVM : HomeViewModel
     @EnvironmentObject var orderVM : OrderViewModel
@@ -41,7 +40,6 @@ struct MainView: View {
                     Text("Home")
                         .foregroundColor(.black)
                 }
-                .environmentObject(shop)
                 .environmentObject(profilVM)
                 .environmentObject(orderVM)
                 .environmentObject(homeVM)
@@ -52,7 +50,6 @@ struct MainView: View {
                     Text("Order")
                         .foregroundColor(.black)
                 }
-                .environmentObject(shop)
                 .environmentObject(orderVM)
                 .environmentObject(profilVM)
                 .environmentObject(transactionVM)

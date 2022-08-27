@@ -13,7 +13,6 @@ class ViewState: ObservableObject {
 struct Coffe_Booking_SystemApp: App {
     
     @ObservedObject var loginVM = LoginViewModel()
-    @ObservedObject var shop = Shop(modelService: ModelService(webService: WebService(authManager: AuthManager())), currentUser: User(id: "", name: ""), users: [], items: [])
     @ObservedObject var viewState = ViewState()
     @ObservedObject var profilVM = ProfileViewModel()
     @ObservedObject var transactionVM = TransactionViewModel()
@@ -27,7 +26,6 @@ struct Coffe_Booking_SystemApp: App {
                     VStack{
                         if loginVM.isAuthenticated && viewState.state == 0 {
                             MainView().environmentObject(loginVM)
-                                .environmentObject(shop)
                                 .environmentObject(viewState)
                                 .environmentObject(profilVM)
                                 .environmentObject(orderVM)
@@ -36,7 +34,6 @@ struct Coffe_Booking_SystemApp: App {
                         } else if !loginVM.isAuthenticated && viewState.state == 0 {
                             LoginView().environmentObject(loginVM)
                                 .environmentObject(profilVM)
-                                .environmentObject(shop)
                                 .environmentObject(transactionVM)
                                 .environmentObject(homeVM)
                                 .environmentObject(viewState)
@@ -57,7 +54,6 @@ struct Coffe_Booking_SystemApp: App {
                                 .environmentObject(userVM)
                         } else if viewState.state == 4 {
                             ProfilView()
-                                .environmentObject(shop)
                                 .environmentObject(loginVM)
                                 .environmentObject(profilVM)
                                 .environmentObject(viewState)

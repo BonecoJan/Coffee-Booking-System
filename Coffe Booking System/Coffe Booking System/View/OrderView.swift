@@ -2,7 +2,6 @@ import SwiftUI
 
 struct OrderView: View {
 
-    @EnvironmentObject var shop: Shop
     @EnvironmentObject var orderVM : OrderViewModel
     @EnvironmentObject var profilVM: ProfileViewModel
     @EnvironmentObject var transactionsVM: TransactionViewModel

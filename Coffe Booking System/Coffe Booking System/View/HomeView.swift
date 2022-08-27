@@ -2,7 +2,6 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var shop: Shop
     @EnvironmentObject var profilVM: ProfileViewModel
     @EnvironmentObject var homeVM : HomeViewModel
     

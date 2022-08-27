@@ -28,6 +28,9 @@
 		F62165B12886D49800415D15 /* CartProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165B02886D49800415D15 /* CartProductView.swift */; };
 		F659AF482858E82B00BCCC26 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF472858E82B00BCCC26 /* MainView.swift */; };
 		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
+		F688764928B90C5D00BDDEE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688764828B90C5D00BDDEE9 /* Constants.swift */; };
+		F688764F28B9188800BDDEE9 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688764E28B9188800BDDEE9 /* Body.swift */; };
+		F688765128B9F6C100BDDEE9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688765028B9F6C100BDDEE9 /* User.swift */; };
 		F68EDDF22889360C00CF2689 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF12889360C00CF2689 /* TransactionView.swift */; };
 		F68EDDF528898D9A00CF2689 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = F68EDDF428898D9A00CF2689 /* CodeScanner */; };
 		F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF628898ECF00CF2689 /* QRView.swift */; };
@@ -40,10 +43,7 @@
 		F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B666287361640037E821 /* CustomViewStructs.swift */; };
 		F6D4B669287361E50037E821 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B668287361E50037E821 /* SignInView.swift */; };
 		F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B66A287361F90037E821 /* SignUpView.swift */; };
-		F6D4B6B6287807190037E821 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B1287807190037E821 /* User.swift */; };
-		F6D4B6B7287807190037E821 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B2287807190037E821 /* Shop.swift */; };
-		F6D4B6B8287807190037E821 /* ModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B3287807190037E821 /* ModelService.swift */; };
-		F6D4B6B9287807190037E821 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B4287807190037E821 /* Order.swift */; };
+		F6D4B6B6287807190037E821 /* Profil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B1287807190037E821 /* Profil.swift */; };
 		F6D4B6BA287807190037E821 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B5287807190037E821 /* Item.swift */; };
 		F6D4B6BC2878073F0037E821 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6BB2878073E0037E821 /* ProfileViewModel.swift */; };
 		F6D4B6BE2878081F0037E821 /* AdminMenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6BD2878081F0037E821 /* AdminMenue.swift */; };
@@ -78,6 +78,9 @@
 		F62165B02886D49800415D15 /* CartProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductView.swift; sourceTree = "<group>"; };
 		F659AF472858E82B00BCCC26 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F659AF492858E85000BCCC26 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F688764828B90C5D00BDDEE9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F688764E28B9188800BDDEE9 /* Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Body.swift; sourceTree = "<group>"; };
+		F688765028B9F6C100BDDEE9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F68EDDF12889360C00CF2689 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		F68EDDF628898ECF00CF2689 /* QRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRView.swift; sourceTree = "<group>"; };
 		F68EDDF828898F8900CF2689 /* Coffe-Booking-System-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Coffe-Booking-System-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -90,10 +93,7 @@
 		F6D4B666287361640037E821 /* CustomViewStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewStructs.swift; sourceTree = "<group>"; };
 		F6D4B668287361E50037E821 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F6D4B66A287361F90037E821 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		F6D4B6B1287807190037E821 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F6D4B6B2287807190037E821 /* Shop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
-		F6D4B6B3287807190037E821 /* ModelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelService.swift; sourceTree = "<group>"; };
-		F6D4B6B4287807190037E821 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		F6D4B6B1287807190037E821 /* Profil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profil.swift; sourceTree = "<group>"; };
 		F6D4B6B5287807190037E821 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		F6D4B6BB2878073E0037E821 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		F6D4B6BD2878081F0037E821 /* AdminMenue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminMenue.swift; sourceTree = "<group>"; };
@@ -140,9 +140,10 @@
 				C35E104C2857DBC70030B4C7 /* Preview Content */,
 				C35E10512857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift */,
 				C35E10582857DBC70030B4C7 /* View */,
+				C37223D72875EE6000035FB2 /* model */,
 				F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */,
 				C35E105C2857DBC70030B4C7 /* API.swift */,
-				C37223D72875EE6000035FB2 /* model */,
+				F688764828B90C5D00BDDEE9 /* Constants.swift */,
 			);
 			path = "Coffe Booking System";
 			sourceTree = "<group>";
@@ -191,10 +192,9 @@
 			isa = PBXGroup;
 			children = (
 				F6D4B6B5287807190037E821 /* Item.swift */,
-				F6D4B6B3287807190037E821 /* ModelService.swift */,
-				F6D4B6B4287807190037E821 /* Order.swift */,
-				F6D4B6B2287807190037E821 /* Shop.swift */,
-				F6D4B6B1287807190037E821 /* User.swift */,
+				F6D4B6B1287807190037E821 /* Profil.swift */,
+				F688764E28B9188800BDDEE9 /* Body.swift */,
+				F688765028B9F6C100BDDEE9 /* User.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -309,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F688764F28B9188800BDDEE9 /* Body.swift in Sources */,
 				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
 				F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */,
 				C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */,
@@ -317,6 +318,7 @@
 				C34F7AF82886EB4C00F7694A /* SideMenu.swift in Sources */,
 				F6D4B6BA287807190037E821 /* Item.swift in Sources */,
 				F68EDDF22889360C00CF2689 /* TransactionView.swift in Sources */,
+				F688764928B90C5D00BDDEE9 /* Constants.swift in Sources */,
 				F692ECC82885769400C6E92B /* ProductView.swift in Sources */,
 				F6D4B6C228780C4B0037E821 /* AdminUserView.swift in Sources */,
 				F6D4B6C828781BE10037E821 /* AdminViewModel.swift in Sources */,
@@ -325,8 +327,9 @@
 				F6D4B6C028780C3A0037E821 /* AdminItemView.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_SystemApp.swift in Sources */,
 				F692ECC62885736800C6E92B /* HomeViewModel.swift in Sources */,
-				F6D4B6B6287807190037E821 /* User.swift in Sources */,
+				F6D4B6B6287807190037E821 /* Profil.swift in Sources */,
 				F6E9E6732859BE4C00829739 /* LoginViewModel.swift in Sources */,
+				F688765128B9F6C100BDDEE9 /* User.swift in Sources */,
 				C359E80028736E36007DB305 /* Auth.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,
 				C35E106D2857DBC70030B4C7 /* API.swift in Sources */,
@@ -338,10 +341,7 @@
 				F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */,
 				F62165B12886D49800415D15 /* CartProductView.swift in Sources */,
 				F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */,
-				F6D4B6B8287807190037E821 /* ModelService.swift in Sources */,
 				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,
-				F6D4B6B7287807190037E821 /* Shop.swift in Sources */,
-				F6D4B6B9287807190037E821 /* Order.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
 				C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */,
 				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
@@ -487,6 +487,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Coffe-Booking-System-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use for QRScan";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -520,6 +521,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Coffe-Booking-System-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use for QRScan";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

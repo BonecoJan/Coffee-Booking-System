@@ -14,7 +14,6 @@ class AdminViewModel: ObservableObject {
         }
     }
     
-    
     struct UsersResponse: Codable, Identifiable {
         var id: String
         var name: String
@@ -125,6 +124,7 @@ class AdminViewModel: ObservableObject {
         }
     }
 
+    //TODO: Gleiche Anfrage wie in ProfilVM
     func getImage(user: User) {
         self.isLoading = true
         Task{

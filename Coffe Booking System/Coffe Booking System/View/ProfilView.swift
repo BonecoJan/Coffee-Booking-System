@@ -3,7 +3,6 @@ import SwiftUI
 struct ProfilView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var shop: Shop
     @EnvironmentObject var profileVM: ProfileViewModel
     @EnvironmentObject var loginVM: LoginViewModel
     @EnvironmentObject var transactionVM: TransactionViewModel

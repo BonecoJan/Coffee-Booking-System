@@ -4,7 +4,6 @@ import JWTDecode
 struct LoginView: View {
     
     @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var modelService: ModelService
     @EnvironmentObject var profilVM: ProfileViewModel
     @EnvironmentObject var transactionVM: TransactionViewModel
     @EnvironmentObject var homeVM: HomeViewModel
@@ -70,16 +69,10 @@ struct LoginView: View {
     }
 }
 
-struct ForgotPasswordView: View {
-    var body: some View {
-        Text("Forgot password")
-    }
-}
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
-            .environmentObject(ModelService(webService: WebService(authManager: AuthManager())))
             .environmentObject(LoginViewModel())
     }
 }
