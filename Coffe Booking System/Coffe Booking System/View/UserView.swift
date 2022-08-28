@@ -2,10 +2,10 @@ import SwiftUI
 
 struct UserView: View {
     
-    var user: AdminViewModel.UsersResponse
+    var user: Response.User
     @State var showEditOverlay: Bool = false
     @State var showDeleteOverlay: Bool = false
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminController : AdminController
     
     @State var newName: String = ""
     @State var newPassword: String = ""
@@ -55,11 +55,11 @@ struct UserView: View {
                             if newName == "" {
                                 newName = user.name
                             }
-                            adminVM.updateUser(userID: user.id, name: newName, isAdmin: false, password: newPassword)
+                            adminController.updateUser(userID: user.id, name: newName, isAdmin: false, password: newPassword)
                         }, label: {
                             Text("Update User")
                                 .frame(width: 244, height: 39)
-                                .background(Color(hex: 0xD9D9D9))
+                                .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
@@ -77,12 +77,12 @@ struct UserView: View {
                         Text("Do you really want to delete this User?")
                             .frame(alignment: .leading)
                         Button(action: {
-                            adminVM.deleteUser(userID: user.id)
-                            adminVM.getUsers()
+                            adminController.deleteUser(userID: user.id)
+                            adminController.getUsers()
                         }, label: {
                             Text("Yes")
                                 .frame(width: 244, height: 39)
-                                .background(Color(hex: 0xD9D9D9))
+                                .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
@@ -96,7 +96,7 @@ struct UserView: View {
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                .fill(Color(hex: 0xD9D9D9))
+                .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
             )
         
     }

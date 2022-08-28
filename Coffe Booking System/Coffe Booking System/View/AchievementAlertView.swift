@@ -55,7 +55,7 @@ struct AchievementAlertView: View {
                     }).frame(width: UIScreen.main.bounds.width/2 - 25, height: 40)
                 }
             }.frame(width: UIScreen.main.bounds.width-50, height: 300)
-            .background(Color(hex: 0xD9D9D9).opacity(0.7))
+            .background(Color(hex: UInt(COLOR_LIGHT_GRAY)).opacity(0.7))
             .cornerRadius(20)
             .clipped()
     }

@@ -10,7 +10,7 @@ import Charts
 
 struct Chart: UIViewRepresentable {
     
-    @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var transactionController: TransactionController
 
     let entries: [BarChartDataEntry]
     //let entries: [ChartDataEntry]
@@ -50,7 +50,7 @@ struct Chart: UIViewRepresentable {
             self.parent = parent
         }
         func chartValueSelected(_ chartView: ChartViewBase, entry: BarChartDataEntry, highlight: Highlight) {
-            let month = TransactionViewModel.months[Int(entry.x)]
+            let month = TransactionController.months[Int(entry.x)]
             let quantity = Double(entry.y)
             parent.selectedItem = "\(quantity) sold in \(month)"
         }
@@ -81,7 +81,7 @@ struct Chart: UIViewRepresentable {
     }
     
     func formatXAxis(xAxis: XAxis) {
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: TransactionViewModel.months)
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: TransactionController.months)
         xAxis.labelPosition = .bottom
         xAxis.labelTextColor = .red
     }
@@ -105,6 +105,6 @@ struct Chart: UIViewRepresentable {
 
 //struct Chart_Previews: PreviewProvider {
 //    static var previews: some View {
-//        Chart(entries: transactionVM.dataEntriesForYear("purchase", 2019, transactions: transactionVM.monthlySums), selectedYear: .constant(2019), selectedItem: .constant(""))
+//        Chart(entries: transactionController.dataEntriesForYear("purchase", 2019, transactions: transactionController.monthlySums), selectedYear: .constant(2019), selectedItem: .constant(""))
 //    }
 //}

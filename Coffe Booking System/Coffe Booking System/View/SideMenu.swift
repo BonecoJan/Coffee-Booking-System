@@ -11,11 +11,13 @@ struct SideMenu: View {
     let width: CGFloat
     let isOpen: Bool
     let menuClose: () -> Void
+    
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profileVM: ProfileViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
-    @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var userController: UserController
+
     @State var state: Int = 0
     
     var body: some View {
@@ -38,10 +40,10 @@ struct SideMenu: View {
                         .offset(x: self.isOpen ? 0 : -self.width)
                         .animation(.default)
                         .environmentObject(viewState)
-                        .environmentObject(loginVM)
-                        .environmentObject(profileVM)
-                        .environmentObject(transactionVM)
-                        .environmentObject(userVM)
+                        .environmentObject(loginController)
+                        .environmentObject(profileController)
+                        .environmentObject(transactionController)
+                        .environmentObject(userController)
                 }
                 Spacer()
             }
@@ -51,10 +53,10 @@ struct SideMenu: View {
 
 struct MenuContent: View {
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profileVM: ProfileViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
-    @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var userController: UserController
     
     @State var overText = false
     
@@ -62,7 +64,7 @@ struct MenuContent: View {
             List {
                 Text("Cancel last purchase").onTapGesture {
                     confirmRefund()
-                }.alert("Error", isPresented: $profileVM.hasError, presenting: profileVM.error) { detail in
+                }.alert("Error", isPresented: $profileController.hasError, presenting: profileController.error) { detail in
                     Button("Ok", role: .cancel) {}
                 } message: { detail in
                     if case let error = detail {
@@ -70,17 +72,17 @@ struct MenuContent: View {
                             .foregroundColor(.red)
                     }
                 }
-                .alert("Purchase refunded successfully.", isPresented: $profileVM.success) {
+                .alert(SUCCESS_REFUND, isPresented: $profileController.success) {
                     Button("OK", role: .cancel) {
-                        profileVM.success = false
+                        profileController.success = false
                     }
                 }
                 Text("Send money").onTapGesture {
-                    userVM.getUsers()
+                    userController.getUsers()
                     viewState.state = 3
                 }
                 Text("Transaction History").onTapGesture {
-                    transactionVM.getTransactions(userID: profileVM.id)
+                    transactionController.getTransactions(userID: profileController.profile.id)
                     viewState.state = 5
                 }
                 Text("Statistics").onTapGesture {
@@ -90,10 +92,10 @@ struct MenuContent: View {
                     viewState.state = 7
                 }
                 Text("Logout").onTapGesture {
-                    loginVM.logout(profilVM: profileVM)
+                    loginController.logout(profileController: profileController)
                     viewState.state = 0
                 }
-                if $profileVM.isAdmin.wrappedValue {
+                if $profileController.profile.isAdmin.wrappedValue {
                     Text("Admin Menue").onTapGesture {
                         viewState.state = 1
                     }
@@ -105,7 +107,7 @@ struct MenuContent: View {
         let alert = UIAlertController(title: "Cancel last purchase", message: "Are you sure?", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "Yes", style: .default) { (_) in
-            profileVM.cancelLastPurchase()
+            profileController.cancelLastPurchase()
         }
         
         let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in

@@ -3,17 +3,17 @@ import JWTDecode
 
 struct LoginView: View {
     
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
-    @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var homeController: HomeController
     
     @State var showSignUp = false
     
     var body: some View {
         
         VStack{
-            Image("loginCoffeeShop")
+            Image(IMAGE_LOGIN)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 200, height: 200)
@@ -21,12 +21,12 @@ struct LoginView: View {
                 .clipped()
                 .padding(.top)
             if showSignUp == false{
-                SignInView().environmentObject(loginVM)
-                    .environmentObject(profilVM)
-                    .environmentObject(transactionVM)
+                SignInView().environmentObject(loginController)
+                    .environmentObject(profileController)
+                    .environmentObject(transactionController)
             } else {
-                SignUpView().environmentObject(loginVM)
-                    .environmentObject(profilVM)
+                SignUpView().environmentObject(loginController)
+                    .environmentObject(profileController)
             }
             Spacer()
             HStack{
@@ -47,15 +47,15 @@ struct LoginView: View {
     
     func checkToken() {
         
-        if let tokenID = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")
+        if let tokenID = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT)
         {
             let token = String(data: tokenID, encoding: .utf8)!
         do {
             let jwt = try decode(jwt: token)
             if !(jwt.expired) {
-                loginVM.password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
-                loginVM.id = jwt.claim(name: "id").string!
-                loginVM.login(profilVM: profilVM)
+                loginController.password = String(data: KeychainWrapper.standard.get(service: SERVICE_PASSWORD, account: ACCOUNT)!, encoding: .utf8)!
+                loginController.id = jwt.claim(name: "id").string!
+                loginController.login(profileController: profileController)
             }
             else {
                 return
@@ -73,7 +73,7 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
-            .environmentObject(LoginViewModel())
+            .environmentObject(LoginController())
     }
 }
 

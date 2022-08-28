@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AdminMenue: View {
     
-    @ObservedObject var adminVM = AdminViewModel()
+    @ObservedObject var adminController = AdminController()
     @EnvironmentObject var viewState: ViewState
     
     var body: some View {
@@ -11,7 +11,7 @@ struct AdminMenue: View {
                 Button(action: {
                     viewState.state = 0
                 }, label: {
-                    Image(systemName: "arrow.backward")
+                    Image(systemName: IMAGE_ARROW_LEFT)
                         .multilineTextAlignment(.leading)
                 })
                 .padding()
@@ -25,25 +25,25 @@ struct AdminMenue: View {
                         Image(systemName: "cart")
                         Text("Items")
                     }
-                    .environmentObject(adminVM)
+                    .environmentObject(adminController)
                 AdminUserView()
                     .tabItem{
                         Image(systemName: "person")
                         Text("User")
                     }
-                    .environmentObject(adminVM)
+                    .environmentObject(adminController)
 //                AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
 //                    .tabItem{
 //                        Image(systemName: "cart")
 //                        Text("Items")
 //                    }
-//                    .environmentObject(adminVM)
+//                    .environmentObject(adminController)
 //                AdminUserView(showCreateOverlay: false, newID: "", newName: "", isAdmin: false, newPassword: "")
 //                    .tabItem{
 //                        Image(systemName: "person")
 //                        Text("User")
 //                    }
-//                    .environmentObject(adminVM)
+//                    .environmentObject(adminController)
             }
         }
     }

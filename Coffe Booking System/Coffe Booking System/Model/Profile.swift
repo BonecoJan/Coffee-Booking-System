@@ -1,19 +1,19 @@
 import Foundation
 
-class Profil: ObservableObject, Identifiable {
+class Profile: ObservableObject, Identifiable {
     
     @Published var id:  String
     @Published var name: String
     @Published var isAdmin: Bool
     @Published var balance: Double
-    @Published var image: ProfileViewModel.ImageResponse
+    @Published var image: Response.Image
     
-    init(id: String, name: String){
+    init(){
         self.isAdmin = false
         self.name = ""
         self.id = ""
         self.balance = 0.0
-        self.image = ProfileViewModel.ImageResponse(encodedImage: "empty", timestamp: 0)
+        self.image = Response.Image(encodedImage: "empty", timestamp: 0)
     }
     
 }

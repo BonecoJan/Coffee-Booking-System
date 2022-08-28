@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ProductView: View {
     
-    var product: AdminViewModel.ItemResponse
-    @EnvironmentObject var orderVM : OrderViewModel
-    @EnvironmentObject var homeVM : HomeViewModel
+    var product: Response.Item
+    @EnvironmentObject var cartController : CartController
+    @EnvironmentObject var homeController : HomeController
     
     var body: some View {
         HStack {
@@ -14,9 +14,9 @@ struct ProductView: View {
             }
             Spacer()
             Button (action: {
-                orderVM.addProductToCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: 1, price: product.price))
+                cartController.addProductToCart(product: Response.Item(id: product.id, name: product.name, amount: 1, price: product.price))
             }, label: {
-                Image(systemName: "plus.app")
+                Image(systemName: IMAGE_PLUS)
                     .resizable()
                     .foregroundColor(.black)
                     .frame(width: 25, height: 25)
@@ -26,7 +26,7 @@ struct ProductView: View {
         .padding()
         .background(
                 RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                    .fill(Color(hex: 0xD9D9D9))
+                    .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                 )
         .multilineTextAlignment(.leading)
     }
@@ -34,7 +34,7 @@ struct ProductView: View {
 
 struct ProductView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductView(product: AdminViewModel.ItemResponse(id: "", name: "", amount: 0, price: 0.0))
+        ProductView(product: Response.Item(id: "", name: "", amount: 0, price: 0.0))
     }
 }
 

@@ -1,20 +1,9 @@
 import Foundation
 import Charts
 
-class TransactionViewModel: ObservableObject {
-    
-    struct TransactionResponse: Codable, Identifiable {
-        var id: Int { timestamp } //needs to be done for the Identifiable protocol
-        
-        var type: String
-        var value: Double
-        var timestamp : Int
-        var itemId: String?
-        var itemName: String?
-        var amount: Int?
-    }
+class TransactionController: ObservableObject {
 
-    @Published var transactions : [TransactionResponse] = []
+    @Published var transactions : [Response.Transaction] = []
     @Published var purchaseCount: Int = 0
     
     @Published var monthlySums : [TransactionSum] = []
@@ -239,8 +228,8 @@ class TransactionViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: "GET", authReq: true, body: body, responseType: [TransactionResponse].self, unknownType: false)
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/transactions", reqMethod: GET, authReq: true, body: body, responseType: [Response.Transaction].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false

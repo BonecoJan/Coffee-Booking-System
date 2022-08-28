@@ -21,7 +21,7 @@ actor AuthManager {
 //            throw AuthError.missingToken
 //        }
         
-        if let tokenID = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        if let tokenID = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
             let tokenID = String(data: tokenID, encoding: .utf8)!
             
             
@@ -36,7 +36,7 @@ actor AuthManager {
             return try await refreshToken()
             
         } else {
-            throw WebService.RequestError.custom(errorMessage: "missing token")
+            throw RequestError.custom(errorMessage: ERROR_TOKEN)
         }
 
     }
@@ -52,13 +52,13 @@ actor AuthManager {
 //            guard let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8) else {
 //                throw AuthError.missingToken
 //            }
-            if let tokenID = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+            if let tokenID = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
                 let tokenID = String(data: tokenID, encoding: .utf8)!
                 
                 let jwt = try decode(jwt: tokenID)
                 
                 let userID = jwt.claim(name: "id").string!
-                let password = String(data: KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System")!, encoding: .utf8)!
+                let password = String(data: KeychainWrapper.standard.get(service: SERVICE_PASSWORD, account: ACCOUNT)!, encoding: .utf8)!
                 
                 //refresh the token
                 let response = try await WebService(authManager: self).refreshToken(id: userID, password: password)
@@ -67,7 +67,7 @@ actor AuthManager {
                 
                 
             } else {
-                throw WebService.RequestError.custom(errorMessage: "missing token")
+                throw RequestError.custom(errorMessage: ERROR_TOKEN)
             }
         }
 

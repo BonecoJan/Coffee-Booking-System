@@ -3,9 +3,9 @@ import SwiftUI
 
 struct QRView: View {
     
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @EnvironmentObject var orderVM: OrderViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var cartController: CartController
+    @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var viewState: ViewState
     
     @State var showAchievementAlert: Bool = false
@@ -14,33 +14,33 @@ struct QRView: View {
     var body: some View {
         ZStack{
             VStack{
-                CodeScannerView(codeTypes: [.qr], simulatedData: "Tobias Stuhldreier", completion: handleScan)
-                    .alert("Error", isPresented: $orderVM.hasError, presenting: orderVM.error) { detail in
+                    CodeScannerView(codeTypes: [.qr], simulatedData: "max.mustermann@gmail.com", completion: handleScan)
+                    .alert("Error", isPresented: $cartController.hasError, presenting: cartController.error) { detail in
                         Button("Ok", role: .cancel) { }
                     } message: { detail in
                         if case let error = detail {
                             Text(error)
                         }
                     }
-                    .alert("Purchase processed successfully.", isPresented: $orderVM.success) {
+                    .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                         Button("OK", role: .cancel) {
-                            orderVM.success = false
-                            transactionVM.getTransactions(userID: profilVM.id)
-                            if transactionVM.purchaseCount == 4  {
+                            cartController.success = false
+                            transactionController.getTransactions(userID: profileController.profile.id)
+                            if transactionController.purchaseCount == 4  {
                                 achievementType = 5
                                 showAchievementAlert = true
-                            } else if transactionVM.purchaseCount == 19  {
+                            } else if transactionController.purchaseCount == 19  {
                                 achievementType = 20
                                 showAchievementAlert = true
-                            } else if transactionVM.purchaseCount == 49  {
+                            } else if transactionController.purchaseCount == 49  {
                                 achievementType = 50
                                 showAchievementAlert = true
-                            } else if transactionVM.purchaseCount == 99 {
+                            } else if transactionController.purchaseCount == 99 {
                                 achievementType = 100
                                 showAchievementAlert = true
                             }
-                            orderVM.cart = []
-                            orderVM.total = 0.0
+                            cartController.cart = []
+                            cartController.total = 0.0
                         }
                     }
             }
@@ -64,27 +64,28 @@ struct QRView: View {
             }
             DispatchQueue.main.async {
                 if id != "" {
-                    if profilVM.balance - orderVM.total > 0.0 {
-                        confirmPurchase(itemID: id, orderVM: orderVM, profilVM: profilVM)
+                    if profileController.profile.balance - cartController.total > 0.0 || profileController.profile.isAdmin {
+                        confirmPurchase(itemID: id, cartController: cartController, profileController: profileController)
                     } else {
-                        orderVM.hasError = true
-                        orderVM.error = "Not enough money"
+                        cartController.hasError = true
+                        cartController.error = ERROR_MONEY
                     }
                 }
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                orderVM.hasError = true
-                orderVM.error = error.localizedDescription
+                cartController.hasError = true
+                cartController.error = error.localizedDescription
             }
         }
+        
     }
     
-    func confirmPurchase(itemID: String, orderVM: OrderViewModel, profilVM: ProfileViewModel) {
+    func confirmPurchase(itemID: String, cartController: CartController, profileController: ProfileController) {
         let alert = UIAlertController(title: "Confirm your Purchase", message: "Are you sure you want to purchase the item with id \(itemID)?", preferredStyle: .alert)
         
         let purchase = UIAlertAction(title: "Yes", style: .default) { (_) in
-            orderVM.purchaseRequest(purchase: OrderViewModel.PurchaseRequest(itemId: itemID, amount: 1), profilVM: profilVM)
+            cartController.purchaseRequest(purchase: Request.Purchase(itemId: itemID, amount: 1), profileController: profileController)
         }
         
         let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in

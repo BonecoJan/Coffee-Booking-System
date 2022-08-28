@@ -3,14 +3,14 @@ import SwiftUI
 struct MainView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profilVM : ProfileViewModel
-    @EnvironmentObject var homeVM : HomeViewModel
-    @EnvironmentObject var orderVM : OrderViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController : ProfileController
+    @EnvironmentObject var homeController : HomeController
+    @EnvironmentObject var cartController : CartController
+    @EnvironmentObject var transactionController: TransactionController
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color(hex: 0xC08267))
+        UITabBar.appearance().backgroundColor = UIColor(Color(hex: UInt(COLOR_RED_BROWN)))
     }
     
     var body: some View {
@@ -18,7 +18,7 @@ struct MainView: View {
             VStack{
                 Text("Welcome")
                     .multilineTextAlignment(.leading)
-                Text(profilVM.name)
+                Text(profileController.profile.name)
                     .bold()
                     .multilineTextAlignment(.leading)
             }
@@ -26,7 +26,7 @@ struct MainView: View {
             Button(action: {
                 viewState.state = 4
             }, label: {
-                Image(systemName: "person")
+                Image(systemName: IMAGE_PROFILE)
                     .resizable()
                     .frame(width: 25, height: 25)
                     .foregroundColor(.black)
@@ -35,34 +35,34 @@ struct MainView: View {
         TabView{
             HomeView()
                 .tabItem{
-                    Image(systemName: "house")
+                    Image(systemName: IMAGE_HOME)
                         .foregroundColor(.black)
                     Text("Home")
                         .foregroundColor(.black)
                 }
-                .environmentObject(profilVM)
-                .environmentObject(orderVM)
-                .environmentObject(homeVM)
+                .environmentObject(profileController)
+                .environmentObject(cartController)
+                .environmentObject(homeController)
             OrderView()
                 .tabItem{
-                    Image(systemName: "cart")
+                    Image(systemName: IMAGE_CART)
                         .foregroundColor(.black)
                     Text("Order")
                         .foregroundColor(.black)
                 }
-                .environmentObject(orderVM)
-                .environmentObject(profilVM)
-                .environmentObject(transactionVM)
+                .environmentObject(cartController)
+                .environmentObject(profileController)
+                .environmentObject(transactionController)
             QRView()
                 .tabItem{
-                    Image(systemName: "qrcode")
+                    Image(systemName: IMAGE_QR)
                         .foregroundColor(.black)
                     Text("QR-Buy")
                         .foregroundColor(.black)
                 }
-                .environmentObject(orderVM)
-                .environmentObject(profilVM)
-                .environmentObject(transactionVM)
+                .environmentObject(cartController)
+                .environmentObject(profileController)
+                .environmentObject(transactionController)
                 .environmentObject(viewState)
         }
     }
@@ -70,6 +70,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView().environmentObject(LoginViewModel())
+        MainView().environmentObject(LoginController())
     }
 }

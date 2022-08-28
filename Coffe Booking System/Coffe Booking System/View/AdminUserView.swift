@@ -49,7 +49,7 @@ class NumbersOnly: ObservableObject {
 
 struct AdminUserView: View {
     
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminVM : AdminController
 
     @State var showCreateOverlay: Bool = false
     @State var newID: String = ""
@@ -88,7 +88,7 @@ struct AdminUserView: View {
         UINavigationBar.appearance().tintColor = UIColor.orange
     }
     
-    var searchResults: [AdminViewModel.User] {
+    var searchResults: [User] {
         if searchText.isEmpty {
             return adminVM.users
         } else {
@@ -174,7 +174,7 @@ struct AdminUserView: View {
                 .multilineTextAlignment(.leading)
             Button(action: toggle){
                         HStack{
-                            Image(systemName: isAdmin ? "checkmark.square": "square")
+                            Image(systemName: isAdmin ? IMAGE_SQUARE_MARK: IMAGE_SQUARE)
                             Text("Admin")
                         }
 
@@ -209,7 +209,7 @@ struct AdminUserView: View {
                 }, label: {
                     Text("Create User")
                         .frame(width: 244, height: 39)
-                        .background(Color(hex: 0xD9D9D9))
+                        .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
@@ -251,13 +251,13 @@ struct AdminUserView: View {
 }
 
 struct AdminUserRow: View {
-    var user: AdminViewModel.User
+    var user: User
     
     var body: some View {
         HStack {
             //CircleImage(imageName: user.image,size: 50).padding()
-            if user.image.encodedImage == "empty" {
-                Image("noProfilPicture")
+            if user.image.encodedImage == NO_PROFILE_IMAGE {
+                Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 30, height: 30)
@@ -284,7 +284,7 @@ struct AdminUserRow: View {
 
 struct AdminUserDetail: View {
     
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminVM : AdminController
     
 
     
@@ -292,7 +292,7 @@ struct AdminUserDetail: View {
         case passwordMissing, userUpdated, balanceUpdated
     }
 
-    var user: AdminViewModel.User
+    var user: User
     
     @State var isAdmin: Bool = false
     @State private var passwordMissing = false
@@ -341,8 +341,8 @@ struct AdminUserDetail: View {
 //            Text(employee.preferredFullName)
 //                .font(.title)
 //            Divider()
-            if user.image.encodedImage == "empty" {
-                Image("noProfilPicture")
+            if user.image.encodedImage == NO_PROFILE_IMAGE {
+                Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120, height: 120)
@@ -377,9 +377,9 @@ struct AdminUserDetail: View {
                     //adminVM.deleteImage(user: user)
                 }, label: {
                     Text("Delete")
-                        .opacity(user.image.encodedImage == "empty" ? 0 : 1)
+                        .opacity(user.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
                 })
-                .disabled(user.image.encodedImage == "empty")
+                .disabled(user.image.encodedImage == NO_PROFILE_IMAGE)
                 .alert(isPresented:$deletePicture) {
                             Alert(
                                 title: Text("Are you sure you want to delete this picture?"),
@@ -447,7 +447,7 @@ struct AdminUserDetail: View {
                 HStack(alignment: .top) {
                     Button(action: toggle){
                                 HStack{
-                                    Image(systemName: isAdmin ? "checkmark.square": "square")
+                                    Image(systemName: isAdmin ? IMAGE_SQUARE_MARK: IMAGE_SQUARE)
                                     Text("Admin")
                                 }
 

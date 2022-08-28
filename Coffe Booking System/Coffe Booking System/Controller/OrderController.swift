@@ -1,27 +1,8 @@
 import Foundation
 
-class OrderViewModel: ObservableObject {
+class CartController: ObservableObject {
     
-    struct PurchaseRequest: Codable {
-        var itemId: String
-        var amount: Int
-    }
-    
-    class ProductInCart: ObservableObject, Identifiable {
-        var id: String
-        var name: String
-        var amount: Int
-        var price: Double
-        
-        init(id: String, name: String, amount: Int, price: Double) {
-            self.id = id
-            self.name = name
-            self.amount = amount
-            self.price = price
-        }
-    }
-    
-    @Published var cart: [ProductInCart]
+    @Published var cart: [Item]
     @Published var total: Double
     
     @Published var isLoading: Bool = false
@@ -42,7 +23,7 @@ class OrderViewModel: ObservableObject {
         return counter
     }
     
-    func addProductToCart(product: AdminViewModel.ItemResponse) {
+    func addProductToCart(product: Response.Item) {
         total = (total + product.price).rounded(toPlaces: 2)
         for item in cart {
             if item.id == product.id {
@@ -50,10 +31,10 @@ class OrderViewModel: ObservableObject {
                 return
             }
         }
-        cart.append(ProductInCart(id: product.id, name: product.name, amount: 1, price: product.price))
+        cart.append(Item(id: product.id, name: product.name, amount: 1, price: product.price))
     }
     
-    func deleteProductFromCart(product: AdminViewModel.ItemResponse) {
+    func deleteProductFromCart(product: Response.Item) {
         total = (total - product.price).rounded(toPlaces: 2)
         var deleteAt: Int = 0
         for (index, item) in cart.enumerated() {
@@ -70,23 +51,23 @@ class OrderViewModel: ObservableObject {
     }
     
     //Send purchase request to all products in Cart
-    func purchase(profilVM: ProfileViewModel) {
+    func purchase(profileController: ProfileController) {
         for product in cart {
-            purchaseRequest(purchase: PurchaseRequest(itemId: product.id, amount: product.amount), profilVM: profilVM)
+            purchaseRequest(purchase: Request.Purchase(itemId: product.id, amount: product.amount), profileController: profileController)
         }
     }
     
-    func purchaseRequest(purchase: PurchaseRequest, profilVM: ProfileViewModel) {
+    func purchaseRequest(purchase: Request.Purchase, profileController: ProfileController) {
         self.isLoading = true
         Task {
             do {
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + profilVM.id + "/purchases", reqMethod: "POST", authReq: true, body: purchase, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Purchase processed successfully." {
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + profileController.profile.id + "/purchases", reqMethod: POST, authReq: true, body: purchase, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_PURCHASE {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.hasError = false
                         self.success = true
-                        profilVM.loadUserData()
+                        profileController.loadUserData()
                     }
                 }
             } catch let error {

@@ -1,8 +1,8 @@
 import Foundation
 
-class HomeViewModel: ObservableObject {
+class HomeController: ObservableObject {
     
-    @Published var products: [AdminViewModel.ItemResponse] = []
+    @Published var products: [Response.Item] = []
     
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
@@ -16,8 +16,8 @@ class HomeViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let products = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [AdminViewModel.ItemResponse].self, unknownType: false)
+                let body: Request.Empty? = nil
+                let products = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: GET, authReq: false, body: body, responseType: [Response.Item].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false

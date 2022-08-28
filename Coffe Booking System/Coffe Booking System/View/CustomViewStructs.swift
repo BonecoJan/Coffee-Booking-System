@@ -2,7 +2,7 @@ import SwiftUI
 import Foundation
 import UIKit
 
-extension WebService.RequestError: LocalizedError {
+extension RequestError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidURL:

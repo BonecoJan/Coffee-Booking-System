@@ -2,20 +2,20 @@ import SwiftUI
 
 struct UserViewObj: View {
 
-    var user: UserViewModel.User
+    var user: User
     @State var amount: String = ""
     @State var showPopUp: Bool = false
     @State var notEnoughMoney: Bool = false
-    @EnvironmentObject var userVM : UserViewModel
+    @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var profilVM: ProfileViewModel
+    @EnvironmentObject var profileController: ProfileController
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
                 VStack(alignment: .leading){
-                    if user.image.encodedImage == "empty" {
-                        Image("noProfilPicture")
+                    if user.image.encodedImage == NO_PROFILE_IMAGE {
+                        Image(IMAGE_NO_PROFILE_IMAGE)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
@@ -42,7 +42,7 @@ struct UserViewObj: View {
             }
             HStack{
                 VStack{
-                    Image(systemName: "person.text.rectangle")
+                    Image(systemName: IMAGE_ID)
                     Text("ID")
                         .font(.footnote)
                 }
@@ -52,19 +52,19 @@ struct UserViewObj: View {
             }
         }
         
-        .alert("Error", isPresented: $profilVM.hasError, presenting: profilVM.error) { detail in
+        .alert("Error", isPresented: $profileController.hasError, presenting: profileController.error) { detail in
             Button("Ok", role: .cancel) { }
         } message: { detail in
             if case let error = detail {
                 Text(error)
             }
         }
-        .alert("Funding processed successfully.", isPresented: $profilVM.success) {
+        .alert(SUCCESS_FUNDING, isPresented: $profileController.success) {
             Button("OK", role: .cancel) {
-                profilVM.success = false
+                profileController.success = false
             }
         }
-        .alert("Not enough money.", isPresented: $notEnoughMoney) {
+        .alert(ERROR_MONEY, isPresented: $notEnoughMoney) {
             Button("OK", role: .cancel) {
                 notEnoughMoney = false
             }
@@ -72,7 +72,7 @@ struct UserViewObj: View {
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                .fill(Color(hex: 0xD9D9D9))
+                .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
             )
     }
     
@@ -86,11 +86,11 @@ struct UserViewObj: View {
         let change = UIAlertAction(title: "Send", style: .default) { (_) in
             amount = alert.textFields![0].text!
             if Double(amount) == nil {
-                profilVM.hasError = true
-                profilVM.error = "invalid format given"
+                profileController.hasError = true
+                profileController.error = ERROR_FORMAT
             } else {
-                if profilVM.balance - Double(amount)! >= 0.0 {
-                    profilVM.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
+                if profileController.profile.balance - Double(amount)! >= 0.0 {
+                    profileController.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
                 } else {
                     notEnoughMoney = true
                 }

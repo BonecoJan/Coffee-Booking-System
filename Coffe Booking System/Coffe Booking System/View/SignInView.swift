@@ -2,10 +2,10 @@ import SwiftUI
 
 struct SignInView: View {
     
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
-    @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var homeController: HomeController
     
     var body: some View {
         Text("Login")
@@ -15,33 +15,33 @@ struct SignInView: View {
             .font(.title)
         //Login Fields
         HStack{
-            Image(systemName: "person.text.rectangle")
+            Image(systemName: IMAGE_ID)
                 .padding()
-            TextField("User ID", text: $loginVM.id)
+            TextField("User ID", text: $loginController.id)
                 .cornerRadius(5.0)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
         }
         HStack{
-            Image(systemName: "lock")
+            Image(systemName: IMAGE_PASSWORD)
                 .padding()
-            SecureField("Password", text: $loginVM.password)
+            SecureField("Password", text: $loginController.password)
                 .cornerRadius(5.0)
         }
         .offset(y: -20)
         
         //Sign in button
         Button(action: {
-            loginVM.login(profilVM: profilVM)
+            loginController.login(profileController: profileController)
         },
         label: {
             Text("Sign in")
                 .frame(width: 244, height: 39)
-                .background(Color(hex: 0xC08267))
+                .background(Color(hex: UInt(COLOR_RED_BROWN)))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
         })
-        .alert("Error", isPresented: $loginVM.hasError, presenting: loginVM.error) { detail in
+        .alert("Error", isPresented: $loginController.hasError, presenting: loginController.error) { detail in
             Button("Ok", role: .cancel) { }
         } message: { detail in
             if case let error = detail {
@@ -49,12 +49,12 @@ struct SignInView: View {
                     .foregroundColor(.red)
             }
         }
-        .alert("Successfully logged in", isPresented: $loginVM.success) {
+        .alert(SUCCESS_LOGIN, isPresented: $loginController.success) {
             Button("OK", role: .cancel) {
-                loginVM.success = false
-                loginVM.isAuthenticated = true
-                homeVM.getProducts()
-                transactionVM.getTransactions(userID: profilVM.id)
+                loginController.success = false
+                loginController.isAuthenticated = true
+                homeController.getProducts()
+                transactionController.getTransactions(userID: profileController.profile.id)
             }
         }
     }
@@ -63,8 +63,8 @@ struct SignInView: View {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SignInView().environmentObject(LoginViewModel())
-            SignInView().environmentObject(LoginViewModel())
+            SignInView().environmentObject(LoginController())
+            SignInView().environmentObject(LoginController())
         }
     }
 }

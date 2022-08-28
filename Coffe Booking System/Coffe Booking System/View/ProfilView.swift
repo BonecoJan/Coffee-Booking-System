@@ -3,10 +3,10 @@ import SwiftUI
 struct ProfilView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var profileVM: ProfileViewModel
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var transactionVM: TransactionViewModel
-    @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var userController: UserController
     @State var userName: String = ""
     @State var userID: String = ""
     
@@ -30,13 +30,13 @@ struct ProfilView: View {
             HStack{
                 if !self.menuOpen {
                     Button(action: {
-                        transactionVM.getTransactions(userID: profileVM.id)
+                        transactionController.getTransactions(userID: profileController.profile.id)
                         self.openMenu()
                     }, label: {
-                        Image(systemName: "list.bullet")
+                        Image(systemName: IMAGE_LIST)
                     })
                 }
-                Text(profileVM.isAdmin ? "Your Profile(Admin)" : "Your Profile")
+                Text(profileController.profile.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                     .font(.title)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -44,7 +44,7 @@ struct ProfilView: View {
                 Button(action: {
                     viewState.state = 0
                 }, label: {
-                    Image(systemName: "arrow.left")
+                    Image(systemName: IMAGE_ARROW_LEFT)
                         .resizable()
                         .frame(width: 25, height: 20, alignment: .leading)
                 }).padding()
@@ -54,38 +54,38 @@ struct ProfilView: View {
             bottomSection
         }.ignoresSafeArea()
         .onAppear(perform: {
-            self.userName = profileVM.name
+            self.userName = profileController.profile.name
         })
         SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
                 .environmentObject(viewState)
-                .environmentObject(loginVM)
-                .environmentObject(profileVM)
-                .environmentObject(transactionVM)
-                .environmentObject(userVM)
+                .environmentObject(loginController)
+                .environmentObject(profileController)
+                .environmentObject(transactionController)
+                .environmentObject(userController)
         }.ignoresSafeArea()
-        .alert("Error", isPresented: $profileVM.hasError, presenting: profileVM.error) { detail in
+        .alert("Error", isPresented: $profileController.hasError, presenting: profileController.error) { detail in
             Button("Ok", role: .cancel) { }
         } message: { detail in
             if case let error = detail {
                 Text(error)
             }
         }
-        .alert("User updated successfully.", isPresented: $profileVM.updatedUser) {
+        .alert(SUCCESS_UPDATE_USER, isPresented: $profileController.updatedUser) {
             Button("OK", role: .cancel) {
-                profileVM.updatedUser = false
+                profileController.updatedUser = false
             }
         }
-        .alert("Image updated successfully.", isPresented: $profileVM.updatedImage) {
+        .alert(SUCCESS_UPDATE_IMAGE, isPresented: $profileController.updatedImage) {
             Button("OK", role: .cancel) {
-                profileVM.updatedImage = false
+                profileController.updatedImage = false
             }
         }
     }
     
     var profilPicture: some View {
         VStack{
-            if profileVM.image.encodedImage == "empty" {
-                Image("noProfilPicture")
+            if profileController.profile.image.encodedImage == NO_PROFILE_IMAGE {
+                Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 200, height: 200)
@@ -93,7 +93,7 @@ struct ProfilView: View {
                     .clipped()
                     .padding()
             } else {
-                Image(base64String: profileVM.image.encodedImage!)!
+                Image(base64String: profileController.profile.image.encodedImage!)!
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 200, height: 200)
@@ -114,11 +114,11 @@ struct ProfilView: View {
                         .opacity(self.selectedImage == Image("") ? 0 : 1)
                 }).disabled(self.selectedImage == Image(""))
                 Button(action: {
-                    confirmChange(type: "deleteImage")
+                    confirmChange(type: TYPE_DELETE_IMAGE)
                 }, label: {
                     Text("Delete")
-                        .opacity(profileVM.image.encodedImage == "empty" ? 0 : 1)
-                }).disabled(profileVM.image.encodedImage == "empty")
+                        .opacity(profileController.profile.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
+                }).disabled(profileController.profile.image.encodedImage == NO_PROFILE_IMAGE)
             }
             .sheet(isPresented: $showingImagePicker, content: {
                 ImagePicker(image: self.$selectedImage)
@@ -133,8 +133,8 @@ struct ProfilView: View {
                     withAnimation {
                         editMode?.wrappedValue = .inactive
                     }
-                    if self.userName != profileVM.name {
-                        confirmChange(type: "username")
+                    if self.userName != profileController.profile.name {
+                        confirmChange(type: TYPE_USERNAME)
                     }
                 }, label: {
                     Text("Save")
@@ -143,7 +143,7 @@ struct ProfilView: View {
                 })
             }
             HStack{
-                Image(systemName: "person")
+                Image(systemName: IMAGE_PROFILE)
                     .padding()
                 TextField("", text: $userName)
                     .disabled(!isEditing)
@@ -153,24 +153,24 @@ struct ProfilView: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
-                        self.userName = profileVM.name
+                        self.userName = profileController.profile.name
                     }
                         }, label: {
-                            Image(systemName: isEditing ? "pencil.slash" : "pencil")
+                            Image(systemName: isEditing ? IMAGE_PENCIL_EDIT : IMAGE_PENCIL)
                             .padding()
                         })
             }.offset(y: -20)
             HStack{
-                Image(systemName: "person.text.rectangle")
+                Image(systemName: IMAGE_ID)
                     .padding()
-                Text(profileVM.id)
+                Text(profileController.profile.id)
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
             HStack{
-                Image(systemName: "eurosign.circle")
+                Image(systemName: IMAGE_EURO)
                     .padding()
-                Text(String(profileVM.balance.rounded(toPlaces: 2)) + (String(profileVM.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
+                Text(String(profileController.profile.balance.rounded(toPlaces: 2)) + (String(profileController.profile.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
@@ -206,13 +206,13 @@ struct ProfilView: View {
                 Button(action: {
                     if newPassword.count >= 8 && newPassword == repeatedPassword {
                         if checkPassword(password: currentPassword) {
-                            profileVM.updateUser(name: self.userName, password: newPassword)
+                            profileController.updateUser(name: self.userName, password: newPassword)
                         }
                     }
                 }, label: {
                     Text("Change password")
                         .frame(width: 244, height: 39)
-                        .background(Color(hex: 0xD9D9D9))
+                        .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
@@ -229,17 +229,17 @@ struct ProfilView: View {
             }, label: {
                 Text("Change password")
                     .frame(width: 244, height: 39)
-                    .background(Color(hex: 0xD9D9D9))
+                    .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
             })
-            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: 0xCCB9B1).edgesIgnoringSafeArea(.all))})
+            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: UInt(COLOR_BACKGROUND)).edgesIgnoringSafeArea(.all))})
         }
     }
     
     func checkPassword(password: String) -> Bool {
         //try to get user password from Keychain
-        if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
+        if let password = KeychainWrapper.standard.get(service: SERVICE_PASSWORD, account: ACCOUNT) {
         let password = String(data: password, encoding: .utf8)!
 
             if password != currentPassword {
@@ -282,22 +282,22 @@ struct ProfilView: View {
             do {
                 if checkPassword(password: currentPassword) {
                     if newPassword.count >= 8 && newPassword == repeatedPassword {
-                        confirmChange(type: "password")
+                        confirmChange(type: TYPE_PASSWORD)
                     } else {
                         if newPassword.count < 8 && newPassword != repeatedPassword {
-                            throw WebService.RequestError.custom(errorMessage: "Your new password must have a length of 8 at least. Also check that the repeated password is the same")
+                            throw RequestError.custom(errorMessage: "Your new password must have a length of 8 at least. Also check that the repeated password is the same")
                         } else if newPassword.count < 8 && newPassword == repeatedPassword {
-                            throw WebService.RequestError.custom(errorMessage: "Your new password must have a length of 8 at least.")
+                            throw RequestError.custom(errorMessage: "Your new password must have a length of 8 at least.")
                         } else {
-                            throw WebService.RequestError.custom(errorMessage: "Repeated password has to be the same")
+                            throw RequestError.custom(errorMessage: "Repeated password has to be the same")
                         }
                     }
                 } else {
-                    throw WebService.RequestError.custom(errorMessage: "Current password is not correct")
+                    throw RequestError.custom(errorMessage: "Current password is not correct")
                 }
             } catch let error {
-                profileVM.error = error.localizedDescription
-                profileVM.hasError = true
+                profileController.error = error.localizedDescription
+                profileController.hasError = true
             }
             
         }
@@ -315,18 +315,18 @@ struct ProfilView: View {
     }
     
     func confirmChange(type: String) {
-        let alert = UIAlertController(title: type == "deleteImage" ? "Delete image" : "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
+        let alert = UIAlertController(title: type == TYPE_DELETE_IMAGE ? "Delete image" : "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
         
         let change = UIAlertAction(title: "Yes", style: .default) { (_) in
-            if type == "username" {
-                profileVM.updateUser(name: self.userName)
-            } else if type == "password" {
-                profileVM.updateUser(name: self.userName, password: newPassword)
-            } else if type == "image" {
+            if type == TYPE_USERNAME {
+                profileController.updateUser(name: self.userName)
+            } else if type == TYPE_PASSWORD {
+                profileController.updateUser(name: self.userName, password: newPassword)
+            } else if type == TYPE_UPLOAD_IMAGE {
                 let uiImage: UIImage = self.selectedImage.asUIImage()
-                profileVM.uploadImage(image: uiImage)
-            } else if type == "deleteImage" {
-                profileVM.deleteImage()
+                profileController.uploadImage(image: uiImage)
+            } else if type == TYPE_DELETE_IMAGE {
+                profileController.deleteImage()
             }
         }
         

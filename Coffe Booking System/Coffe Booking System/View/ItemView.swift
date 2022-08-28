@@ -3,13 +3,13 @@ import Combine
 
 struct ItemView: View {
     
-    var item: AdminViewModel.ItemResponse
+    var item: Response.Item
     @State var showEditOverlay: Bool = false
     @State var showDeleteOverlay: Bool = false
     @State var newName: String = ""
     @State var newAmount: String = ""
     @State var newPrice: String = ""
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminController : AdminController
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8, content: {
@@ -81,11 +81,11 @@ struct ItemView: View {
                             if newPrice == "" {
                                 newPrice = String(item.price)
                             }
-                            adminVM.updateItem(itemID: item.id, name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
+                            adminController.updateItem(itemID: item.id, name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
                         }, label: {
                             Text("Update item")
                                 .frame(width: 244, height: 39)
-                                .background(Color(hex: 0xD9D9D9))
+                                .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
@@ -103,12 +103,12 @@ struct ItemView: View {
                         Text("Do you really want to delete this item?")
                             .frame(alignment: .leading)
                         Button(action: {
-                            adminVM.deleteItem(itemID: item.id)
-                            adminVM.getItems()
+                            adminController.deleteItem(itemID: item.id)
+                            adminController.getItems()
                         }, label: {
                             Text("Yes")
                                 .frame(width: 244, height: 39)
-                                .background(Color(hex: 0xD9D9D9))
+                                .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
@@ -123,7 +123,7 @@ struct ItemView: View {
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                .fill(Color(hex: 0xD9D9D9))
+                .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
             )
     }
 }

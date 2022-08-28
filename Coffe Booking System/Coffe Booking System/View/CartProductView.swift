@@ -2,8 +2,8 @@ import SwiftUI
 
 struct CartProductView: View {
     
-    @State var product: OrderViewModel.ProductInCart
-    @EnvironmentObject var orderVM : OrderViewModel
+    @State var product: Item
+    @EnvironmentObject var cartController : CartController
     
     var body: some View {
         HStack{
@@ -13,18 +13,18 @@ struct CartProductView: View {
             }.padding()
             Spacer()
             Button(action: {
-                orderVM.addProductToCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: product.amount, price: product.price))
+                cartController.addProductToCart(product: Response.Item(id: product.id, name: product.name, amount: product.amount, price: product.price))
             }, label: {
-                Image(systemName: "plus.circle")
+                Image(systemName: IMAGE_PLUS_CIRCLE)
                     .resizable()
                     .foregroundColor(.black)
                     .frame(width: 20, height: 20)
             }).padding()
             Text(String(product.amount))
             Button(action: {
-                orderVM.deleteProductFromCart(product: AdminViewModel.ItemResponse(id: product.id, name: product.name, amount: product.amount, price: product.price))
+                cartController.deleteProductFromCart(product: Response.Item(id: product.id, name: product.name, amount: product.amount, price: product.price))
             }, label: {
-                Image(systemName: "minus.circle")
+                Image(systemName: IMAGE_MINUS_CIRCLE)
                     .resizable()
                     .foregroundColor(.black)
                     .frame(width: 20, height: 20)
@@ -32,14 +32,14 @@ struct CartProductView: View {
         }
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                .fill(Color(hex: 0xD9D9D9))
+                .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
             )
     }
 }
 
 struct CartProductView_Previews: PreviewProvider {
     static var previews: some View {
-        CartProductView(product: OrderViewModel.ProductInCart(id: "", name: "", amount: 0, price: 0.0))
+        CartProductView(product: Item(id: "", name: "", amount: 0, price: 0.0))
     }
 }
 

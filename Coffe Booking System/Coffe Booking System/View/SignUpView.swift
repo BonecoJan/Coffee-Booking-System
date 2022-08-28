@@ -3,8 +3,8 @@ import SwiftUI
 struct SignUpView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profilVM: ProfileViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profileController: ProfileController
     @State var newID: String = ""
     @State var newName: String = ""
     @State var newPassword: String = ""
@@ -21,7 +21,7 @@ struct SignUpView: View {
         
         //Register Fields
         HStack{
-            Image(systemName: "person.circle")
+            Image(systemName: IMAGE_NAME)
                 .padding()
             TextField("Name", text: $newName)
                 .cornerRadius(5.0)
@@ -29,7 +29,7 @@ struct SignUpView: View {
                 .autocapitalization(.none)
         }
         HStack{
-            Image(systemName: "person.text.rectangle")
+            Image(systemName: IMAGE_ID)
                 .padding()
             TextField("User ID (Optional)", text: $newID)
                 .cornerRadius(5.0)
@@ -38,14 +38,14 @@ struct SignUpView: View {
         }
         .offset(y: -20)
         HStack{
-            Image(systemName: "lock")
+            Image(systemName: IMAGE_PASSWORD)
                 .padding()
             SecureField("Password (at least 8 characters)", text: $newPassword)
                 .cornerRadius(5.0)
         }
         .offset(y: -40)
         HStack{
-            Image(systemName: "lock")
+            Image(systemName: IMAGE_PASSWORD)
                 .padding()
             SecureField("Repeat password", text: $repeatedPassword)
                 .cornerRadius(5.0)
@@ -54,7 +54,7 @@ struct SignUpView: View {
         //try to register with given account data and in case of success login with the new registered account
         Button(action: {
             if newPassword.count >= 8 && newName != "" && newPassword == repeatedPassword{
-                    loginVM.register(id: newID, name: newName, password: newPassword, profilVM: profilVM)
+                    loginController.register(id: newID, name: newName, password: newPassword, profileController: profileController)
             } else {
                 invalidUserData = true
             }
@@ -62,11 +62,11 @@ struct SignUpView: View {
         label: {
             Text("Sign up")
                 .frame(width: 244, height: 39)
-                .background(Color(hex: 0xC08267))
+                .background(Color(hex: UInt(COLOR_RED_BROWN)))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .foregroundColor(.black)
         })
-        .alert("Error", isPresented: $loginVM.hasError, presenting: loginVM.error) { detail in
+        .alert("Error", isPresented: $loginController.hasError, presenting: loginController.error) { detail in
             Button("Ok") {
                 //Do nothing
             }
@@ -76,10 +76,10 @@ struct SignUpView: View {
                     .foregroundColor(.red)
             }
         }
-        .alert("Successfully registered", isPresented: $loginVM.success) {
+        .alert(SUCCESS_REGISTER, isPresented: $loginController.success) {
             Button("OK", role: .cancel) {
-                loginVM.success = false
-                loginVM.isAuthenticated = true
+                loginController.success = false
+                loginController.isAuthenticated = true
             }
         }
         .offset(y: -60)

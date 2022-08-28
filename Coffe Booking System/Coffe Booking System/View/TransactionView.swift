@@ -2,8 +2,8 @@ import SwiftUI
 
 struct TransactionView: View {
     
-    var transaction: TransactionViewModel.TransactionResponse
-    @EnvironmentObject var transactionVM: TransactionViewModel
+    var transaction: Response.Transaction
+    @EnvironmentObject var transactionController: TransactionController
     
     var body: some View {
         VStack(alignment: .leading){
@@ -29,7 +29,7 @@ struct TransactionView: View {
                 Spacer()
                 Text(String(timestampToString(timestamp: transaction.timestamp)))
             }
-            if transaction.type == "purchase" || transaction.type == "refund" {
+            if transaction.type == TRANSACTION_PURCHASE || transaction.type == TRANSACTION_REFUND {
                 Text("Item ID: " + transaction.itemId!)
                 Text("Item Name: " + transaction.itemName!)
                 Text("Amount: " + String(transaction.amount!))
@@ -40,19 +40,19 @@ struct TransactionView: View {
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                .fill(Color(hex: 0xD9D9D9))
+                .fill(Color(hex: UInt(COLOR_LIGHT_GRAY)))
             )
     }
     
     func timestampToString(timestamp: Int) -> String {
-        let date = transactionVM.getDataFromTimestamp(timestamp: timestamp)
-        let str = TransactionViewModel.months[date.month! - 1] + " " + String(date.day!) + ", " + String(date.year!)
+        let date = transactionController.getDataFromTimestamp(timestamp: timestamp)
+        let str = TransactionController.months[date.month! - 1] + " " + String(date.day!) + ", " + String(date.year!)
         return str
     }
 }
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView(transaction: TransactionViewModel.TransactionResponse(type: "", value: 0.0, timestamp: 0))
+        TransactionView(transaction: Response.Transaction(type: "", value: 0.0, timestamp: 0))
     }
 }

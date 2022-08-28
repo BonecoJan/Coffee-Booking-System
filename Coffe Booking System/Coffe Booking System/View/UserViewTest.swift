@@ -5,9 +5,9 @@ import SwiftUI
 
 struct UserViewTest: View {
     
-    @EnvironmentObject var userVM : UserViewModel
+    @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var profilVM: ProfileViewModel
+    @EnvironmentObject var profileController: ProfileController
     
     @State var searchText = ""
     
@@ -17,7 +17,7 @@ struct UserViewTest: View {
                 Button(action: {
                     viewState.state = 4
                 }, label: {
-                    Image(systemName: "arrow.left")
+                    Image(systemName: IMAGE_ARROW_LEFT)
                         .resizable()
                         .frame(width: 25, height: 20, alignment: .leading)
                 }).padding()
@@ -28,7 +28,7 @@ struct UserViewTest: View {
             }
             //Searchbar
             HStack {
-                Image(systemName: "magnifyingglass").foregroundColor(.gray)
+                Image(systemName: IMAGE_SEARCH).foregroundColor(.gray)
                 TextField("Search user", text: $searchText)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -37,23 +37,23 @@ struct UserViewTest: View {
             .cornerRadius(50)
             .background(
                 RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                    .fill(Color(hex: 0xE3D5CF))
+                    .fill(Color(hex: UInt(COLOR_SEARCH_BAR)))
                 )
             ScrollView{
                 ForEach(searchResults) { user in
-                    UserViewObj(user: user).environmentObject(profilVM)
+                    UserViewObj(user: user).environmentObject(profileController)
                 }
             }
-            .background(Color(hex: 0xCCB9B1))
+            .background(Color(hex: UInt(COLOR_BACKGROUND)))
         }.padding()
     }
     
     //filter the search results by names
-    var searchResults: [UserViewModel.User] {
+    var searchResults: [User] {
         if searchText.isEmpty {
-            return userVM.users.filter { $0.userResponse.id != profilVM.id}
+            return userController.users.filter { $0.userResponse.id != profileController.profile.id}
         } else {
-            return userVM.users.filter { $0.userResponse.name.contains(searchText) && $0.userResponse.id != profilVM.id}
+            return userController.users.filter { $0.userResponse.name.contains(searchText) && $0.userResponse.id != profileController.profile.id}
         }
     }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AdminItemView: View {
     
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminController : AdminController
 
     @State var showCreateOverlay: Bool = false
     
@@ -32,11 +32,11 @@ struct AdminItemView: View {
         UINavigationBar.appearance().tintColor = UIColor.orange
     }
     
-    var searchResults: [AdminViewModel.ItemResponse] {
+    var searchResults: [Response.Item] {
         if searchText.isEmpty {
-            return adminVM.items
+            return adminController.items
         } else {
-            return adminVM.items.filter { $0.name.contains(searchText)}
+            return adminController.items.filter { $0.name.contains(searchText)}
         }
     }
 
@@ -55,17 +55,17 @@ struct AdminItemView: View {
                             destination: AdminItemDetail(item: item)
                                 .onAppear(perform: {
                                     detailView = true
-                                    adminVM.getItem(itemID: item.id)
+                                    adminController.getItem(itemID: item.id)
                                 })
                                 .onDisappear(perform: {
                                     detailView = false
-                                    adminVM.getItems()
+                                    adminController.getItems()
                                 })
                                 ) {
                                     Text("\(item.name)")
                                     //AdminItemRow(item: item)
 //                                        .onAppear(perform: {
-//                                            adminVM.getUser(user: user)
+//                                            adminController.getUser(user: user)
 //                                        })
                                 }
                     }
@@ -132,8 +132,8 @@ struct AdminItemView: View {
                         if self.newName != "" {
                             if self.newAmount > 0 {
                                 if newPrice > 0.0 {
-                                    adminVM.createItem(name: newName, amount: newAmount, price: newPrice)
-                                    print($adminVM.hasError)
+                                    adminController.createItem(name: newName, amount: newAmount, price: newPrice)
+                                    print($adminController.hasError)
                                 } else {
                                     self.showAlert = true
                                     activeAlert = .priceMissing
@@ -160,7 +160,7 @@ struct AdminItemView: View {
                         .multilineTextAlignment(.center)
                         .padding()
                 })
-                .alert("Error", isPresented: $adminVM.hasError, presenting: adminVM.error) { detail in
+                .alert("Error", isPresented: $adminController.hasError, presenting: adminController.error) { detail in
                     Button("Ok") {
                         //Do nothing
                     }
@@ -182,9 +182,9 @@ struct AdminItemView: View {
                         return Alert(title: Text("Important message"), message: Text("Enter price."), dismissButton: .default(Text("Got it!")))
                     }
                 }
-                .alert("Item created successfully.", isPresented: $adminVM.itemCreated) {
+                .alert("Item created successfully.", isPresented: $adminController.itemCreated) {
                     Button("OK", role: .cancel) {
-                        adminVM.itemCreated = false
+                        adminController.itemCreated = false
                         self.showCreateOverlay = false
                     }
                 }
@@ -196,7 +196,7 @@ struct AdminItemView: View {
 }
 
 struct AdminItemRow: View {
-    var item: AdminViewModel.ItemResponse
+    var item: Response.Item
     
     var body: some View {
         HStack {
@@ -211,13 +211,13 @@ struct AdminItemRow: View {
 
 struct AdminItemDetail: View {
     
-    @EnvironmentObject var adminVM : AdminViewModel
+    @EnvironmentObject var adminController : AdminController
     
     enum ActiveAlert {
         case passwordMissing, itemUpdated, balanceUpdated
     }
 
-    var item: AdminViewModel.ItemResponse
+    var item: Response.Item
     
     @State private var passwordMissing = false
     @State private var itemUpdated = false
@@ -228,10 +228,10 @@ struct AdminItemDetail: View {
 
         
     func resetValues() {
-        adminVM.itemPlaceholder.id = item.id
-        adminVM.itemPlaceholder.name = item.name
-        adminVM.itemPlaceholder.amount = item.amount ?? 0
-        adminVM.itemPlaceholder.price = item.price
+        adminController.itemPlaceholder.id = item.id
+        adminController.itemPlaceholder.name = item.name
+        adminController.itemPlaceholder.amount = item.amount ?? 0
+        adminController.itemPlaceholder.price = item.price
     }
 
     @Environment(\.editMode) var editMode
@@ -257,11 +257,11 @@ struct AdminItemDetail: View {
                         .font(.subheadline)
                         .bold()
                     //Spacer()
-                    TextField("", text: $adminVM.itemPlaceholder.id)
+                    TextField("", text: $adminController.itemPlaceholder.id)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
-//                    Text(adminVM.currentUser.id)
+//                    Text(adminController.currentUser.id)
 //                        .font(.subheadline)
                 }.padding([.top, .leading, .trailing])
                 HStack(alignment: .top) {
@@ -269,7 +269,7 @@ struct AdminItemDetail: View {
                         .font(.subheadline)
                         .bold()
                     //Spacer()
-                    TextField("" ,text: $adminVM.itemPlaceholder.name)
+                    TextField("" ,text: $adminController.itemPlaceholder.name)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
@@ -279,9 +279,9 @@ struct AdminItemDetail: View {
                         .font(.subheadline)
                         .bold()
                     //Spacer()
-//                    Text(String(adminVM.currentUser.balance ?? 0.00))
+//                    Text(String(adminController.currentUser.balance ?? 0.00))
 //                        .font(.subheadline)
-                    TextField("" ,value: $adminVM.itemPlaceholder.amount, formatter: formatter)
+                    TextField("" ,value: $adminController.itemPlaceholder.amount, formatter: formatter)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.decimalPad)
                         .font(.subheadline)
@@ -292,7 +292,7 @@ struct AdminItemDetail: View {
                         .font(.subheadline)
                         .bold()
                     //Spacer()
-                    TextField("" ,value: $adminVM.itemPlaceholder.price, formatter: formatter)
+                    TextField("" ,value: $adminController.itemPlaceholder.price, formatter: formatter)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
@@ -311,7 +311,7 @@ struct AdminItemDetail: View {
 //                .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
 //                    Button("Yes", role: .destructive) {
 //                        withAnimation {
-//                            adminVM.deleteUser(userID: adminVM.currentUser.id)
+//                            adminController.deleteUser(userID: adminController.currentUser.id)
 //                        }
 //                    }
 //                }
@@ -321,7 +321,7 @@ struct AdminItemDetail: View {
                                 message: Text("There is no undo"),
                                 primaryButton: .destructive(Text("Delete")) {
                                     withAnimation {
-                                        adminVM.deleteItem(itemID: item.id)
+                                        adminController.deleteItem(itemID: item.id)
                 deleteItem = false
             }
                                 },
@@ -334,7 +334,7 @@ struct AdminItemDetail: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
-                        adminVM.updateItem(itemID: adminVM.itemPlaceholder.id, name: adminVM.itemPlaceholder.name, amount: adminVM.itemPlaceholder.amount ?? 0, price: adminVM.itemPlaceholder.price)
+                        adminController.updateItem(itemID: adminController.itemPlaceholder.id, name: adminController.itemPlaceholder.name, amount: adminController.itemPlaceholder.amount ?? 0, price: adminController.itemPlaceholder.price)
                         self.showAlert = true
                         activeAlert = .itemUpdated
                     }
@@ -360,8 +360,8 @@ struct AdminItemDetail: View {
                     withAnimation {
                         editMode?.wrappedValue = .inactive
                     }
-//                    if adminVM.tmpUser.id != adminVM.currentUser.id {
-//                        adminVM.updateUser(userID: adminVM.tmpUser.id, name: adminVM.tmpUser.name, isAdmin: isAdmin, password: adminVM.tmpUser.password!)
+//                    if adminController.tmpUser.id != adminController.currentUser.id {
+//                        adminController.updateUser(userID: adminController.tmpUser.id, name: adminController.tmpUser.name, isAdmin: isAdmin, password: adminController.tmpUser.password!)
 //                    }
                     if !isEditing {
                         resetValues()
@@ -382,7 +382,7 @@ struct AdminItemDetail: View {
 //            )
         .navigationBarTitle(Text(verbatim: item.id), displayMode: .inline)
         .onAppear(perform: {
-            //self.userID = adminVM.currentUser.id
+            //self.userID = adminController.currentUser.id
         })
     }
 }
@@ -404,7 +404,7 @@ struct AdminItemView_Previews: PreviewProvider {
 //
 //struct AdminItemView: View {
 //
-//    @EnvironmentObject var adminVM : AdminViewModel
+//    @EnvironmentObject var adminController : AdminViewModel
 //    @State var showCreateOverlay: Bool = false
 //    @State var newID: String
 //    @State var newName: String
@@ -464,7 +464,7 @@ struct AdminItemView_Previews: PreviewProvider {
 //                        .autocapitalization(.none)
 //                    Button(action: {
 //                        //TODO: Create Item here
-//                        adminVM.createItem(name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
+//                        adminController.createItem(name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
 //                    }, label: {
 //                        Text("Create Item")
 //                            .frame(width: 244, height: 39)
@@ -479,9 +479,9 @@ struct AdminItemView_Previews: PreviewProvider {
 //
 //            ScrollView(.vertical, showsIndicators: false, content: {
 //                VStack{
-//                    ForEach(adminVM.items) { item in
+//                    ForEach(adminController.items) { item in
 //                        ItemView(item: item)
-//                            .environmentObject(adminVM)
+//                            .environmentObject(adminController)
 //                    }
 //                }
 //            })

@@ -1,18 +1,18 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var loginVM: LoginViewModel
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @EnvironmentObject var homeVM : HomeViewModel
+    @EnvironmentObject var loginController: LoginController
+    @EnvironmentObject var profilController: ProfileController
+    @EnvironmentObject var homeController : HomeController
     
-    @StateObject var orderVM = OrderViewModel()
+    @StateObject var orderVM = CartController()
     @State var searchText = ""
     
     var body: some View {
         //Searchbar
         VStack{
             HStack {
-                Image(systemName: "magnifyingglass").foregroundColor(.gray)
+                Image(systemName: IMAGE_SEARCH).foregroundColor(.gray)
                 TextField("Search item", text: $searchText)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -21,28 +21,31 @@ struct HomeView: View {
             .cornerRadius(50)
             .background(
                 RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
-                    .fill(Color(hex: 0xE3D5CF))
+                    .fill(Color(hex: UInt(COLOR_SEARCH_BAR)))
                 )
             ScrollView{
                 ForEach(searchResults) { product in
                     ProductView(product: product)
-                        .environmentObject(homeVM)
+                        .environmentObject(homeController)
                 }
             }
         }
+        .onAppear(perform: {
+            homeController.getProducts()
+        })
         .padding()
         .background(
             RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-                .fill(Color(hex: 0xCCB9B1))
+                .fill(Color(hex: UInt(COLOR_BACKGROUND)))
             )
     }
     
     //filter the search results by names
-    var searchResults: [AdminViewModel.ItemResponse] {
+    var searchResults: [Response.Item] {
         if searchText.isEmpty {
-            return homeVM.products
+            return homeController.products
         } else {
-            return homeVM.products.filter { $0.name.contains(searchText)}
+            return homeController.products.filter { $0.name.contains(searchText)}
         }
     }
     

@@ -1,15 +1,8 @@
-//
-//  ChartSelection.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 21.07.22.
-//
-
 import SwiftUI
 import Charts
 
 struct ChartSelection: View {
-    @EnvironmentObject var transactionVM: TransactionViewModel
+    @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var viewState: ViewState
 
     @State private var selectedYear: Int = 2022
@@ -30,7 +23,7 @@ struct ChartSelection: View {
                     Button(action: {
                         viewState.state = 4
                     }, label: {
-                        Image(systemName: "arrow.left")
+                        Image(systemName: IMAGE_ARROW_LEFT)
                             .resizable()
                             .frame(width: 30, height: 25, alignment: .leading)
             
@@ -42,21 +35,21 @@ struct ChartSelection: View {
                 Menu("Options") {
                     Menu("Coffees bought") {
                         Button("Monthly", action: {
-                            self.transactionVM.getMonthlyCoffees(transactionType: "purchase", year: 2022)
+                            self.transactionController.getMonthlyCoffees(transactionType: TRANSACTION_PURCHASE, year: 2022)
                             selectedGraph = 21
                         })
                         Button("Daily", action: {
-                            self.transactionVM.getDailyCoffees(transactionType: "purchase", year: 2022, month: 7)
+                            self.transactionController.getDailyCoffees(transactionType: TRANSACTION_PURCHASE, year: 2022, month: 7)
                             selectedGraph = 22
                         })
                     }
                     Menu("Money spent") {
                         Button("Monthly", action: {
-                            self.transactionVM.getMonthlySums(transactionType: "purchase", year: 2022)
+                            self.transactionController.getMonthlySums(transactionType: TRANSACTION_PURCHASE, year: 2022)
                             selectedGraph = 11
                         })
                         Button("Daily", action: {
-                            self.transactionVM.getDailySums(transactionType: "purchase", year: 2022, month: 7)
+                            self.transactionController.getDailySums(transactionType: TRANSACTION_PURCHASE, year: 2022, month: 7)
                             selectedGraph = 12
                         })
                     }
@@ -99,24 +92,24 @@ struct ChartSelection: View {
             if selectedGraph == 0 {
                 Spacer()
             } else if selectedGraph == 11 {
-                Chart(entries: transactionVM.dataEntriesForYear("purchase", Int(self.leftSource[self.leftIndex])!, transactions: transactionVM.monthlySums), selectedYear: $selectedYear, selectedItem: $selectedItem)
+                Chart(entries: transactionController.dataEntriesForYear(TRANSACTION_PURCHASE, Int(self.leftSource[self.leftIndex])!, transactions: transactionController.monthlySums), selectedYear: $selectedYear, selectedItem: $selectedItem)
                     .frame(height: 500)
                 Text(selectedItem)
                 
                 Text("Test")
             } else if selectedGraph == 12 {
                 
-                Chart(entries: transactionVM.dataEntriesForMonth("purchase", 2022, 7, transactions: transactionVM.dailySums), selectedYear: $selectedYear, selectedItem: $selectedItem)
+                Chart(entries: transactionController.dataEntriesForMonth(TRANSACTION_PURCHASE, 2022, 7, transactions: transactionController.dailySums), selectedYear: $selectedYear, selectedItem: $selectedItem)
                     .frame(height: 500)
                 Text(selectedItem)
             } else if selectedGraph == 21 {
                 
-                Chart(entries: transactionVM.dataCoffeesForYear("purchase", 2022, transactions: transactionVM.monthlyCoffees), selectedYear: $selectedYear, selectedItem: $selectedItem)
+                Chart(entries: transactionController.dataCoffeesForYear(TRANSACTION_PURCHASE, 2022, transactions: transactionController.monthlyCoffees), selectedYear: $selectedYear, selectedItem: $selectedItem)
                     .frame(height: 500)
                 Text(selectedItem)
             } else if selectedGraph == 22 {
                 
-                Chart(entries: transactionVM.dataCoffeesForMonth("purchase", 2022, 7, transactions: transactionVM.dailyCoffees), selectedYear: $selectedYear, selectedItem: $selectedItem)
+                Chart(entries: transactionController.dataCoffeesForMonth(TRANSACTION_PURCHASE, 2022, 7, transactions: transactionController.dailyCoffees), selectedYear: $selectedYear, selectedItem: $selectedItem)
                     .frame(height: 500)
                 Text(selectedItem)
             }

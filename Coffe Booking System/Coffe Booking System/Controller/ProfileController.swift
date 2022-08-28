@@ -2,34 +2,9 @@ import Foundation
 import JWTDecode
 import SwiftUI
 
-class ProfileViewModel: ObservableObject {
+class ProfileController: ObservableObject {
     
-    struct UserResponse: Codable, Identifiable {
-        var id: String
-        var name: String
-        var balance: Double
-    }
-    
-    struct ImageResponse: Codable {
-        var encodedImage: String?
-        var timestamp: Int?
-    }
-    
-    struct UserRequest: Codable {
-        var name: String
-        var password: String
-    }
-    
-    struct sendMoneyRequest: Codable {
-        var amount: Double
-        var recipientId: String
-    }
-    
-    @Published var id:  String
-    @Published var name: String
-    @Published var isAdmin: Bool
-    @Published var balance: Double
-    @Published var image: ImageResponse
+    @Published var profile: Profile = Profile()
     
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
@@ -38,38 +13,30 @@ class ProfileViewModel: ObservableObject {
     @Published var updatedImage: Bool = false
     @Published var error: String = ""
     
-    init() {
-        self.isAdmin = false
-        self.name = ""
-        self.id = ""
-        self.balance = 0.0
-        self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
-    }
-    
     func loadUserData() {
         self.isLoading = true
         Task {
             do {
                 //try to get user id from Keychain
-                if let readToken = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+                if let readToken = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
                 let tokenID = String(data: readToken, encoding: .utf8)!
                 let jwt = try decode(jwt: tokenID)
                 let userID = jwt.claim(name: "id").string!
                 
-                let body: WebService.empty? = nil
-                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UserResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                    let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: GET, authReq: true, body: body, responseType: Response.Profil.User.self, unknownType: false)
                     
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false
-                    self.id = user.id
-                    self.name = user.name
-                    self.balance = user.balance
+                    self.profile.id = user.id
+                    self.profile.name = user.name
+                    self.profile.balance = user.balance
                     self.getImage()
                 }
                     
                 } else {
-                    throw WebService.RequestError.custom(errorMessage: "missing token")
+                    throw RequestError.custom(errorMessage: ERROR_TOKEN)
                 }
                 
             } catch let error {
@@ -88,13 +55,13 @@ class ProfileViewModel: ObservableObject {
         Task {
             do {
                 //try to get user password from Keychain
-                if let password = KeychainWrapper.standard.get(service: "password", account: "Coffe-Booking-System") {
+                if let password = KeychainWrapper.standard.get(service: SERVICE_PASSWORD, account: ACCOUNT) {
                 let password = String(data: password, encoding: .utf8)!
                     
-                let body = UserRequest(name: name, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Request.Profil.User(name: name, password: password)
+                    let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.profile.id, reqMethod: PUT, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 print(response.response)
-                if response.response == "User updated successfully." {
+                if response.response == SUCCESS_UPDATE_USER {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.updatedUser = true
@@ -115,10 +82,10 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body = UserRequest(name: name, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id, reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                print(response.response)
-                if response.response == "User updated successfully." {
+                let body = Request.Profil.User(name: name, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.profile.id, reqMethod: PUT, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                
+                if response.response == SUCCESS_UPDATE_USER {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.updatedUser = true
@@ -137,15 +104,15 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getAdminData() {
-        if let data = KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System") {
+        if let data = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
         let tokenID = String(data: data, encoding: .utf8)!
         do {
             let jwt = try decode(jwt: tokenID)
             let adminInfo = jwt.body["isAdmin"]! as? Int
             if adminInfo! == 1 {
-                self.isAdmin = true
+                self.profile.isAdmin = true
             } else {
-                self.isAdmin = false
+                self.profile.isAdmin = false
             }
         } catch {
             print("Error while trying to decode token")
@@ -160,9 +127,9 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body = sendMoneyRequest(amount: amount, recipientId: recipientId)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/sendMoney", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Funding processed successfully." {
+                let body = Request.SendMoney(amount: amount, recipientId: recipientId)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.profile.id + "/sendMoney", reqMethod: POST, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_FUNDING {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.hasError = false
@@ -184,9 +151,9 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/purchases/refund", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Purchase refunded successfully." {
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.profile.id + "/purchases/refund", reqMethod: POST, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_REFUND {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.hasError = false
@@ -208,12 +175,12 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.id + "/image", reqMethod: "GET", authReq: true, body: body, responseType: ImageResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + self.profile.id + "/image", reqMethod: GET, authReq: true, body: body, responseType: Response.Image.self, unknownType: false)
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false
-                    self.image = response
+                    self.profile.image = response
                 }
             } catch let error {
                 DispatchQueue.main.async {
@@ -228,8 +195,8 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: self.id)
-                if response.response == "Image uploaded successfully." {
+                let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: self.profile.id)
+                if response.response == SUCCESS_UPLOAD_IMAGE {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.hasError = false
@@ -251,14 +218,14 @@ class ProfileViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body : WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + self.id + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Image deleted successfully." {
+                let body : Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + self.profile.id + "/image", reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_IMAGE {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.hasError = false
                         self.updatedImage = true
-                        self.image = ImageResponse(encodedImage: "empty", timestamp: 0)
+                        self.profile.image = Response.Image(encodedImage: "empty", timestamp: 0)
                     }
                 }
             } catch let error{

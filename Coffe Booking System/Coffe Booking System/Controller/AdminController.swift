@@ -1,54 +1,7 @@
 import Foundation
 import SwiftUI
 
-class AdminViewModel: ObservableObject {
-    
-    
-    class User: ObservableObject, Identifiable {
-        var userResponse: UsersResponse
-        var image: ProfileViewModel.ImageResponse
-
-        init(userRespose: UsersResponse) {
-            self.userResponse = userRespose
-            self.image = ProfileViewModel.ImageResponse(encodedImage: "empty", timestamp: 0)
-        }
-    }
-    
-    struct UsersResponse: Codable, Identifiable {
-        var id: String
-        var name: String
-        var password: String?
-        var balance: Double?
-        var imageTimestamp: Int?
-    }
-    
-    struct FundingRequest: Codable {
-        let amount: Double
-    }
-    
-    struct UserRequest: Codable {
-        let id: String
-        let name: String
-        let isAdmin: Bool
-        let password: String
-    }
-    
-    struct ItemResponse: Codable, Identifiable {
-        var id: String
-        var name: String
-        var amount: Int?
-        var price: Double
-    }
-    
-    struct ItemRequest: Codable {
-        var name: String
-        var amount: Int
-        var price: Double
-    }
-    
-    struct CreateUserResponse: Codable {
-        var id: String
-    }
+class AdminController: ObservableObject {
     
     enum MyError: Error {
         case runtimeError(String)
@@ -56,11 +9,11 @@ class AdminViewModel: ObservableObject {
     
     @Published var error: String = ""
     
-    @Published var items: [ItemResponse] = []
-    //@Published var users:  [UsersResponse] = []
+    @Published var items: [Response.Item] = []
+    //@Published var users:  [Response.User] = []
     @Published var users:  [User] = []
-    @Published var itemPlaceholder:  ItemResponse = ItemResponse(id: "", name: "", amount: 0, price: 0.0)
-    @Published var userPlaceholder:  UsersResponse = UsersResponse(id: "", name: "", password: "")
+    @Published var itemPlaceholder:  Response.Item = Response.Item(id: "", name: "", amount: 0, price: 0.0)
+    @Published var userPlaceholder:  Response.User = Response.User(id: "", name: "", password: "")
 
     @Published var hasError: Bool = false
     @Published var success: Bool = false
@@ -78,8 +31,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let usersLoaded = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: "GET", authReq: false, body: body, responseType: [UsersResponse].self, unknownType: false)
+                let body: Request.Empty? = nil
+                let usersLoaded = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: GET, authReq: false, body: body, responseType: [Response.User].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
                     self.users = []
@@ -104,8 +57,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let userLoaded = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id, reqMethod: "GET", authReq: true, body: body, responseType: UsersResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let userLoaded = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id, reqMethod: GET, authReq: true, body: body, responseType: Response.User.self, unknownType: false)
                 DispatchQueue.main.async {
                     //self.currentUser = userLoaded
                     self.getImage(user: user)
@@ -129,8 +82,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task{
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id + "/image", reqMethod: "GET", authReq: true, body: body, responseType: ProfileViewModel.ImageResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id + "/image", reqMethod: GET, authReq: true, body: body, responseType: Response.Image.self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
                     user.image = response
@@ -139,9 +92,9 @@ class AdminViewModel: ObservableObject {
                 }
             } catch let error {
                 DispatchQueue.main.async {
-                    if error.localizedDescription == "No profile image associated with that ID. (StatusCode: 404)" {
+                    if error.localizedDescription == ERROR_NO_IMAGE {
                         self.hasError = false
-                        user.image = ProfileViewModel.ImageResponse(encodedImage: "empty", timestamp: 0)
+                        user.image = Response.Image(encodedImage: "empty", timestamp: 0)
                         //self.users.append(user)
                     } else {
                         self.hasError = true
@@ -164,8 +117,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let items = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "GET", authReq: false, body: body, responseType: [ItemResponse].self, unknownType: false)
+                let body: Request.Empty? = nil
+                let items = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: GET, authReq: false, body: body, responseType: [Response.Item].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
                     self.items = items
@@ -186,8 +139,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let item = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "GET", authReq: true, body: body, responseType: ItemResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let item = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: GET, authReq: true, body: body, responseType: Response.Item.self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
                     self.itemPlaceholder = item
@@ -208,8 +161,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "GET", authReq: true, body: body, responseType: UsersResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: GET, authReq: true, body: body, responseType: Response.User.self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
                     self.userPlaceholder = user
@@ -230,8 +183,8 @@ class AdminViewModel: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/image", reqMethod: "GET", authReq: true, body: body, responseType: ProfileViewModel.ImageResponse.self, unknownType: false)
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/image", reqMethod: GET, authReq: true, body: body, responseType: Response.Image.self, unknownType: false)
                 print(response)
                 DispatchQueue.main.async {
                     self.hasError = false
@@ -253,7 +206,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: userID)
-                if response.response == "Image uploaded successfully." {
+                if response.response == SUCCESS_UPLOAD_IMAGE {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -277,7 +230,7 @@ class AdminViewModel: ObservableObject {
         Task {
             do {
                 let response = try await WebService(authManager: AuthManager()).uploadImage(image: image, userID: user.userResponse.id)
-                if response.response == "Image uploaded successfully." {
+                if response.response == SUCCESS_UPLOAD_IMAGE {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -302,9 +255,9 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body : WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + userID + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Image deleted successfully." {
+                let body : Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + userID + "/image", reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_IMAGE {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -326,9 +279,9 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body : WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + user.userResponse.id + "/image", reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Image deleted successfully." {
+                let body : Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "/users/" + user.userResponse.id + "/image", reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_IMAGE {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -368,9 +321,9 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "Item deleted successfully." {
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items/" + itemID, reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_ITEM {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -393,10 +346,10 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body = ItemResponse(id: itemID, name: name, amount: amount, price: price)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Response.Item(id: itemID, name: name, amount: amount, price: price)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: PUT, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 print(response.response)
-                if response.response == "Item updated successfully." {
+                if response.response == SUCCESS_UPDATE_ITEM {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -419,10 +372,10 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body = UserRequest(id: userID, name: name, isAdmin: isAdmin, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "PUT", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Request.Admin.User(id: userID, name: name, isAdmin: isAdmin, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: PUT, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 print(response.response)
-                if response.response == "User updated successfully." {
+                if response.response == SUCCESS_UPDATE_USER {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -445,9 +398,9 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "User deleted successfully." {
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_USER {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -470,9 +423,9 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body: WebService.empty? = nil
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id, reqMethod: "DELETE", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
-                if response.response == "User deleted successfully." {
+                let body: Request.Empty? = nil
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + user.userResponse.id, reqMethod: DELETE, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
+                if response.response == SUCCESS_DELETE_USER {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
@@ -497,8 +450,8 @@ class AdminViewModel: ObservableObject {
         self.userCreated = false
         Task {
             do {
-                let body = UserRequest(id: userID, name: name, isAdmin: isAdmin, password: password)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Request.Admin.User(id: userID, name: name, isAdmin: isAdmin, password: password)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/admin", reqMethod: POST, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 if response.response == userID {
                     DispatchQueue.main.async {
                         self.hasError = false
@@ -511,10 +464,10 @@ class AdminViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.hasError = true
                     self.userCreated = false
-                    if error.localizedDescription == "409" {
-                        self.error = "User with that ID already exists."
+                    if error.localizedDescription == String(STATUS_CONFLICT) {
+                        self.error = ERROR_USER_EXISTS
                     } else {
-                        self.error = "An error was thrown while trying to communicate with the server. Status Code: " + error.localizedDescription
+                        self.error = error.localizedDescription
                     }
                     self.isLoading = false
                 }
@@ -528,8 +481,8 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body = ItemRequest(name: name, amount: amount, price: price)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Request.Item(name: name, amount: amount, price: price)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: POST, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 print(response.response)
                     DispatchQueue.main.async {
                         self.itemCreated = true
@@ -552,8 +505,8 @@ class AdminViewModel: ObservableObject {
         self.success = false
         Task {
             do {
-                let body = FundingRequest(amount: amount)
-                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/funding", reqMethod: "POST", authReq: true, body: body, responseType: WebService.ChangeResponse.self, unknownType: false)
+                let body = Request.Funding(amount: amount)
+                let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID + "/funding", reqMethod: POST, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
                 print(response.response)
                     DispatchQueue.main.async {
                         self.success = true

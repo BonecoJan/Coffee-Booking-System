@@ -3,8 +3,8 @@ import SwiftUI
 struct BookingView: View {
     
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var profilVM: ProfileViewModel
-    @EnvironmentObject var transactionVM : TransactionViewModel
+    @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var transactionController : TransactionController
     
     @State var transactionType : Int = 0
     
@@ -15,7 +15,7 @@ struct BookingView: View {
                     Button(action: {
                         viewState.state = 4
                     }, label: {
-                        Image(systemName: "arrow.left")
+                        Image(systemName: IMAGE_ARROW_LEFT)
                             .resizable()
                             .frame(width: 30, height: 25, alignment: .leading)
                     })
@@ -30,7 +30,7 @@ struct BookingView: View {
                     }, label: {
                         Text("Purchases")
                             .frame(width: 100, height: 30)
-                            .background(Color(hex: 0xC08267))
+                            .background(Color(hex: UInt(COLOR_RED_BROWN)))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
@@ -42,7 +42,7 @@ struct BookingView: View {
                     }, label: {
                         Text("Money Sent")
                             .frame(width: 100, height: 30)
-                            .background(Color(hex: 0xC08267))
+                            .background(Color(hex: UInt(COLOR_RED_BROWN)))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
@@ -52,7 +52,7 @@ struct BookingView: View {
                     }, label: {
                         Text("Charges")
                             .frame(width: 100, height: 30)
-                            .background(Color(hex: 0xC08267))
+                            .background(Color(hex: UInt(COLOR_RED_BROWN)))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.black)
                     })
@@ -64,16 +64,16 @@ struct BookingView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false, content: {
                     VStack{
-                        ForEach(transactionVM.transactions.reversed()) { transaction in
-                            if transactionType == 0 && transaction.type == "purchase" {
+                        ForEach(transactionController.transactions.reversed()) { transaction in
+                            if transactionType == 0 && transaction.type == TRANSACTION_PURCHASE {
                                 TransactionView(transaction: transaction)
-                                    .environmentObject(transactionVM)
-                            } else if transactionType == 1 && transaction.type == "funding" && transaction.value < 0.0 {
+                                    .environmentObject(transactionController)
+                            } else if transactionType == 1 && transaction.type == TRANSACTION_FUNDING && transaction.value < 0.0 {
                                 TransactionView(transaction: transaction)
-                                    .environmentObject(transactionVM)
-                            } else if transactionType == 2 && (transaction.type == "funding" || transaction.type == "refund") && transaction.value > 0.0 {
+                                    .environmentObject(transactionController)
+                            } else if transactionType == 2 && (transaction.type == TRANSACTION_FUNDING || transaction.type == TRANSACTION_REFUND) && transaction.value > 0.0 {
                                 TransactionView(transaction: transaction)
-                                    .environmentObject(transactionVM)
+                                    .environmentObject(transactionController)
                             }
                         }
                     }
