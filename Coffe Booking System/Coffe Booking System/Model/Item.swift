@@ -12,4 +12,15 @@ class Item: ObservableObject, Identifiable {
         self.amount = amount
         self.price = price
     }
+    
+    init(item: Response.Item) {
+        self.id = item.id
+        self.name = item.name
+        self.price = item.price
+        if item.amount == nil {
+            self.amount = 0
+        } else {
+            self.amount = item.amount!
+        }
+    }
 }

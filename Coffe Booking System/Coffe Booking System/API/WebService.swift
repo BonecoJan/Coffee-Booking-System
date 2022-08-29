@@ -78,7 +78,6 @@ class WebService {
         }
     }
     
-    //uploading image. source: https://gist.github.com/codecat15/6c1eaa5b7ea48b26b10d907fef68abf2
     func uploadImage(allowRetry: Bool = true, image: UIImage, userID: String) async throws -> NoJSON {
         let url = URL(string: API_URL + "users/" + userID + "/image")
         var httpRequest = URLRequest(url: url!)

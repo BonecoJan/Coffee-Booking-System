@@ -47,12 +47,13 @@ struct MainView: View {
                 .tabItem{
                     Image(systemName: IMAGE_CART)
                         .foregroundColor(.black)
-                    Text("Order")
+                    Text("Cart")
                         .foregroundColor(.black)
                 }
                 .environmentObject(cartController)
                 .environmentObject(profileController)
                 .environmentObject(transactionController)
+                .environmentObject(homeController)
             QRView()
                 .tabItem{
                     Image(systemName: IMAGE_QR)
@@ -63,6 +64,7 @@ struct MainView: View {
                 .environmentObject(cartController)
                 .environmentObject(profileController)
                 .environmentObject(transactionController)
+                .environmentObject(homeController)
                 .environmentObject(viewState)
         }
     }

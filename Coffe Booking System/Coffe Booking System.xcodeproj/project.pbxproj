@@ -38,10 +38,11 @@
 		F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF628898ECF00CF2689 /* QRView.swift */; };
 		F692ECC62885736800C6E92B /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC52885736800C6E92B /* HomeController.swift */; };
 		F692ECC82885769400C6E92B /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC72885769400C6E92B /* ProductView.swift */; };
-		F692ECCA28857CE200C6E92B /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC928857CE200C6E92B /* OrderController.swift */; };
+		F692ECCA28857CE200C6E92B /* CartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F692ECC928857CE200C6E92B /* CartController.swift */; };
 		F693E878289E53D400F06D3B /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F693E877289E53D400F06D3B /* AchievementView.swift */; };
 		F6965C4428B4B8C800628C6D /* AchievementAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6965C4328B4B8C800628C6D /* AchievementAlertView.swift */; };
 		F69B73E02887FF6000FDCED7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */; };
+		F6C91ACA28BD24C1000C9803 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C91AC928BD24C1000C9803 /* Transaction.swift */; };
 		F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B666287361640037E821 /* CustomViewStructs.swift */; };
 		F6D4B669287361E50037E821 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B668287361E50037E821 /* SignInView.swift */; };
 		F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B66A287361F90037E821 /* SignUpView.swift */; };
@@ -90,10 +91,11 @@
 		F68EDDF828898F8900CF2689 /* Coffe-Booking-System-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Coffe-Booking-System-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F692ECC52885736800C6E92B /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		F692ECC72885769400C6E92B /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
-		F692ECC928857CE200C6E92B /* OrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderController.swift; sourceTree = "<group>"; };
+		F692ECC928857CE200C6E92B /* CartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartController.swift; sourceTree = "<group>"; };
 		F693E877289E53D400F06D3B /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		F6965C4328B4B8C800628C6D /* AchievementAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementAlertView.swift; sourceTree = "<group>"; };
 		F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		F6C91AC928BD24C1000C9803 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		F6D4B666287361640037E821 /* CustomViewStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewStructs.swift; sourceTree = "<group>"; };
 		F6D4B668287361E50037E821 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F6D4B66A287361F90037E821 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				F6D4B6B5287807190037E821 /* Item.swift */,
 				F6D4B6B1287807190037E821 /* Profile.swift */,
 				F688765028B9F6C100BDDEE9 /* User.swift */,
+				F6C91AC928BD24C1000C9803 /* Transaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,7 +239,7 @@
 				F6D4B6BB2878073E0037E821 /* ProfileController.swift */,
 				F6D4B6C728781BE10037E821 /* AdminController.swift */,
 				F692ECC52885736800C6E92B /* HomeController.swift */,
-				F692ECC928857CE200C6E92B /* OrderController.swift */,
+				F692ECC928857CE200C6E92B /* CartController.swift */,
 				F62165AC2886D2BC00415D15 /* TransactionController.swift */,
 				C34F7AF52886DC0900F7694A /* UserController.swift */,
 			);
@@ -363,10 +366,11 @@
 				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
 				C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
-				F692ECCA28857CE200C6E92B /* OrderController.swift in Sources */,
+				F692ECCA28857CE200C6E92B /* CartController.swift in Sources */,
 				C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */,
 				C34F7AF62886DC0900F7694A /* UserController.swift in Sources */,
 				F62165AD2886D2BC00415D15 /* TransactionController.swift in Sources */,
+				F6C91ACA28BD24C1000C9803 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +513,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -543,6 +548,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

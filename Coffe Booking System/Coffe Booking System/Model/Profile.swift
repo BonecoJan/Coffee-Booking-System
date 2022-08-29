@@ -13,7 +13,6 @@ class Profile: ObservableObject, Identifiable {
         self.name = ""
         self.id = ""
         self.balance = 0.0
-        self.image = Response.Image(encodedImage: "empty", timestamp: 0)
+        self.image = Response.Image(encodedImage: NO_PROFILE_IMAGE, timestamp: 0)
     }
-    
 }

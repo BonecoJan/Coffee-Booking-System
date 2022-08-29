@@ -5,6 +5,7 @@ struct OrderView: View {
     @EnvironmentObject var cartController : CartController
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var homeController : HomeController
     @EnvironmentObject var viewState: ViewState
     
     @State var showAchievementAlert: Bool = false

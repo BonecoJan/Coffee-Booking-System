@@ -7,8 +7,6 @@ struct ProfilView: View {
     @EnvironmentObject var loginController: LoginController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var userController: UserController
-    @State var userName: String = ""
-    @State var userID: String = ""
     
     @State private var showingImagePicker = false
     @State private var selectedImage: Image? = Image("")
@@ -16,6 +14,8 @@ struct ProfilView: View {
     @State var currentPassword: String = ""
     @State var newPassword: String = ""
     @State var repeatedPassword: String = ""
+    @State var userName: String = ""
+    @State var userID: String = ""
     
     @State var menuOpen: Bool = false
     @State var showChangeOverlay: Bool = false

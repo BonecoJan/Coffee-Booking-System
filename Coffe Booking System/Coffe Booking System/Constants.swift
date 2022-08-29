@@ -53,6 +53,8 @@ let ERROR_NO_IMAGE = "No profile image associated with that ID. (StatusCode: 404
 let ERROR_USER_EXISTS = "User with that ID already exists."
 let ERROR_MONEY = "Not enough money."
 let ERROR_FORMAT = "invalid format given"
+let ERROR_ITEM_NOT_AVAILABLE = "item currently not available"
+let ERROR_NO_ITEM = "no item"
 
 //Key-Chain:
 let SERVICE_TOKEN = "access-token"

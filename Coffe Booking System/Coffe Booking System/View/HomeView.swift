@@ -41,7 +41,7 @@ struct HomeView: View {
     }
     
     //filter the search results by names
-    var searchResults: [Response.Item] {
+    var searchResults: [Item] {
         if searchText.isEmpty {
             return homeController.products
         } else {

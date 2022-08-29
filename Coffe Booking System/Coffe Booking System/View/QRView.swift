@@ -6,6 +6,7 @@ struct QRView: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var cartController: CartController
     @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var homeController : HomeController
     @EnvironmentObject var viewState: ViewState
     
     @State var showAchievementAlert: Bool = false
@@ -64,11 +65,17 @@ struct QRView: View {
             }
             DispatchQueue.main.async {
                 if id != "" {
-                    if profileController.profile.balance - cartController.total > 0.0 || profileController.profile.isAdmin {
-                        confirmPurchase(itemID: id, cartController: cartController, profileController: profileController)
-                    } else {
+                    let item = homeController.getItem(itemID: id)
+                    if item.amount < 1 {
                         cartController.hasError = true
-                        cartController.error = ERROR_MONEY
+                        cartController.error = ERROR_ITEM_NOT_AVAILABLE
+                    } else {
+                        if profileController.profile.balance - cartController.total > 0.0 || profileController.profile.isAdmin {
+                            confirmPurchase(itemID: id, cartController: cartController, profileController: profileController)
+                        } else {
+                            cartController.hasError = true
+                            cartController.error = ERROR_MONEY
+                        }
                     }
                 }
             }
