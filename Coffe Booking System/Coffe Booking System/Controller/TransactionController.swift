@@ -1,49 +1,14 @@
 import Foundation
-import Charts
+import SwiftUICharts
 
 class TransactionController: ObservableObject {
 
     @Published var transactions : [Response.Transaction] = []
     @Published var purchaseCount: Int = 0
     
-    @Published var monthlySums : [TransactionSum] = []
-    @Published var dailySums : [TransactionSum] = []
-    
-    @Published var monthlyCoffees : [CoffeeSum] = []
-    @Published var dailyCoffees : [CoffeeSum] = []
-    
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
     @Published var error: String = ""
-    
-    struct Transaction {
-        var year: Int
-        var month: Double
-        var quantity: Double
-    }
-    
-    struct CoffeeSum {
-        var type: String
-        var year: Int
-        var month: Double
-        var day: Double
-        var amount: Double
-    }
-    
-    struct TransactionSum {
-        var type: String
-        var year: Int
-        var month: Double
-        var day: Double
-        var value: Double
-    }
-    
-//    static func dataEntriesForYear(_ year: Int, transactions:[Transaction]) -> [ChartDataEntry] {
-//        let yearTransactions = transactions.filter{$0.year == year}
-//        return yearTransactions.map{
-//            ChartDataEntry(x: $0.month, y: $0.quantity)
-//        }
-//    }
     
     func countPurchases() -> Int {
         var count : Int = 0
@@ -55,175 +20,144 @@ class TransactionController: ObservableObject {
         return count
     }
     
-    func dataCoffeesForMonth(_ type: String, _ year: Int, _ month: Double, transactions:[CoffeeSum]) -> [BarChartDataEntry] {
-        let yearValues = self.dailyCoffees.filter{
-            $0.year == year
-            && $0.month == month
-            && $0.type == type}
-                return yearValues.map{
-                    BarChartDataEntry(x: $0.day, y: $0.amount)
-                }
-    }
-
-    func dataCoffeesForYear(_ type: String, _ year: Int, transactions:[CoffeeSum]) -> [BarChartDataEntry] {
-        let yearValues = self.monthlyCoffees.filter{$0.year == year && $0.type == type}
-                return yearValues.map{
-                    BarChartDataEntry(x: $0.month, y: $0.amount)
-                }
-    }
-    
-    func dataEntriesForMonth(_ type: String, _ year: Int, _ month: Double, transactions:[TransactionSum]) -> [BarChartDataEntry] {
-        let yearValues = self.dailySums.filter{
-            $0.year == year
-            && $0.month == month
-            && $0.type == type}
-                return yearValues.map{
-                    BarChartDataEntry(x: $0.day, y: $0.value)
-                }
-    }
-
-    func dataEntriesForYear(_ type: String, _ year: Int, transactions:[TransactionSum]) -> [BarChartDataEntry] {
-        let yearValues = self.monthlySums.filter{$0.year == year && $0.type == type}
-                return yearValues.map{
-                    BarChartDataEntry(x: $0.month, y: $0.value)
-                }
-    }
-    
-    func getMonthlyCoffees(transactionType: String, year: Int) {
-        for month in 1...12 {
-            let monthTransactions = self.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
-                && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == transactionType
+    func dataBoughtItems() -> [BarChartDataPoint] {
+        var dataEntries: [BarChartDataPoint] = []
+        
+            let transactions = self.transactions.filter{
+                $0.type == "purchase"
             }
-            
-            print(monthTransactions)
 
-            let values = monthTransactions.map( {abs($0.amount!) })
-            
-            print(values)
+        
+        // Count amount of purchased items
+        let mappedItems = transactions.map { ($0.itemName, $0.amount ?? 0) }
+        
+        // Add counts
+        let counts = Dictionary(mappedItems, uniquingKeysWith: +)
+        
+        let sortedByValueDictionary = counts.sorted { $0.1 > $1.1 }
 
-            let sum = values.reduce(0, +)
-            
-            print(sum)
-            
-            self.monthlyCoffees.append(CoffeeSum(type: transactionType, year: year, month: Double(month), day: 0, amount: Double(sum)))
+        
+        for (itemKey, itemCount) in sortedByValueDictionary {
+            dataEntries.append(BarChartDataPoint(value: Double(itemCount), xAxisLabel: itemKey))
         }
-        print(self.monthlyCoffees)
+        
+        return dataEntries
     }
     
-    func getDailyCoffees(transactionType: String, year: Int, month: Int) {
+    func dataForMonth(_ type: String, _ year: Int, _ month: Int) -> [BarChartDataPoint] {
+        var dataEntries: [BarChartDataPoint] = []
         let dateComponents = DateComponents(year: year, month: month)
         let calendar = Calendar.current
         let date = calendar.date(from: dateComponents)!
 
         let range = calendar.range(of: .day, in: .month, for: date)!
         let numDays = range.count
-        print(numDays)
-
+        
         for day in 1 ... numDays {
-            let dailyTransactions = self.transactions.filter{
+            let transactions = self.transactions.filter{
                 getDataFromTimestamp(timestamp: $0.timestamp).day == day
                 && getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == transactionType
-            }
-
-            print(dailyTransactions)
-
-            let values = dailyTransactions.map( {abs($0.amount!) })
-
-            print(values)
-
-            let sum = values.reduce(0, +)
-
-            print(sum)
-
-            self.dailyCoffees.append(CoffeeSum(type: transactionType, year: year, month: Double(month), day: Double(day), amount: Double(sum)))
-        }
-        print(self.dailyCoffees)
-    }
-
-    //TODO: alle in aus einem year lesen, dann
-    func getMonthlySums(transactionType: String, year: Int) {
-        for month in 1...12 {
-            let monthTransactions = self.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
-                && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == transactionType
+                && $0.type == type
             }
             
-            print(monthTransactions)
+            switch type {
+            case "funding":
+                let values = transactions.map( {abs($0.value) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: String(day)))
+                break
+            case "purchase":
+                let values = transactions.map( {abs($0.amount ?? 0) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: String(day)))
+                break
+            default:
+                break
+            }
 
-            let values = monthTransactions.map( {abs($0.value) })
-            
-            print(values)
-
-            let sum = values.reduce(0, +)
-            
-            print(sum)
-            
-            self.monthlySums.append(TransactionSum(type: transactionType, year: year, month: Double(month), day: 0, value: sum))
         }
-        print(self.monthlySums)
+        
+        return dataEntries
     }
     
-    func getDailySums(transactionType: String, year: Int, month: Int) {
-        let dateComponents = DateComponents(year: year, month: month)
-        let calendar = Calendar.current
-        let date = calendar.date(from: dateComponents)!
-
-        let range = calendar.range(of: .day, in: .month, for: date)!
-        let numDays = range.count
-        print(numDays)
-
-        for day in 1 ... numDays {
-            let dailyTransactions = self.transactions.filter{
-                getDataFromTimestamp(timestamp: $0.timestamp).day == day
-                && getDataFromTimestamp(timestamp: $0.timestamp).month == month
+    func dataForYear(_ type: String, _ year: Int) -> [BarChartDataPoint] {
+        var dataEntries: [BarChartDataPoint] = []
+        
+        for month in 1...12 {
+            let transactions = self.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == transactionType
+                && $0.type == type
             }
 
-            print(dailyTransactions)
+            switch type {
+            case "funding":
+                let values = transactions.map( {abs($0.value) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().monthSymbols[month - 1]))
+                break
+            case "purchase":
+                let values = transactions.map( {abs($0.amount ?? 0) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().monthSymbols[month - 1]))
+                break
+            default:
+                break
+            }
 
-            let values = dailyTransactions.map( {abs($0.value) })
-
-            print(values)
-
-            let sum = values.reduce(0, +)
-
-            print(sum)
-
-            self.dailySums.append(TransactionSum(type: transactionType, year: year, month: Double(month), day: Double(day), value: sum))
         }
-        print(self.dailySums)
+        
+        return dataEntries
+    }
+    
+    func dataForWeek(_ type: String, _ year: Int, _ week: Int) -> [BarChartDataPoint] {
+        var dataEntries: [BarChartDataPoint] = []
+
+        for day in 1 ... 7 {
+            let transactions = self.transactions.filter{
+                //customCalendar.dateComponents([.weekday], from: Date(timeIntervalSince1970: Double($0.timestamp)/1000)).weekday == day
+                getDataFromTimestamp(timestamp: $0.timestamp).weekday == day
+                && getDataFromTimestamp(timestamp: $0.timestamp).weekOfYear == week
+                && getDataFromTimestamp(timestamp: $0.timestamp).year == year
+                && $0.type == type
+            }
+            
+            switch type {
+            case "funding":
+                let values = transactions.map( {abs($0.value) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().weekdaySymbols[day - 1]))
+                break
+            case "purchase":
+                let values = transactions.map( {abs($0.amount ?? 0) })
+                let sum = values.reduce(0, +)
+                
+                dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().weekdaySymbols[day - 1]))
+                break
+            default:
+                break
+            }
+
+        }
+
+        return dataEntries
     }
 
     func getDataFromTimestamp(timestamp: Int) -> DateComponents {
         let date = Date(timeIntervalSince1970: Double(timestamp)/1000)
-        let calendarDate = Calendar.current.dateComponents([.year, .month, .day], from: date)
+
+        let calendarDate = Calendar(identifier: .iso8601).dateComponents([.year, .month, .day, .weekday, .weekOfYear], from: date)
+
         return calendarDate
     }
     
     static var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    
-    static var allTransactions:[Transaction] {
-        [
-        Transaction(year: 2019, month: 0, quantity: 23),
-        Transaction(year: 2019, month: 1, quantity: 56),
-        Transaction(year: 2019, month: 2, quantity: 87),
-        Transaction(year: 2019, month: 3, quantity: 15),
-        Transaction(year: 2019, month: 4, quantity: 20),
-        Transaction(year: 2019, month: 5, quantity: 15),
-        Transaction(year: 2019, month: 6, quantity: 56),
-        Transaction(year: 2019, month: 7, quantity: 40),
-        Transaction(year: 2019, month: 8, quantity: 54),
-        Transaction(year: 2019, month: 9, quantity: 81),
-        Transaction(year: 2019, month: 10, quantity: 56),
-        Transaction(year: 2019, month: 11, quantity: 25),
-        Transaction(year: 2019, month: 12, quantity: 35)
-        ]
-    }
-    
+
     func getTransactions(userID: String) {
         self.isLoading = true
         Task {

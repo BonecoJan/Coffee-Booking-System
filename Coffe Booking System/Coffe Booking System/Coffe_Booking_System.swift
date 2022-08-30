@@ -47,6 +47,7 @@ struct Coffe_Booking_System: App {
                             AdminMenue()
                                 .environmentObject(viewState)
                                 .environmentObject(shop)
+                                .background(Color(hex: 0xCCB9B1))
                         } else if viewState.state == 2 {
                             BookingView()
                                 .environmentObject(viewState)
@@ -77,10 +78,11 @@ struct Coffe_Booking_System: App {
                                 .environmentObject(shop)
                                 .background(Color(hex: UInt(COLOR_BACKGROUND)))
                         } else if viewState.state == 6 {
-                            ChartSelection()
+                            Statistics()
                                 .environmentObject(viewState)
                                 .environmentObject(transactionController)
                                 .environmentObject(shop)
+                                .background(Color(hex: 0xCCB9B1))
                         } else if viewState.state == 7 {
                             AchievementView()
                                 .environmentObject(viewState)
