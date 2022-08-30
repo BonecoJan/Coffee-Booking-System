@@ -49,8 +49,9 @@ class NumbersOnly: ObservableObject {
 
 struct AdminUserView: View {
     
-    @EnvironmentObject var adminVM : AdminController
-
+    @EnvironmentObject var adminController : AdminController
+    @EnvironmentObject var shop: Shop
+    
     @State var showCreateOverlay: Bool = false
     @State var newID: String = ""
     @State var newName: String = ""
@@ -90,9 +91,9 @@ struct AdminUserView: View {
     
     var searchResults: [User] {
         if searchText.isEmpty {
-            return adminVM.users
+            return shop.users
         } else {
-            return adminVM.users.filter { $0.userResponse.id.contains(searchText)}
+            return shop.users.filter { $0.userResponse.id.contains(searchText)}
         }
     }
 
@@ -104,17 +105,19 @@ struct AdminUserView: View {
                     ForEach(searchResults) { user in
                         NavigationLink(
                             destination: AdminUserDetail(user: user)
+                                .environmentObject(shop)
                                 .onAppear(perform: {
                                     detailView = true
-                                    adminVM.getUser(user: user)
+                                    adminController.getUser(user: user)
                                 })
                                 .onDisappear(perform: {
                                     detailView = false
-                                    adminVM.getUsers()
+                                    adminController.getUsers(shop: shop)
                                 })
                                 ) {
                                     //Text("\(user.userResponse.id)")
                                     AdminUserRow(user: user)
+                                        .environmentObject(shop)
 //                                        .onAppear(perform: {
 //                                            adminVM.getUser(user: user)
 //                                        })
@@ -187,8 +190,8 @@ struct AdminUserView: View {
                         if self.newName != "" {
                             if self.newPassword != "" {
                                 if newPassword.count >= 8{
-                                    adminVM.createUser(userID: newID, name: newName, isAdmin: isAdmin, password: newPassword)
-                                    print($adminVM.hasError)
+                                    adminController.createUser(shop: shop, userID: newID, name: newName, isAdmin: isAdmin, password: newPassword)
+                                    print($adminController.hasError)
                                 } else {
                                     self.showAlert = true
                                     activeAlert = .passwordLength
@@ -215,7 +218,7 @@ struct AdminUserView: View {
                         .multilineTextAlignment(.center)
                         .padding()
                 })
-                .alert("Error", isPresented: $adminVM.hasError, presenting: adminVM.error) { detail in
+                .alert("Error", isPresented: $adminController.hasError, presenting: adminController.error) { detail in
                     Button("Ok") {
                         //Do nothing
                     }
@@ -237,9 +240,9 @@ struct AdminUserView: View {
                         return Alert(title: Text("Important message"), message: Text("Length of password must be at least 8 characters."), dismissButton: .default(Text("Got it!")))
                     }
                 }
-                .alert("User created successfully.", isPresented: $adminVM.userCreated) {
+                .alert("User created successfully.", isPresented: $adminController.userCreated) {
                     Button("OK", role: .cancel) {
-                        adminVM.userCreated = false
+                        adminController.userCreated = false
                         self.showCreateOverlay = false
                     }
                 }
@@ -285,7 +288,7 @@ struct AdminUserRow: View {
 struct AdminUserDetail: View {
     
     @EnvironmentObject var adminVM : AdminController
-    
+    @EnvironmentObject var shop: Shop
 
     
     enum ActiveAlert {
@@ -480,7 +483,7 @@ struct AdminUserDetail: View {
                                 message: Text("There is no undo"),
                                 primaryButton: .destructive(Text("Delete")) {
                                     withAnimation {
-                adminVM.deleteUser(user: user)
+                                        adminVM.deleteUser(shop: shop, user: user)
                 deleteUser = false
             }
                                 },
@@ -497,14 +500,14 @@ struct AdminUserDetail: View {
                             if adminVM.userPlaceholder.balance ?? 0.0 > user.userResponse.balance ?? 0.0 {
                                 //TODO: funding
                             }
-                            adminVM.funding(userID: user.userResponse.id, amount: adminVM.userPlaceholder.balance ?? 0.0)
+                            adminVM.funding(shop: shop, userID: user.userResponse.id, amount: adminVM.userPlaceholder.balance ?? 0.0)
                             self.showAlert = true
                             activeAlert = .balanceUpdated
                         }
                         //adminVM.tmpUser.id != adminVM.currentUser.id || adminVM.tmpUser.name != adminVM.currentUser.name
                         else {
                             if adminVM.userPlaceholder.password != "" && (adminVM.userPlaceholder.password ?? "").count >= 8 {
-                                adminVM.updateUser(userID: adminVM.userPlaceholder.id, name: adminVM.userPlaceholder.name, isAdmin: isAdmin, password: adminVM.userPlaceholder.password!)
+                                adminVM.updateUser(shop: shop, userID: adminVM.userPlaceholder.id, name: adminVM.userPlaceholder.name, isAdmin: isAdmin, password: adminVM.userPlaceholder.password!)
                                 adminVM.userPlaceholder.password = ""
                                 self.showAlert = true
                                 activeAlert = .userUpdated

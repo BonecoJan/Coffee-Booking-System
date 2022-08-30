@@ -8,6 +8,7 @@ struct QRView: View {
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController : HomeController
     @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var shop: Shop
     
     @State var showAchievementAlert: Bool = false
     @State var achievementType: Int = 0
@@ -26,7 +27,7 @@ struct QRView: View {
                     .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                         Button("OK", role: .cancel) {
                             cartController.success = false
-                            transactionController.getTransactions(userID: profileController.profile.id)
+                            transactionController.getTransactions(userID: shop.profile.id)
                             if transactionController.purchaseCount == 4  {
                                 achievementType = 5
                                 showAchievementAlert = true
@@ -65,12 +66,12 @@ struct QRView: View {
             }
             DispatchQueue.main.async {
                 if id != "" {
-                    let item = homeController.getItem(itemID: id)
+                    let item = homeController.getItem(shop: shop, itemID: id)
                     if item.amount < 1 {
                         cartController.hasError = true
                         cartController.error = ERROR_ITEM_NOT_AVAILABLE
                     } else {
-                        if profileController.profile.balance - cartController.total > 0.0 || profileController.profile.isAdmin {
+                        if shop.profile.balance - cartController.total > 0.0 || shop.profile.isAdmin {
                             confirmPurchase(itemID: id, cartController: cartController, profileController: profileController)
                         } else {
                             cartController.hasError = true
@@ -92,7 +93,7 @@ struct QRView: View {
         let alert = UIAlertController(title: "Confirm your Purchase", message: "Are you sure you want to purchase the item with id \(itemID)?", preferredStyle: .alert)
         
         let purchase = UIAlertAction(title: "Yes", style: .default) { (_) in
-            cartController.purchaseRequest(purchase: Request.Purchase(itemId: itemID, amount: 1), profileController: profileController)
+            cartController.purchaseRequest(shop: shop, purchase: Request.Purchase(itemId: itemID, amount: 1), profileController: profileController)
         }
         
         let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in

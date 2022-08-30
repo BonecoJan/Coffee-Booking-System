@@ -6,6 +6,7 @@ struct SignInView: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController: HomeController
+    @EnvironmentObject var shop: Shop
     
     var body: some View {
         Text("Login")
@@ -32,7 +33,7 @@ struct SignInView: View {
         
         //Sign in button
         Button(action: {
-            loginController.login(profileController: profileController)
+            loginController.login(shop: shop, profileController: profileController)
         },
         label: {
             Text("Sign in")
@@ -53,8 +54,8 @@ struct SignInView: View {
             Button("OK", role: .cancel) {
                 loginController.success = false
                 loginController.isAuthenticated = true
-                homeController.getProducts()
-                transactionController.getTransactions(userID: profileController.profile.id)
+                homeController.getProducts(shop: shop)
+                transactionController.getTransactions(userID: shop.profile.id)
             }
         }
     }

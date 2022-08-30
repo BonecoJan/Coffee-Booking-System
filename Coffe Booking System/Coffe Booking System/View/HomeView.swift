@@ -4,8 +4,9 @@ struct HomeView: View {
     @EnvironmentObject var loginController: LoginController
     @EnvironmentObject var profilController: ProfileController
     @EnvironmentObject var homeController : HomeController
+    @EnvironmentObject var shop: Shop
+    @EnvironmentObject var cartController : CartController
     
-    @StateObject var orderVM = CartController()
     @State var searchText = ""
     
     var body: some View {
@@ -26,12 +27,12 @@ struct HomeView: View {
             ScrollView{
                 ForEach(searchResults) { product in
                     ProductView(product: product)
-                        .environmentObject(homeController)
+                        .environmentObject(cartController)
                 }
             }
         }
         .onAppear(perform: {
-            homeController.getProducts()
+            homeController.getProducts(shop: shop)
         })
         .padding()
         .background(
@@ -43,9 +44,9 @@ struct HomeView: View {
     //filter the search results by names
     var searchResults: [Item] {
         if searchText.isEmpty {
-            return homeController.products
+            return shop.items
         } else {
-            return homeController.products.filter { $0.name.contains(searchText)}
+            return shop.items.filter { $0.name.contains(searchText)}
         }
     }
     

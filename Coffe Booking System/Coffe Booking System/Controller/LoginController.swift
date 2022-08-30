@@ -11,7 +11,7 @@ class LoginController: ObservableObject {
     @Published var success: Bool = false
     @Published var error: String = ""
     
-    func login(profileController: ProfileController) {
+    func login(shop: Shop, profileController: ProfileController) {
         self.isLoading = true
         Task {
             do {
@@ -25,7 +25,7 @@ class LoginController: ObservableObject {
                     self.isLoading = false
                     self.hasError = false
                     self.success = true
-                    profileController.loadUserData()
+                    profileController.loadUserData(shop: shop)
                 }
             } catch let error {
                 print(error.localizedDescription)
@@ -42,7 +42,7 @@ class LoginController: ObservableObject {
         }
     }
     
-    func register(id: String, name: String, password: String, profileController: ProfileController) {
+    func register(shop: Shop, id: String, name: String, password: String, profileController: ProfileController) {
         self.isLoading = true
         Task {
             do {
@@ -54,7 +54,7 @@ class LoginController: ObservableObject {
                         self.hasError = false
                         self.id = id
                         self.password = password
-                        self.login(profileController: profileController)
+                        self.login(shop: shop, profileController: profileController)
                     }
                 }
             } catch let error {
@@ -67,12 +67,12 @@ class LoginController: ObservableObject {
         }
     }
     
-    func logout(profileController: ProfileController) {
+    func logout(shop: Shop) {
         KeychainWrapper.standard.delete(service: SERVICE_TOKEN, account: ACCOUNT)
         KeychainWrapper.standard.delete(service: SERVICE_PASSWORD, account: ACCOUNT)
         DispatchQueue.main.async {
             self.isAuthenticated = false
-            profileController.profile = Profile()
+            shop.profile = Profile()
         }
     }
 }

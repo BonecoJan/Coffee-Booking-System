@@ -3,6 +3,7 @@ import SwiftUI
 struct AdminMenue: View {
     
     @ObservedObject var adminController = AdminController()
+    @EnvironmentObject var shop: Shop
     @EnvironmentObject var viewState: ViewState
     
     var body: some View {
@@ -26,12 +27,14 @@ struct AdminMenue: View {
                         Text("Items")
                     }
                     .environmentObject(adminController)
+                    .environmentObject(shop)
                 AdminUserView()
                     .tabItem{
                         Image(systemName: "person")
                         Text("User")
                     }
                     .environmentObject(adminController)
+                    .environmentObject(shop)
 //                AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
 //                    .tabItem{
 //                        Image(systemName: "cart")

@@ -3,7 +3,8 @@ import SwiftUI
 struct AdminItemView: View {
     
     @EnvironmentObject var adminController : AdminController
-
+    @EnvironmentObject var shop: Shop
+    
     @State var showCreateOverlay: Bool = false
     
     @State var newID: String = ""
@@ -32,11 +33,11 @@ struct AdminItemView: View {
         UINavigationBar.appearance().tintColor = UIColor.orange
     }
     
-    var searchResults: [Response.Item] {
+    var searchResults: [Item] {
         if searchText.isEmpty {
-            return adminController.items
+            return shop.items
         } else {
-            return adminController.items.filter { $0.name.contains(searchText)}
+            return shop.items.filter { $0.name.contains(searchText)}
         }
     }
 
@@ -53,13 +54,14 @@ struct AdminItemView: View {
                     ForEach(searchResults) { item in
                         NavigationLink(
                             destination: AdminItemDetail(item: item)
+                                .environmentObject(shop)
                                 .onAppear(perform: {
                                     detailView = true
                                     adminController.getItem(itemID: item.id)
                                 })
                                 .onDisappear(perform: {
                                     detailView = false
-                                    adminController.getItems()
+                                    adminController.getItems(shop: shop)
                                 })
                                 ) {
                                     Text("\(item.name)")
@@ -132,7 +134,7 @@ struct AdminItemView: View {
                         if self.newName != "" {
                             if self.newAmount > 0 {
                                 if newPrice > 0.0 {
-                                    adminController.createItem(name: newName, amount: newAmount, price: newPrice)
+                                    adminController.createItem(shop: shop, name: newName, amount: newAmount, price: newPrice)
                                     print($adminController.hasError)
                                 } else {
                                     self.showAlert = true
@@ -196,7 +198,7 @@ struct AdminItemView: View {
 }
 
 struct AdminItemRow: View {
-    var item: Response.Item
+    var item: Item
     
     var body: some View {
         HStack {
@@ -212,12 +214,13 @@ struct AdminItemRow: View {
 struct AdminItemDetail: View {
     
     @EnvironmentObject var adminController : AdminController
+    @EnvironmentObject var shop: Shop
     
     enum ActiveAlert {
         case passwordMissing, itemUpdated, balanceUpdated
     }
 
-    var item: Response.Item
+    var item: Item
     
     @State private var passwordMissing = false
     @State private var itemUpdated = false
@@ -321,7 +324,7 @@ struct AdminItemDetail: View {
                                 message: Text("There is no undo"),
                                 primaryButton: .destructive(Text("Delete")) {
                                     withAnimation {
-                                        adminController.deleteItem(itemID: item.id)
+                                        adminController.deleteItem(shop: shop, itemID: item.id)
                 deleteItem = false
             }
                                 },
@@ -334,7 +337,7 @@ struct AdminItemDetail: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
-                        adminController.updateItem(itemID: adminController.itemPlaceholder.id, name: adminController.itemPlaceholder.name, amount: adminController.itemPlaceholder.amount ?? 0, price: adminController.itemPlaceholder.price)
+                        adminController.updateItem(shop: shop, itemID: adminController.itemPlaceholder.id, name: adminController.itemPlaceholder.name, amount: adminController.itemPlaceholder.amount ?? 0, price: adminController.itemPlaceholder.price)
                         self.showAlert = true
                         activeAlert = .itemUpdated
                     }

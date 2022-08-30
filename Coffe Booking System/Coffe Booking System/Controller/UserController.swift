@@ -2,13 +2,12 @@ import Foundation
 
 class UserController: ObservableObject {
     
-    @Published var users:  [User] = []
-    
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
     @Published var error: String = ""
     
-    func getUsers() {
+    
+    func getUsers(shop: Shop) {
         self.isLoading = true
         Task {
             do {
@@ -17,10 +16,9 @@ class UserController: ObservableObject {
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false
-                    self.users = []
+                    shop.users = []
                     for user in users {
-                        let tmpUser = User(userRespose: user)
-                        self.getImage(user: tmpUser)
+                        self.getImage(shop: shop, user: User(userRespose: user))
                     }
                 }
             } catch let error {
@@ -34,7 +32,7 @@ class UserController: ObservableObject {
     }
     
     //TODO: Gleiche Funktion wie im Profil
-    func getImage(user: User) {
+    func getImage(shop: Shop, user: User) {
         self.isLoading = true
         Task{
             do {
@@ -43,11 +41,11 @@ class UserController: ObservableObject {
                 DispatchQueue.main.async {
                     self.isLoading = false
                     user.image = response
-                    self.users.append(user)
+                    shop.users.append(user)
                 }
             } catch let error {
                 DispatchQueue.main.async {
-                    self.users.append(user)
+                    shop.users.append(user)
                     self.isLoading = false
                     if error.localizedDescription != ERROR_NO_IMAGE {
                         self.hasError = true

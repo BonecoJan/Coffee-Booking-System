@@ -1,6 +1,6 @@
 import Foundation
 
-class Transaction {
+class Transaction: ObservableObject {
     
     @Published var type: String
     @Published var value: Double

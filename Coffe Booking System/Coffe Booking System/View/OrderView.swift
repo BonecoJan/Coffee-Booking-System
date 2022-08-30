@@ -7,6 +7,7 @@ struct OrderView: View {
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController : HomeController
     @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var shop: Shop
     
     @State var showAchievementAlert: Bool = false
     @State var achievementType: Int = 0
@@ -33,8 +34,8 @@ struct OrderView: View {
                 }.padding()
                 
                 Button(action: {
-                    if profileController.profile.balance - cartController.total > 0.0 || profileController.profile.isAdmin{
-                        cartController.purchase(profileController: profileController)
+                    if shop.profile.balance - cartController.total > 0.0 || shop.profile.isAdmin{
+                        cartController.purchase(shop: shop, profileController: profileController)
                     } else {
                         cartController.hasError = true
                         cartController.error = "Not enough money"
@@ -59,7 +60,7 @@ struct OrderView: View {
                 .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                     Button("OK", role: .cancel) {
                         cartController.success = false
-                        transactionController.getTransactions(userID: profileController.profile.id)
+                        transactionController.getTransactions(userID: shop.profile.id)
                         if transactionController.purchaseCount < 4 && transactionController.purchaseCount + cartController.countProductsInCart()  >= 5 && transactionController.purchaseCount + cartController.countProductsInCart()  < 20 {
                             achievementType = 5
                             showAchievementAlert = true

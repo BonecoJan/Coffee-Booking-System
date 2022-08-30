@@ -7,6 +7,7 @@ struct LoginView: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController: HomeController
+    @EnvironmentObject var shop: Shop
     
     @State var showSignUp = false
     
@@ -24,9 +25,11 @@ struct LoginView: View {
                 SignInView().environmentObject(loginController)
                     .environmentObject(profileController)
                     .environmentObject(transactionController)
+                    .environmentObject(shop)
             } else {
                 SignUpView().environmentObject(loginController)
                     .environmentObject(profileController)
+                    .environmentObject(shop)
             }
             Spacer()
             HStack{
@@ -55,7 +58,7 @@ struct LoginView: View {
             if !(jwt.expired) {
                 loginController.password = String(data: KeychainWrapper.standard.get(service: SERVICE_PASSWORD, account: ACCOUNT)!, encoding: .utf8)!
                 loginController.id = jwt.claim(name: "id").string!
-                loginController.login(profileController: profileController)
+                loginController.login(shop: shop, profileController: profileController)
             }
             else {
                 return
@@ -74,6 +77,7 @@ struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
             .environmentObject(LoginController())
+            .environmentObject(Shop())
     }
 }
 

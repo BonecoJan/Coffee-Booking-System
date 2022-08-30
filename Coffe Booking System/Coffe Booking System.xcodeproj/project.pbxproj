@@ -28,6 +28,7 @@
 		F62165B12886D49800415D15 /* CartProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165B02886D49800415D15 /* CartProductView.swift */; };
 		F659AF482858E82B00BCCC26 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF472858E82B00BCCC26 /* MainView.swift */; };
 		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
+		F6876DE128BDE386006017F5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6876DE028BDE386006017F5 /* Shop.swift */; };
 		F688764928B90C5D00BDDEE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688764828B90C5D00BDDEE9 /* Constants.swift */; };
 		F688764F28B9188800BDDEE9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688764E28B9188800BDDEE9 /* Request.swift */; };
 		F688765128B9F6C100BDDEE9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688765028B9F6C100BDDEE9 /* User.swift */; };
@@ -81,6 +82,7 @@
 		F62165B02886D49800415D15 /* CartProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductView.swift; sourceTree = "<group>"; };
 		F659AF472858E82B00BCCC26 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F659AF492858E85000BCCC26 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F6876DE028BDE386006017F5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		F688764828B90C5D00BDDEE9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F688764E28B9188800BDDEE9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F688765028B9F6C100BDDEE9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				F6D4B6B1287807190037E821 /* Profile.swift */,
 				F688765028B9F6C100BDDEE9 /* User.swift */,
 				F6C91AC928BD24C1000C9803 /* Transaction.swift */,
+				F6876DE028BDE386006017F5 /* Shop.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				F692ECC62885736800C6E92B /* HomeController.swift in Sources */,
 				F6D4B6B6287807190037E821 /* Profile.swift in Sources */,
 				F6E9E6732859BE4C00829739 /* LoginController.swift in Sources */,
+				F6876DE128BDE386006017F5 /* Shop.swift in Sources */,
 				F688765128B9F6C100BDDEE9 /* User.swift in Sources */,
 				C359E80028736E36007DB305 /* Auth.swift in Sources */,
 				C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */,

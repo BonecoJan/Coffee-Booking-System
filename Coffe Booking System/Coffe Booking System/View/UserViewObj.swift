@@ -9,6 +9,7 @@ struct UserViewObj: View {
     @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var shop: Shop
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -89,8 +90,8 @@ struct UserViewObj: View {
                 profileController.hasError = true
                 profileController.error = ERROR_FORMAT
             } else {
-                if profileController.profile.balance - Double(amount)! >= 0.0 {
-                    profileController.sendMoney(amount: Double(amount)!, recipientId: user.userResponse.id)
+                if shop.profile.balance - Double(amount)! >= 0.0 {
+                    profileController.sendMoney(shop: shop, amount: Double(amount)!, recipientId: user.userResponse.id)
                 } else {
                     notEnoughMoney = true
                 }

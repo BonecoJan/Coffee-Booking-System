@@ -6,6 +6,7 @@ struct UserView: View {
     @State var showEditOverlay: Bool = false
     @State var showDeleteOverlay: Bool = false
     @EnvironmentObject var adminController : AdminController
+    @EnvironmentObject var shop: Shop
     
     @State var newName: String = ""
     @State var newPassword: String = ""
@@ -55,7 +56,7 @@ struct UserView: View {
                             if newName == "" {
                                 newName = user.name
                             }
-                            adminController.updateUser(userID: user.id, name: newName, isAdmin: false, password: newPassword)
+                            adminController.updateUser(shop: shop, userID: user.id, name: newName, isAdmin: false, password: newPassword)
                         }, label: {
                             Text("Update User")
                                 .frame(width: 244, height: 39)
@@ -77,8 +78,8 @@ struct UserView: View {
                         Text("Do you really want to delete this User?")
                             .frame(alignment: .leading)
                         Button(action: {
-                            adminController.deleteUser(userID: user.id)
-                            adminController.getUsers()
+                            adminController.deleteUser(shop: shop, userID: user.id)
+                            adminController.getUsers(shop: shop)
                         }, label: {
                             Text("Yes")
                                 .frame(width: 244, height: 39)

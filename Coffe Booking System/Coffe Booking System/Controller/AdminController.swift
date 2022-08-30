@@ -11,7 +11,7 @@ class AdminController: ObservableObject {
     
     @Published var items: [Response.Item] = []
     //@Published var users:  [Response.User] = []
-    @Published var users:  [User] = []
+    //@Published var users:  [User] = []
     @Published var itemPlaceholder:  Response.Item = Response.Item(id: "", name: "", amount: 0, price: 0.0)
     @Published var userPlaceholder:  Response.User = Response.User(id: "", name: "", password: "")
 
@@ -22,12 +22,7 @@ class AdminController: ObservableObject {
     
     @Published var isLoading: Bool = false
     
-    init() {
-        getUsers()
-        getItems()
-    }
-    
-    func getUsers() {
+    func getUsers(shop: Shop) {
         self.isLoading = true
         Task {
             do {
@@ -35,11 +30,11 @@ class AdminController: ObservableObject {
                 let usersLoaded = try await WebService(authManager: AuthManager()).request(reqUrl: "users", reqMethod: GET, authReq: false, body: body, responseType: [Response.User].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
-                    self.users = []
+                    shop.users = []
                     for user in usersLoaded {
                         let tmpUser = User(userRespose: user)
                         self.getImage(user: tmpUser)
-                        self.users.append(tmpUser)
+                        shop.users.append(tmpUser)
                     }
                     self.isLoading = false
                 }
@@ -113,7 +108,7 @@ class AdminController: ObservableObject {
         }
     }
     
-    func getItems() {
+    func getItems(shop: Shop) {
         self.isLoading = true
         Task {
             do {
@@ -121,7 +116,10 @@ class AdminController: ObservableObject {
                 let items = try await WebService(authManager: AuthManager()).request(reqUrl: "items", reqMethod: GET, authReq: false, body: body, responseType: [Response.Item].self, unknownType: false)
                 DispatchQueue.main.async {
                     self.hasError = false
-                    self.items = items
+                    shop.items = []
+                    for item in items {
+                        shop.items.append(Item(item: item))
+                    }
                     self.isLoading = false
                 }
             } catch let error {
@@ -316,7 +314,7 @@ class AdminController: ObservableObject {
 //        }
 //    }
     
-    func deleteItem(itemID: String) {
+    func deleteItem(shop: Shop, itemID: String) {
         self.isLoading = true
         self.success = false
         Task {
@@ -327,7 +325,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getItems()
+                        self.getItems(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -341,7 +339,7 @@ class AdminController: ObservableObject {
         }
     }
 
-    func updateItem(itemID: String, name: String, amount: Int, price: Double) {
+    func updateItem(shop: Shop, itemID: String, name: String, amount: Int, price: Double) {
         self.isLoading = true
         self.success = false
         Task {
@@ -353,7 +351,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getItems()
+                        self.getItems(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -367,7 +365,7 @@ class AdminController: ObservableObject {
         }
     }
     
-    func updateUser(userID: String, name: String, isAdmin: Bool, password: String) {
+    func updateUser(shop: Shop, userID: String, name: String, isAdmin: Bool, password: String) {
         self.isLoading = true
         self.success = false
         Task {
@@ -379,7 +377,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getUsers()
+                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -393,7 +391,7 @@ class AdminController: ObservableObject {
         }
     }
     
-    func deleteUser(userID: String) {
+    func deleteUser(shop: Shop, userID: String) {
         self.isLoading = true
         self.success = false
         Task {
@@ -404,7 +402,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getUsers()
+                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -418,7 +416,7 @@ class AdminController: ObservableObject {
         }
     }
     
-    func deleteUser(user: User) {
+    func deleteUser(shop: Shop, user: User) {
         self.isLoading = true
         self.success = false
         Task {
@@ -429,7 +427,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getUsers()
+                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -445,7 +443,7 @@ class AdminController: ObservableObject {
     
     //TODO: Create Users and Items
     
-    func createUser(userID: String, name: String, isAdmin: Bool, password: String) {
+    func createUser(shop: Shop, userID: String, name: String, isAdmin: Bool, password: String) {
         self.isLoading = true
         self.userCreated = false
         Task {
@@ -456,7 +454,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.hasError = false
                         self.userCreated = true
-                        self.getUsers()
+                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -476,7 +474,7 @@ class AdminController: ObservableObject {
     }
     
     //Create Item
-    func createItem(name: String, amount: Int, price: Double) {
+    func createItem(shop: Shop, name: String, amount: Int, price: Double) {
         self.isLoading = true
         self.success = false
         Task {
@@ -487,7 +485,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.itemCreated = true
                         self.hasError = false
-                        self.getItems()
+                        self.getItems(shop: shop)
                         self.isLoading = false
                     }
             } catch let error {
@@ -500,7 +498,7 @@ class AdminController: ObservableObject {
     }
     
     //TODO: Give credits to user
-    func funding(userID: String, amount: Double) {
+    func funding(shop: Shop, userID: String, amount: Double) {
         self.isLoading = true
         self.success = false
         Task {
@@ -511,7 +509,7 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getUsers()
+                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
             } catch let error {

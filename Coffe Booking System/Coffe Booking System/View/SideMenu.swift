@@ -17,7 +17,8 @@ struct SideMenu: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var userController: UserController
-
+    @EnvironmentObject var shop: Shop
+    
     @State var state: Int = 0
     
     var body: some View {
@@ -44,6 +45,7 @@ struct SideMenu: View {
                         .environmentObject(profileController)
                         .environmentObject(transactionController)
                         .environmentObject(userController)
+                        .environmentObject(shop)
                 }
                 Spacer()
             }
@@ -57,6 +59,7 @@ struct MenuContent: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var userController: UserController
+    @EnvironmentObject var shop: Shop
     
     @State var overText = false
     
@@ -78,11 +81,11 @@ struct MenuContent: View {
                     }
                 }
                 Text("Send money").onTapGesture {
-                    userController.getUsers()
+                    userController.getUsers(shop: shop)
                     viewState.state = 3
                 }
                 Text("Transaction History").onTapGesture {
-                    transactionController.getTransactions(userID: profileController.profile.id)
+                    transactionController.getTransactions(userID: shop.profile.id)
                     viewState.state = 5
                 }
                 Text("Statistics").onTapGesture {
@@ -92,10 +95,10 @@ struct MenuContent: View {
                     viewState.state = 7
                 }
                 Text("Logout").onTapGesture {
-                    loginController.logout(profileController: profileController)
+                    loginController.logout(shop: shop)
                     viewState.state = 0
                 }
-                if $profileController.profile.isAdmin.wrappedValue {
+                if $shop.profile.isAdmin.wrappedValue {
                     Text("Admin Menue").onTapGesture {
                         viewState.state = 1
                     }
@@ -107,7 +110,7 @@ struct MenuContent: View {
         let alert = UIAlertController(title: "Cancel last purchase", message: "Are you sure?", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "Yes", style: .default) { (_) in
-            profileController.cancelLastPurchase()
+            profileController.cancelLastPurchase(shop: shop)
         }
         
         let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in

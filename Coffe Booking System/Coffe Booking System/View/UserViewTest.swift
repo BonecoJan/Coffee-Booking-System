@@ -8,6 +8,7 @@ struct UserViewTest: View {
     @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var shop: Shop
     
     @State var searchText = ""
     
@@ -42,6 +43,7 @@ struct UserViewTest: View {
             ScrollView{
                 ForEach(searchResults) { user in
                     UserViewObj(user: user).environmentObject(profileController)
+                        .environmentObject(shop)
                 }
             }
             .background(Color(hex: UInt(COLOR_BACKGROUND)))
@@ -51,9 +53,9 @@ struct UserViewTest: View {
     //filter the search results by names
     var searchResults: [User] {
         if searchText.isEmpty {
-            return userController.users.filter { $0.userResponse.id != profileController.profile.id}
+            return shop.users.filter { $0.userResponse.id != shop.profile.id}
         } else {
-            return userController.users.filter { $0.userResponse.name.contains(searchText) && $0.userResponse.id != profileController.profile.id}
+            return shop.users.filter { $0.userResponse.name.contains(searchText) && $0.userResponse.id != shop.profile.id}
         }
     }
 }

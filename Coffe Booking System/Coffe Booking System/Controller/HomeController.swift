@@ -2,26 +2,20 @@ import Foundation
 
 class HomeController: ObservableObject {
     
-    @Published var products: [Item] = []
-    
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
     @Published var error: String = ""
     
-    init() {
-        getProducts()
-    }
-    
-    func getItem(itemID: String) -> Item {
-        for product in products {
-            if product.id == itemID {
-                return product
+    func getItem(shop: Shop, itemID: String) -> Item {
+        for item in shop.items {
+            if item.id == itemID {
+                return item
             }
         }
         return Item(id: ERROR_NO_ITEM, name: ERROR_NO_ITEM, amount: 0, price: 0.0)
     }
     
-    func getProducts() {
+    func getProducts(shop: Shop) {
         self.isLoading = true
         Task {
             do {
@@ -30,9 +24,9 @@ class HomeController: ObservableObject {
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false
-                    self.products = []
+                    shop.items = []
                     for item in itemResponse {
-                        self.products.append(Item(item: item))
+                        shop.items.append(Item(item: item))
                     }
                 }
             } catch let error {

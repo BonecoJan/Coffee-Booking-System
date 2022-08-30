@@ -5,6 +5,8 @@ struct SignUpView: View {
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var loginController: LoginController
     @EnvironmentObject var profileController: ProfileController
+    @EnvironmentObject var shop: Shop
+    
     @State var newID: String = ""
     @State var newName: String = ""
     @State var newPassword: String = ""
@@ -54,7 +56,7 @@ struct SignUpView: View {
         //try to register with given account data and in case of success login with the new registered account
         Button(action: {
             if newPassword.count >= 8 && newName != "" && newPassword == repeatedPassword{
-                    loginController.register(id: newID, name: newName, password: newPassword, profileController: profileController)
+                loginController.register(shop: shop, id: newID, name: newName, password: newPassword, profileController: profileController)
             } else {
                 invalidUserData = true
             }

@@ -8,6 +8,7 @@ struct MainView: View {
     @EnvironmentObject var homeController : HomeController
     @EnvironmentObject var cartController : CartController
     @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var shop: Shop
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: UInt(COLOR_RED_BROWN)))
@@ -18,7 +19,7 @@ struct MainView: View {
             VStack{
                 Text("Welcome")
                     .multilineTextAlignment(.leading)
-                Text(profileController.profile.name)
+                Text(shop.profile.name)
                     .bold()
                     .multilineTextAlignment(.leading)
             }
@@ -43,6 +44,7 @@ struct MainView: View {
                 .environmentObject(profileController)
                 .environmentObject(cartController)
                 .environmentObject(homeController)
+                .environmentObject(shop)
             OrderView()
                 .tabItem{
                     Image(systemName: IMAGE_CART)
@@ -54,6 +56,7 @@ struct MainView: View {
                 .environmentObject(profileController)
                 .environmentObject(transactionController)
                 .environmentObject(homeController)
+                .environmentObject(shop)
             QRView()
                 .tabItem{
                     Image(systemName: IMAGE_QR)
@@ -66,6 +69,7 @@ struct MainView: View {
                 .environmentObject(transactionController)
                 .environmentObject(homeController)
                 .environmentObject(viewState)
+                .environmentObject(shop)
         }
     }
 }

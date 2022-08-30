@@ -4,7 +4,6 @@ struct ProductView: View {
     
     var product: Item
     @EnvironmentObject var cartController : CartController
-    @EnvironmentObject var homeController : HomeController
     
     var body: some View {
         HStack {

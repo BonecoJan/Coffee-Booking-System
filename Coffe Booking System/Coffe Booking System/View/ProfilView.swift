@@ -7,6 +7,7 @@ struct ProfilView: View {
     @EnvironmentObject var loginController: LoginController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var userController: UserController
+    @EnvironmentObject var shop: Shop
     
     @State private var showingImagePicker = false
     @State private var selectedImage: Image? = Image("")
@@ -30,13 +31,13 @@ struct ProfilView: View {
             HStack{
                 if !self.menuOpen {
                     Button(action: {
-                        transactionController.getTransactions(userID: profileController.profile.id)
+                        transactionController.getTransactions(userID: shop.profile.id)
                         self.openMenu()
                     }, label: {
                         Image(systemName: IMAGE_LIST)
                     })
                 }
-                Text(profileController.profile.isAdmin ? "Your Profile(Admin)" : "Your Profile")
+                Text(shop.profile.isAdmin ? "Your Profile(Admin)" : "Your Profile")
                     .font(.title)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -54,7 +55,7 @@ struct ProfilView: View {
             bottomSection
         }.ignoresSafeArea()
         .onAppear(perform: {
-            self.userName = profileController.profile.name
+            self.userName = shop.profile.name
         })
         SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
                 .environmentObject(viewState)
@@ -84,7 +85,7 @@ struct ProfilView: View {
     
     var profilPicture: some View {
         VStack{
-            if profileController.profile.image.encodedImage == NO_PROFILE_IMAGE {
+            if shop.profile.image.encodedImage == NO_PROFILE_IMAGE {
                 Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -93,7 +94,7 @@ struct ProfilView: View {
                     .clipped()
                     .padding()
             } else {
-                Image(base64String: profileController.profile.image.encodedImage!)!
+                Image(base64String: shop.profile.image.encodedImage!)!
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 200, height: 200)
@@ -117,8 +118,8 @@ struct ProfilView: View {
                     confirmChange(type: TYPE_DELETE_IMAGE)
                 }, label: {
                     Text("Delete")
-                        .opacity(profileController.profile.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
-                }).disabled(profileController.profile.image.encodedImage == NO_PROFILE_IMAGE)
+                        .opacity(shop.profile.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
+                }).disabled(shop.profile.image.encodedImage == NO_PROFILE_IMAGE)
             }
             .sheet(isPresented: $showingImagePicker, content: {
                 ImagePicker(image: self.$selectedImage)
@@ -133,7 +134,7 @@ struct ProfilView: View {
                     withAnimation {
                         editMode?.wrappedValue = .inactive
                     }
-                    if self.userName != profileController.profile.name {
+                    if self.userName != shop.profile.name {
                         confirmChange(type: TYPE_USERNAME)
                     }
                 }, label: {
@@ -153,7 +154,7 @@ struct ProfilView: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
-                        self.userName = profileController.profile.name
+                        self.userName = shop.profile.name
                     }
                         }, label: {
                             Image(systemName: isEditing ? IMAGE_PENCIL_EDIT : IMAGE_PENCIL)
@@ -163,14 +164,14 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: IMAGE_ID)
                     .padding()
-                Text(profileController.profile.id)
+                Text(shop.profile.id)
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
             HStack{
                 Image(systemName: IMAGE_EURO)
                     .padding()
-                Text(String(profileController.profile.balance.rounded(toPlaces: 2)) + (String(profileController.profile.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
+                Text(String(shop.profile.balance.rounded(toPlaces: 2)) + (String(shop.profile.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
                     .fontWeight(.bold)
                 Spacer()
             }.offset(y: -20)
@@ -206,7 +207,7 @@ struct ProfilView: View {
                 Button(action: {
                     if newPassword.count >= 8 && newPassword == repeatedPassword {
                         if checkPassword(password: currentPassword) {
-                            profileController.updateUser(name: self.userName, password: newPassword)
+                            profileController.updateUser(shop: shop, name: self.userName, password: newPassword)
                         }
                     }
                 }, label: {
@@ -319,14 +320,14 @@ struct ProfilView: View {
         
         let change = UIAlertAction(title: "Yes", style: .default) { (_) in
             if type == TYPE_USERNAME {
-                profileController.updateUser(name: self.userName)
+                profileController.updateUser(shop: shop, name: self.userName)
             } else if type == TYPE_PASSWORD {
-                profileController.updateUser(name: self.userName, password: newPassword)
+                profileController.updateUser(shop: shop, name: self.userName, password: newPassword)
             } else if type == TYPE_UPLOAD_IMAGE {
                 let uiImage: UIImage = self.selectedImage.asUIImage()
-                profileController.uploadImage(image: uiImage)
+                profileController.uploadImage(shop: shop, image: uiImage)
             } else if type == TYPE_DELETE_IMAGE {
-                profileController.deleteImage()
+                profileController.deleteImage(shop: shop)
             }
         }
         

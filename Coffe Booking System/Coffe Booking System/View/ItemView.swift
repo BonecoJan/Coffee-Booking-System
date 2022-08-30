@@ -10,6 +10,7 @@ struct ItemView: View {
     @State var newAmount: String = ""
     @State var newPrice: String = ""
     @EnvironmentObject var adminController : AdminController
+    @EnvironmentObject var shop: Shop
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8, content: {
@@ -81,7 +82,7 @@ struct ItemView: View {
                             if newPrice == "" {
                                 newPrice = String(item.price)
                             }
-                            adminController.updateItem(itemID: item.id, name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
+                            adminController.updateItem(shop: shop, itemID: item.id, name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
                         }, label: {
                             Text("Update item")
                                 .frame(width: 244, height: 39)
@@ -103,8 +104,8 @@ struct ItemView: View {
                         Text("Do you really want to delete this item?")
                             .frame(alignment: .leading)
                         Button(action: {
-                            adminController.deleteItem(itemID: item.id)
-                            adminController.getItems()
+                            adminController.deleteItem(shop: shop, itemID: item.id)
+                            adminController.getItems(shop: shop)
                         }, label: {
                             Text("Yes")
                                 .frame(width: 244, height: 39)
