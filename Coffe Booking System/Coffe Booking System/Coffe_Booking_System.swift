@@ -39,6 +39,7 @@ struct Coffe_Booking_System: App {
                                 .environmentObject(profileController)
                                 .environmentObject(transactionController)
                                 .environmentObject(homeController)
+                                .environmentObject(userController)
                                 .environmentObject(viewState)
                                 .environmentObject(shop)
                                 .background(Color(hex: UInt(COLOR_BACKGROUND)))

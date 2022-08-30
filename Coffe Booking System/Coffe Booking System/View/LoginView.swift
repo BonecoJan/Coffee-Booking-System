@@ -7,6 +7,7 @@ struct LoginView: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController: HomeController
+    @EnvironmentObject var userController: UserController
     @EnvironmentObject var shop: Shop
     
     @State var showSignUp = false

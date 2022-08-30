@@ -6,6 +6,8 @@ struct SignInView: View {
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var homeController: HomeController
+    @EnvironmentObject var userController: UserController
+    
     @EnvironmentObject var shop: Shop
     
     var body: some View {
@@ -55,6 +57,7 @@ struct SignInView: View {
                 loginController.success = false
                 loginController.isAuthenticated = true
                 homeController.getProducts(shop: shop)
+                userController.getUsers(shop: shop)
                 transactionController.getTransactions(userID: shop.profile.id)
             }
         }
