@@ -1,6 +1,8 @@
 import Foundation
 
-class Transaction: ObservableObject {
+class Transaction: ObservableObject, Identifiable {
+    
+    var id = UUID() //needs to be done for the Identifiable protocol
     
     @Published var type: String
     @Published var value: Double

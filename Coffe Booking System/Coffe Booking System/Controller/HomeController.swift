@@ -6,6 +6,7 @@ class HomeController: ObservableObject {
     @Published var hasError: Bool = false
     @Published var error: String = ""
     
+    //this function is only used during a qrcode purchase to find the amount of an item where we only know the ID
     func getItem(shop: Shop, itemID: String) -> Item {
         for item in shop.items {
             if item.id == itemID {

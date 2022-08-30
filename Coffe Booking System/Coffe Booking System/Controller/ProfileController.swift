@@ -16,12 +16,13 @@ class ProfileController: ObservableObject {
         self.isLoading = true
         Task {
             do {
-                //try to get user id from Keychain
+                //try to get user id from Keychain and decode it with JWTDecode-Package
                 if let readToken = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
                 let tokenID = String(data: readToken, encoding: .utf8)!
                 let jwt = try decode(jwt: tokenID)
                 let userID = jwt.claim(name: "id").string!
                 
+                //This request has no body. As our generic request function demands a body we hand over an empty one
                 let body: Request.Empty? = nil
                     let user = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + userID, reqMethod: GET, authReq: true, body: body, responseType: Response.Profil.User.self, unknownType: false)
                     
@@ -32,6 +33,7 @@ class ProfileController: ObservableObject {
                     shop.profile.name = user.name
                     shop.profile.balance = user.balance
                     self.getImage(shop: shop)
+                    self.getAdminData(shop: shop)
                 }
                     
                 } else {
@@ -46,7 +48,6 @@ class ProfileController: ObservableObject {
                 }
             }
         }
-        self.getAdminData(shop: shop)
     }
     
     func updateUser(shop: Shop, name: String) {
@@ -59,7 +60,7 @@ class ProfileController: ObservableObject {
                     
                 let body = Request.Profil.User(name: name, password: password)
                     let response = try await WebService(authManager: AuthManager()).request(reqUrl: "users/" + shop.profile.id, reqMethod: PUT, authReq: true, body: body, responseType: NoJSON.self, unknownType: false)
-                print(response.response)
+                
                 if response.response == SUCCESS_UPDATE_USER {
                     DispatchQueue.main.async {
                         self.isLoading = false
@@ -102,6 +103,7 @@ class ProfileController: ObservableObject {
         }
     }
     
+    //This function gets called when user data is loaded. It decodes the token and finds out if the user is an admin
     func getAdminData(shop: Shop) {
         if let data = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
         let tokenID = String(data: data, encoding: .utf8)!

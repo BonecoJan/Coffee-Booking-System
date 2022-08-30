@@ -1,9 +1,7 @@
-//
 import SwiftUI
 
 
-
-struct UserViewTest: View {
+struct UserListView: View {
     
     @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
@@ -42,7 +40,7 @@ struct UserViewTest: View {
                 )
             ScrollView{
                 ForEach(searchResults) { user in
-                    UserViewObj(user: user).environmentObject(profileController)
+                    UserListObjView(user: user).environmentObject(profileController)
                         .environmentObject(shop)
                 }
             }
@@ -62,6 +60,6 @@ struct UserViewTest: View {
 
 struct UserViewTest_Previews: PreviewProvider {
     static var previews: some View {
-        UserViewTest()
+        UserListView()
     }
 }

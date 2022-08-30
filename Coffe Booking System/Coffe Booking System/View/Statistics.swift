@@ -5,6 +5,7 @@ import SwiftUICharts
 struct Statistics: View {
     
     @EnvironmentObject var transactionController: TransactionController
+    @EnvironmentObject var shop: Shop
     @EnvironmentObject var viewState: ViewState
     
     struct DateValue: Identifiable {
@@ -314,7 +315,7 @@ struct Statistics: View {
 
         VStack {
         
-            let data = makeData(data: transactionController.dataBoughtItems())
+            let data = makeData(data: transactionController.dataBoughtItems(shop: shop))
 
             BarChart(chartData: data)
                 .touchOverlay(chartData: data)
@@ -342,7 +343,7 @@ struct Statistics: View {
         
         VStack {
             let calendarDate = Calendar(identifier: .iso8601).dateComponents([.year, .month, .day, .weekday, .weekOfYear], from: currentDate)
-            let data = makeData(data: transactionController.dataForWeek(self.transactionType, calendarDate.year ?? 1970, calendarDate.weekOfYear ?? 1))
+            let data = makeData(data: transactionController.dataForWeek(shop: shop, self.transactionType, calendarDate.year ?? 1970, calendarDate.weekOfYear ?? 1))
             
             BarChart(chartData: data)
                 .touchOverlay(chartData: data)
@@ -369,7 +370,7 @@ struct Statistics: View {
         VStack {
         
             let calendarDate = Calendar(identifier: .iso8601).dateComponents([.year, .month, .day, .weekday, .weekOfYear], from: currentDate)
-            let data = makeData(data: transactionController.dataForMonth(self.transactionType, calendarDate.year ?? 1970, calendarDate.month ?? 1))
+            let data = makeData(data: transactionController.dataForMonth(shop: shop, self.transactionType, calendarDate.year ?? 1970, calendarDate.month ?? 1))
         
             BarChart(chartData: data)
                 .touchOverlay(chartData: data)
@@ -389,7 +390,7 @@ struct Statistics: View {
         VStack {
         
             let calendarDate = Calendar(identifier: .iso8601).dateComponents([.year, .month, .day, .weekday, .weekOfYear], from: currentDate)
-            let data = makeData(data: transactionController.dataForYear(self.transactionType, calendarDate.year ?? 1970))
+            let data = makeData(data: transactionController.dataForYear(shop: shop, self.transactionType, calendarDate.year ?? 1970))
 
             BarChart(chartData: data)
                 .touchOverlay(chartData: data)

@@ -35,7 +35,7 @@ struct OrderView: View {
                 
                 Button(action: {
                     if shop.profile.balance - cartController.total > 0.0 || shop.profile.isAdmin{
-                        cartController.purchase(shop: shop, profileController: profileController)
+                        confirmPurchase()
                     } else {
                         cartController.hasError = true
                         cartController.error = "Not enough money"
@@ -60,7 +60,7 @@ struct OrderView: View {
                 .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                     Button("OK", role: .cancel) {
                         cartController.success = false
-                        transactionController.getTransactions(userID: shop.profile.id)
+                        transactionController.getTransactions(shop: shop, userID: shop.profile.id)
                         if transactionController.purchaseCount < 4 && transactionController.purchaseCount + cartController.countProductsInCart()  >= 5 && transactionController.purchaseCount + cartController.countProductsInCart()  < 20 {
                             achievementType = 5
                             showAchievementAlert = true
@@ -91,6 +91,26 @@ struct OrderView: View {
             }
         }
     }
+    
+    func confirmPurchase() {
+        let alert = UIAlertController(title: "Purchase Products in Cart", message : "Are you sure?", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "Yes", style: .default) { (_) in
+            cartController.purchase(shop: shop, profileController: profileController)
+        }
+        
+        let abort = UIAlertAction(title: "Abort", style: .destructive) { (_) in
+            //Do nothing
+        }
+        
+        alert.addAction(cancel)
+        
+        alert.addAction(abort)
+        
+        //present alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
+    }
+    
 }
 
 struct OrderView_Previews: PreviewProvider {

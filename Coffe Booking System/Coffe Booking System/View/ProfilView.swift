@@ -31,7 +31,7 @@ struct ProfilView: View {
             HStack{
                 if !self.menuOpen {
                     Button(action: {
-                        transactionController.getTransactions(userID: shop.profile.id)
+                        transactionController.getTransactions(shop: shop, userID: shop.profile.id)
                         self.openMenu()
                     }, label: {
                         Image(systemName: IMAGE_LIST)

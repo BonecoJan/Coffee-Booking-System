@@ -5,6 +5,7 @@ struct BookingView: View {
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var profileController: ProfileController
     @EnvironmentObject var transactionController : TransactionController
+    @EnvironmentObject var shop: Shop
     
     @State var transactionType : Int = 0
     
@@ -64,7 +65,7 @@ struct BookingView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false, content: {
                     VStack{
-                        ForEach(transactionController.transactions.reversed()) { transaction in
+                        ForEach(shop.transactions.reversed()) { transaction in
                             if transactionType == 0 && transaction.type == TRANSACTION_PURCHASE {
                                 TransactionView(transaction: transaction)
                                     .environmentObject(transactionController)

@@ -80,12 +80,12 @@ struct MenuContent: View {
                         profileController.success = false
                     }
                 }
-                Text("Send money").onTapGesture {
+                Text("Users").onTapGesture {
                     userController.getUsers(shop: shop)
                     viewState.state = 3
                 }
                 Text("Transaction History").onTapGesture {
-                    transactionController.getTransactions(userID: shop.profile.id)
+                    transactionController.getTransactions(shop: shop, userID: shop.profile.id)
                     viewState.state = 5
                 }
                 Text("Statistics").onTapGesture {

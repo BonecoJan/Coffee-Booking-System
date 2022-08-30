@@ -3,16 +3,16 @@ import SwiftUICharts
 
 class TransactionController: ObservableObject {
 
-    @Published var transactions : [Response.Transaction] = []
+    //This Integer is only used for recognizing if an achievement is earned
     @Published var purchaseCount: Int = 0
     
     @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
     @Published var error: String = ""
     
-    func countPurchases() -> Int {
+    func countPurchases(shop: Shop) -> Int {
         var count : Int = 0
-        for transaction in self.transactions {
+        for transaction in shop.transactions {
             if transaction.type == "purchase" {
                 count += transaction.amount!
             }
@@ -20,10 +20,10 @@ class TransactionController: ObservableObject {
         return count
     }
     
-    func dataBoughtItems() -> [BarChartDataPoint] {
+    func dataBoughtItems(shop: Shop) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         
-            let transactions = self.transactions.filter{
+            let transactions = shop.transactions.filter{
                 $0.type == "purchase"
             }
 
@@ -44,7 +44,7 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
     
-    func dataForMonth(_ type: String, _ year: Int, _ month: Int) -> [BarChartDataPoint] {
+    func dataForMonth(shop: Shop, _ type: String, _ year: Int, _ month: Int) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         let dateComponents = DateComponents(year: year, month: month)
         let calendar = Calendar.current
@@ -54,7 +54,7 @@ class TransactionController: ObservableObject {
         let numDays = range.count
         
         for day in 1 ... numDays {
-            let transactions = self.transactions.filter{
+            let transactions = shop.transactions.filter{
                 getDataFromTimestamp(timestamp: $0.timestamp).day == day
                 && getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
@@ -83,11 +83,11 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
     
-    func dataForYear(_ type: String, _ year: Int) -> [BarChartDataPoint] {
+    func dataForYear(shop: Shop, _ type: String, _ year: Int) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         
         for month in 1...12 {
-            let transactions = self.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
+            let transactions = shop.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
                 && $0.type == type
             }
@@ -114,11 +114,11 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
     
-    func dataForWeek(_ type: String, _ year: Int, _ week: Int) -> [BarChartDataPoint] {
+    func dataForWeek(shop: Shop, _ type: String, _ year: Int, _ week: Int) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
 
         for day in 1 ... 7 {
-            let transactions = self.transactions.filter{
+            let transactions = shop.transactions.filter{
                 //customCalendar.dateComponents([.weekday], from: Date(timeIntervalSince1970: Double($0.timestamp)/1000)).weekday == day
                 getDataFromTimestamp(timestamp: $0.timestamp).weekday == day
                 && getDataFromTimestamp(timestamp: $0.timestamp).weekOfYear == week
@@ -148,6 +148,7 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
 
+    //decode the Integer timestamp that is returned by the server into a CalenderDate
     func getDataFromTimestamp(timestamp: Int) -> DateComponents {
         let date = Date(timeIntervalSince1970: Double(timestamp)/1000)
 
@@ -158,7 +159,7 @@ class TransactionController: ObservableObject {
     
     static var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-    func getTransactions(userID: String) {
+    func getTransactions(shop: Shop, userID: String) {
         self.isLoading = true
         Task {
             do {
@@ -167,8 +168,11 @@ class TransactionController: ObservableObject {
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasError = false
-                    self.transactions = response
-                    self.purchaseCount = self.countPurchases()
+                    shop.transactions = []
+                    for transaction in response {
+                        shop.transactions.append(Transaction(transaction: transaction))
+                    }
+                    self.purchaseCount = self.countPurchases(shop: shop)
                 }
             } catch let error {
                 DispatchQueue.main.async {

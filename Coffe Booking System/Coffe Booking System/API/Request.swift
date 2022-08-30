@@ -97,9 +97,7 @@ enum Response {
         var timestamp: Int?
     }
 
-    struct Transaction: Codable, Identifiable {
-        var id: Int { timestamp } //needs to be done for the Identifiable protocol
-        
+    struct Transaction: Codable {
         var type: String
         var value: Double
         var timestamp : Int

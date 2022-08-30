@@ -17,6 +17,8 @@ class UserController: ObservableObject {
                     self.isLoading = false
                     self.hasError = false
                     shop.users = []
+                    
+                    //get and set the image of all returned users
                     for user in users {
                         self.getImage(shop: shop, user: User(userRespose: user))
                     }
@@ -31,7 +33,6 @@ class UserController: ObservableObject {
         }
     }
     
-    //TODO: Gleiche Funktion wie im Profil
     func getImage(shop: Shop, user: User) {
         self.isLoading = true
         Task{
@@ -47,6 +48,8 @@ class UserController: ObservableObject {
                 DispatchQueue.main.async {
                     shop.users.append(user)
                     self.isLoading = false
+                    
+                    //We dont use ERROR_NO_IMAGE as a real error so it needs to be excluded from the error handling
                     if error.localizedDescription != ERROR_NO_IMAGE {
                         self.hasError = true
                         self.error = error.localizedDescription

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserViewObj: View {
+struct UserListObjView: View {
 
     var user: User
     @State var amount: String = ""

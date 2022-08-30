@@ -27,7 +27,7 @@ struct QRView: View {
                     .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                         Button("OK", role: .cancel) {
                             cartController.success = false
-                            transactionController.getTransactions(userID: shop.profile.id)
+                            transactionController.getTransactions(shop: shop, userID: shop.profile.id)
                             if transactionController.purchaseCount == 4  {
                                 achievementType = 5
                                 showAchievementAlert = true

@@ -50,7 +50,7 @@ class CartController: ObservableObject {
         cart.remove(at: deleteAt)
     }
     
-    //Send purchase request to all products in Cart
+    //Send purchase request to all products in cart
     func purchase(shop: Shop, profileController: ProfileController) {
         for product in cart {
             purchaseRequest(shop: shop, purchase: Request.Purchase(itemId: product.id, amount: product.amount), profileController: profileController)

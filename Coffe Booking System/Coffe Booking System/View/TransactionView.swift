@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TransactionView: View {
     
-    var transaction: Response.Transaction
+    var transaction: Transaction
     @EnvironmentObject var transactionController: TransactionController
     
     var body: some View {
@@ -53,6 +53,6 @@ struct TransactionView: View {
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView(transaction: Response.Transaction(type: "", value: 0.0, timestamp: 0))
+        TransactionView(transaction: Transaction(transaction: Response.Transaction(type: "", value: 0.0, timestamp: 0)))
     }
 }

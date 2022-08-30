@@ -10,8 +10,8 @@
 		C339F2D728BE5621001B0BD2 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339F2D628BE5621001B0BD2 /* Statistics.swift */; };
 		C339F2DA28BE5644001B0BD2 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = C339F2D928BE5644001B0BD2 /* SwiftUICharts */; };
 		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
-		C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF12886DBD000F7694A /* UserViewObj.swift */; };
-		C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF32886DBE600F7694A /* UserViewTest.swift */; };
+		C34F7AF22886DBD000F7694A /* UserListObjView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF12886DBD000F7694A /* UserListObjView.swift */; };
+		C34F7AF42886DBE600F7694A /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF32886DBE600F7694A /* UserListView.swift */; };
 		C34F7AF62886DC0900F7694A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF52886DC0900F7694A /* UserController.swift */; };
 		C34F7AF82886EB4C00F7694A /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF72886EB4C00F7694A /* SideMenu.swift */; };
 		C359E80028736E36007DB305 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359E7FF28736E36007DB305 /* Auth.swift */; };
@@ -35,7 +35,6 @@
 		F688764F28B9188800BDDEE9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688764E28B9188800BDDEE9 /* Request.swift */; };
 		F688765128B9F6C100BDDEE9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688765028B9F6C100BDDEE9 /* User.swift */; };
 		F688765528BBA25500BDDEE9 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688765428BBA25500BDDEE9 /* Error.swift */; };
-		F688765728BBA5A800BDDEE9 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F688765628BBA5A800BDDEE9 /* NetworkMonitor.swift */; };
 		F68EDDF22889360C00CF2689 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF12889360C00CF2689 /* TransactionView.swift */; };
 		F68EDDF528898D9A00CF2689 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = F68EDDF428898D9A00CF2689 /* CodeScanner */; };
 		F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68EDDF628898ECF00CF2689 /* QRView.swift */; };
@@ -65,8 +64,8 @@
 /* Begin PBXFileReference section */
 		C339F2D628BE5621001B0BD2 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		C3450DAC287211ED00555DF0 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
-		C34F7AF12886DBD000F7694A /* UserViewObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewObj.swift; sourceTree = "<group>"; };
-		C34F7AF32886DBE600F7694A /* UserViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewTest.swift; sourceTree = "<group>"; };
+		C34F7AF12886DBD000F7694A /* UserListObjView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListObjView.swift; sourceTree = "<group>"; };
+		C34F7AF32886DBE600F7694A /* UserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		C34F7AF52886DC0900F7694A /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		C34F7AF72886EB4C00F7694A /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		C359E7FF28736E36007DB305 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
@@ -90,7 +89,6 @@
 		F688764E28B9188800BDDEE9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F688765028B9F6C100BDDEE9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F688765428BBA25500BDDEE9 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		F688765628BBA5A800BDDEE9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		F68EDDF12889360C00CF2689 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		F68EDDF628898ECF00CF2689 /* QRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRView.swift; sourceTree = "<group>"; };
 		F68EDDF828898F8900CF2689 /* Coffe-Booking-System-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Coffe-Booking-System-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -156,7 +154,6 @@
 				F688765328BA389800BDDEE9 /* API */,
 				F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */,
 				F688764828B90C5D00BDDEE9 /* Constants.swift */,
-				F688765628BBA5A800BDDEE9 /* NetworkMonitor.swift */,
 			);
 			path = "Coffe Booking System";
 			sourceTree = "<group>";
@@ -188,8 +185,8 @@
 				F692ECC72885769400C6E92B /* ProductView.swift */,
 				F62165AE2886D45500415D15 /* BookingView.swift */,
 				F62165B02886D49800415D15 /* CartProductView.swift */,
-				C34F7AF12886DBD000F7694A /* UserViewObj.swift */,
-				C34F7AF32886DBE600F7694A /* UserViewTest.swift */,
+				C34F7AF12886DBD000F7694A /* UserListObjView.swift */,
+				C34F7AF32886DBE600F7694A /* UserListView.swift */,
 				C34F7AF72886EB4C00F7694A /* SideMenu.swift */,
 				F68EDDF12889360C00CF2689 /* TransactionView.swift */,
 				F68EDDF628898ECF00CF2689 /* QRView.swift */,
@@ -219,6 +216,7 @@
 			children = (
 				C35E104A2857DBC70030B4C7 /* Coffe Booking System */,
 				F61D90D728531DF100F275E8 /* Products */,
+				F6876DE228BE6169006017F5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -228,6 +226,13 @@
 				F61D90D628531DF100F275E8 /* Coffe Booking System.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F6876DE228BE6169006017F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F688765328BA389800BDDEE9 /* API */ = {
@@ -371,12 +376,11 @@
 				F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */,
 				F62165B12886D49800415D15 /* CartProductView.swift in Sources */,
 				F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */,
-				F688765728BBA5A800BDDEE9 /* NetworkMonitor.swift in Sources */,
 				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
-				C34F7AF42886DBE600F7694A /* UserViewTest.swift in Sources */,
+				C34F7AF42886DBE600F7694A /* UserListView.swift in Sources */,
 				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
-				C34F7AF22886DBD000F7694A /* UserViewObj.swift in Sources */,
+				C34F7AF22886DBD000F7694A /* UserListObjView.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				F692ECCA28857CE200C6E92B /* CartController.swift in Sources */,
 				C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */,

@@ -58,7 +58,7 @@ struct SignInView: View {
                 loginController.isAuthenticated = true
                 homeController.getProducts(shop: shop)
                 userController.getUsers(shop: shop)
-                transactionController.getTransactions(userID: shop.profile.id)
+                transactionController.getTransactions(shop: shop, userID: shop.profile.id)
             }
         }
     }

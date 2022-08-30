@@ -1,6 +1,6 @@
 import SwiftUI
 
-//For changing the views
+//This struct is used for changing the Views
 class ViewState: ObservableObject {
     @Published var state: Int
     init(){
@@ -12,6 +12,7 @@ class ViewState: ObservableObject {
 
 struct Coffe_Booking_System: App {
     
+    //instantiate all Controllers and the Shop at the beginning
     @ObservedObject var shop = Shop()
     @ObservedObject var loginController = LoginController()
     @ObservedObject var viewState = ViewState()
@@ -20,7 +21,6 @@ struct Coffe_Booking_System: App {
     @ObservedObject var userController = UserController()
     @ObservedObject var homeController = HomeController()
     @ObservedObject var cartController = CartController()
-    @ObservedObject var monitor = NetworkMonitor()
     
     var body: some Scene {
             WindowGroup {
@@ -55,7 +55,7 @@ struct Coffe_Booking_System: App {
                                 .environmentObject(transactionController)
                                 .environmentObject(shop)
                         } else if viewState.state == 3 {
-                            UserViewTest()
+                            UserListView()
                                 .environmentObject(viewState)
                                 .environmentObject(profileController)
                                 .background(Color(hex: UInt(COLOR_BACKGROUND)))
@@ -92,6 +92,7 @@ struct Coffe_Booking_System: App {
                                 .background(Color(hex: UInt(COLOR_BACKGROUND)))
                         }
                     }
+                    //Show the diffrent errors as Alerts to the User
                     .alert("Error", isPresented: $profileController.hasError, presenting: profileController.error) { detail in
                         Button("Ok", role: .cancel) { }
                     } message: { detail in
@@ -113,10 +114,9 @@ struct Coffe_Booking_System: App {
                             Text(error)
                         }
                     }
-                    .alert("No Internet Connection", isPresented: $monitor.isNotConnected) {
-                        Button("Ok", role: .cancel) { }
-                    }
                     
+                    //Show ProgressView as loading screen if a request is in process
+                    //If the user wants to close the request loading screen we need to set all isLoading-Flags to false
                     if loginController.isLoading || profileController.isLoading || transactionController.isLoading || cartController.isLoading || homeController.isLoading || userController.isLoading {
                         ZStack {
                             Color(.white)

@@ -33,7 +33,7 @@ struct SignUpView: View {
         HStack{
             Image(systemName: IMAGE_ID)
                 .padding()
-            TextField("User ID (Optional)", text: $newID)
+            TextField("User ID", text: $newID)
                 .cornerRadius(5.0)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
@@ -89,6 +89,7 @@ struct SignUpView: View {
             .offset(y: -60)
             .foregroundColor(.red)
     }
+    
 }
 
 struct SignUpView_Previews: PreviewProvider {
