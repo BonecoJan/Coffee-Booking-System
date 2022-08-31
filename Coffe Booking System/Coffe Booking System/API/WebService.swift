@@ -21,7 +21,7 @@ class WebService {
         unknownType: Bool
     ) async throws -> Response {
         
-        guard let url = URL(string: API_URL + reqUrl) else {
+        guard let url = URL(string: API_URL + reqUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) else {
             throw RequestError.invalidURL
         }
         var httpRequest = URLRequest(url: url)
@@ -51,7 +51,7 @@ class WebService {
             if httpResponse.statusCode == STATUS_UNAUTHORIZED {
                 if allowRetry {
                     _ = try await authManager.refreshToken()
-                    return try await request(allowRetry: false, reqUrl: reqUrl, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType, unknownType: unknownType)
+                    return try await request(allowRetry: false, reqUrl: reqUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!, reqMethod: reqMethod, authReq: authReq, body: body, responseType: responseType, unknownType: unknownType)
                 }
             }
             throw RequestError.custom(errorMessage: String(data: data, encoding: .utf8)! + " (StatusCode: " + String(httpResponse.statusCode) + ")")

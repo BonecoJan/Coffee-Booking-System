@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C339F2D728BE5621001B0BD2 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339F2D628BE5621001B0BD2 /* Statistics.swift */; };
 		C339F2DA28BE5644001B0BD2 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = C339F2D928BE5644001B0BD2 /* SwiftUICharts */; };
-		C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3450DAC287211ED00555DF0 /* ItemView.swift */; };
 		C34F7AF22886DBD000F7694A /* UserListObjView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF12886DBD000F7694A /* UserListObjView.swift */; };
 		C34F7AF42886DBE600F7694A /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF32886DBE600F7694A /* UserListView.swift */; };
 		C34F7AF62886DC0900F7694A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F7AF52886DC0900F7694A /* UserController.swift */; };
@@ -22,9 +21,6 @@
 		C35E106B2857DBC70030B4C7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105A2857DBC70030B4C7 /* LoginView.swift */; };
 		C35E106D2857DBC70030B4C7 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35E105C2857DBC70030B4C7 /* WebService.swift */; };
 		C3A228A1288AD9A800020F83 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = C3A228A0288AD9A800020F83 /* JWTDecode */; };
-		C3A228A3288AD9C300020F83 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A228A2288AD9C300020F83 /* Chart.swift */; };
-		C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A228A4288AD9D500020F83 /* ChartSelection.swift */; };
-		C3A228A8288ADAB600020F83 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C3A228A7288ADAB600020F83 /* Charts */; };
 		F62165AD2886D2BC00415D15 /* TransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AC2886D2BC00415D15 /* TransactionController.swift */; };
 		F62165AF2886D45500415D15 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AE2886D45500415D15 /* TransactionHistoryView.swift */; };
 		F62165B12886D49800415D15 /* CartProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165B02886D49800415D15 /* CartProductView.swift */; };
@@ -54,7 +50,6 @@
 		F6D4B6BE2878081F0037E821 /* AdminMenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6BD2878081F0037E821 /* AdminMenue.swift */; };
 		F6D4B6C028780C3A0037E821 /* AdminItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6BF28780C3A0037E821 /* AdminItemView.swift */; };
 		F6D4B6C228780C4B0037E821 /* AdminUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C128780C4B0037E821 /* AdminUserView.swift */; };
-		F6D4B6C628781A680037E821 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C528781A680037E821 /* UserView.swift */; };
 		F6D4B6C828781BE10037E821 /* AdminController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6C728781BE10037E821 /* AdminController.swift */; };
 		F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66D2858F2F900829739 /* ProfilView.swift */; };
 		F6E9E6702858F40800829739 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E9E66F2858F40800829739 /* OrderView.swift */; };
@@ -63,7 +58,6 @@
 
 /* Begin PBXFileReference section */
 		C339F2D628BE5621001B0BD2 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
-		C3450DAC287211ED00555DF0 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		C34F7AF12886DBD000F7694A /* UserListObjView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListObjView.swift; sourceTree = "<group>"; };
 		C34F7AF32886DBE600F7694A /* UserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		C34F7AF52886DC0900F7694A /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
@@ -75,8 +69,6 @@
 		C35E10512857DBC70030B4C7 /* Coffe_Booking_System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffe_Booking_System.swift; sourceTree = "<group>"; };
 		C35E105A2857DBC70030B4C7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C35E105C2857DBC70030B4C7 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
-		C3A228A2288AD9C300020F83 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
-		C3A228A4288AD9D500020F83 /* ChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSelection.swift; sourceTree = "<group>"; };
 		C3F91BA828743DC80066E197 /* Coffe Booking System.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Coffe Booking System.entitlements"; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62165AC2886D2BC00415D15 /* TransactionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionController.swift; sourceTree = "<group>"; };
@@ -108,7 +100,6 @@
 		F6D4B6BD2878081F0037E821 /* AdminMenue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminMenue.swift; sourceTree = "<group>"; };
 		F6D4B6BF28780C3A0037E821 /* AdminItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminItemView.swift; sourceTree = "<group>"; };
 		F6D4B6C128780C4B0037E821 /* AdminUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminUserView.swift; sourceTree = "<group>"; };
-		F6D4B6C528781A680037E821 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		F6D4B6C728781BE10037E821 /* AdminController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminController.swift; sourceTree = "<group>"; };
 		F6E9E66D2858F2F900829739 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
 		F6E9E66F2858F40800829739 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -122,7 +113,6 @@
 			files = (
 				C3A228A1288AD9A800020F83 /* JWTDecode in Frameworks */,
 				C339F2DA28BE5644001B0BD2 /* SwiftUICharts in Frameworks */,
-				C3A228A8288ADAB600020F83 /* Charts in Frameworks */,
 				F68EDDF528898D9A00CF2689 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,8 +170,6 @@
 				F6D4B6BD2878081F0037E821 /* AdminMenue.swift */,
 				F6D4B6BF28780C3A0037E821 /* AdminItemView.swift */,
 				F6D4B6C128780C4B0037E821 /* AdminUserView.swift */,
-				C3450DAC287211ED00555DF0 /* ItemView.swift */,
-				F6D4B6C528781A680037E821 /* UserView.swift */,
 				F692ECC72885769400C6E92B /* ProductView.swift */,
 				F62165AE2886D45500415D15 /* TransactionHistoryView.swift */,
 				F62165B02886D49800415D15 /* CartProductView.swift */,
@@ -190,8 +178,6 @@
 				C34F7AF72886EB4C00F7694A /* SideMenu.swift */,
 				F68EDDF12889360C00CF2689 /* TransactionView.swift */,
 				F68EDDF628898ECF00CF2689 /* QRView.swift */,
-				C3A228A2288AD9C300020F83 /* Chart.swift */,
-				C3A228A4288AD9D500020F83 /* ChartSelection.swift */,
 				F693E877289E53D400F06D3B /* AchievementView.swift */,
 				F6965C4328B4B8C800628C6D /* AchievementAlertView.swift */,
 				C339F2D628BE5621001B0BD2 /* Statistics.swift */,
@@ -278,7 +264,6 @@
 			packageProductDependencies = (
 				F68EDDF428898D9A00CF2689 /* CodeScanner */,
 				C3A228A0288AD9A800020F83 /* JWTDecode */,
-				C3A228A7288ADAB600020F83 /* Charts */,
 				C339F2D928BE5644001B0BD2 /* SwiftUICharts */,
 			);
 			productName = "Coffe Booking System";
@@ -344,7 +329,6 @@
 				F688764F28B9188800BDDEE9 /* Request.swift in Sources */,
 				F6E9E66E2858F2F900829739 /* ProfilView.swift in Sources */,
 				F68EDDF728898ECF00CF2689 /* QRView.swift in Sources */,
-				C3450DAD287211ED00555DF0 /* ItemView.swift in Sources */,
 				F6E9E6702858F40800829739 /* OrderView.swift in Sources */,
 				F693E878289E53D400F06D3B /* AchievementView.swift in Sources */,
 				C34F7AF82886EB4C00F7694A /* SideMenu.swift in Sources */,
@@ -357,7 +341,6 @@
 				F6D4B6C828781BE10037E821 /* AdminController.swift in Sources */,
 				C339F2D728BE5621001B0BD2 /* Statistics.swift in Sources */,
 				F69B73E02887FF6000FDCED7 /* ImagePicker.swift in Sources */,
-				F6D4B6C628781A680037E821 /* UserView.swift in Sources */,
 				F6D4B6C028780C3A0037E821 /* AdminItemView.swift in Sources */,
 				C35E10642857DBC70030B4C7 /* Coffe_Booking_System.swift in Sources */,
 				F692ECC62885736800C6E92B /* HomeController.swift in Sources */,
@@ -379,11 +362,9 @@
 				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
 				C34F7AF42886DBE600F7694A /* UserListView.swift in Sources */,
-				C3A228A3288AD9C300020F83 /* Chart.swift in Sources */,
 				C34F7AF22886DBD000F7694A /* UserListObjView.swift in Sources */,
 				F659AF482858E82B00BCCC26 /* MainView.swift in Sources */,
 				F692ECCA28857CE200C6E92B /* CartController.swift in Sources */,
-				C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */,
 				C34F7AF62886DC0900F7694A /* UserController.swift in Sources */,
 				F62165AD2886D2BC00415D15 /* TransactionController.swift in Sources */,
 				F6C91ACA28BD24C1000C9803 /* Transaction.swift in Sources */,
@@ -647,11 +628,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3A2289F288AD9A800020F83 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
-		};
-		C3A228A7288ADAB600020F83 /* Charts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C3A228A6288ADAB600020F83 /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = Charts;
 		};
 		F68EDDF428898D9A00CF2689 /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;

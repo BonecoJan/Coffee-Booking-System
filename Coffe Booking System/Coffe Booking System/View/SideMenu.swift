@@ -1,10 +1,3 @@
-//
-//  SideMenu.swift
-//  Coffe Booking System
-//
-//  Created by Jan Wasilewitsch on 19.07.22.
-//
-
 import SwiftUI
 
 struct SideMenu: View {

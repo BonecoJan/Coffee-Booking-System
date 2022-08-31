@@ -33,6 +33,7 @@ struct AdminItemView: View {
         UINavigationBar.appearance().tintColor = UIColor.orange
     }
     
+    //search result for searchbar
     var searchResults: [Item] {
         if searchText.isEmpty {
             return shop.items
@@ -41,12 +42,14 @@ struct AdminItemView: View {
         }
     }
 
+    //format numbers
     let formatter: NumberFormatter = {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
             return formatter
         }()
     
+    //navigation view
     var body: some View {
         VStack{
              NavigationView {
@@ -65,17 +68,11 @@ struct AdminItemView: View {
                                 })
                                 ) {
                                     Text("\(item.name)")
-                                    //AdminItemRow(item: item)
-//                                        .onAppear(perform: {
-//                                            adminController.getUser(user: user)
-//                                        })
                                 }
                     }
                 }
                 .searchable(text: $searchText)
                 .navigationBarTitle("Items")
-                //.navigationBarHidden(true)
-                //.searchable(text: $newID)
                 .toolbar {
                     Button(action: {
                         showCreateOverlay = true
@@ -91,10 +88,6 @@ struct AdminItemView: View {
             .navigationViewStyle(DefaultNavigationViewStyle())
             
         }
-//        .background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
 
     }
     
@@ -130,12 +123,12 @@ struct AdminItemView: View {
             .multilineTextAlignment(.leading)
             HStack(alignment: .center){
                 Button(action: {
+                    //create user
                     if self.newID != "" {
                         if self.newName != "" {
                             if self.newAmount > 0 {
                                 if newPrice > 0.0 {
                                     adminController.createItem(shop: shop, name: newName, amount: newAmount, price: newPrice)
-                                    print($adminController.hasError)
                                 } else {
                                     self.showAlert = true
                                     activeAlert = .priceMissing
@@ -215,19 +208,18 @@ struct AdminItemDetail: View {
     
     @EnvironmentObject var adminController : AdminController
     @EnvironmentObject var shop: Shop
-    
-    enum ActiveAlert {
-        case passwordMissing, itemUpdated, balanceUpdated
-    }
 
     var item: Item
     
-    @State private var passwordMissing = false
+    enum ActiveAlert {
+        case nameMissing, priceMissing, itemUpdated
+    }
+
     @State private var itemUpdated = false
     
     @State private var showAlert: Bool = false
     @State private var deleteItem: Bool = false
-    @State private var activeAlert: ActiveAlert = .passwordMissing
+    @State private var activeAlert: ActiveAlert = .nameMissing
 
         
     func resetValues() {
@@ -259,19 +251,15 @@ struct AdminItemDetail: View {
                     Text("ID")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
                     TextField("", text: $adminController.itemPlaceholder.id)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
-//                    Text(adminController.currentUser.id)
-//                        .font(.subheadline)
                 }.padding([.top, .leading, .trailing])
                 HStack(alignment: .top) {
                     Text("Name")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
                     TextField("" ,text: $adminController.itemPlaceholder.name)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
@@ -281,9 +269,6 @@ struct AdminItemDetail: View {
                     Text("Amount")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
-//                    Text(String(adminController.currentUser.balance ?? 0.00))
-//                        .font(.subheadline)
                     TextField("" ,value: $adminController.itemPlaceholder.amount, formatter: formatter)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.decimalPad)
@@ -294,7 +279,6 @@ struct AdminItemDetail: View {
                     Text("Price")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
                     TextField("" ,value: $adminController.itemPlaceholder.price, formatter: formatter)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
@@ -311,13 +295,6 @@ struct AdminItemDetail: View {
                     Image(systemName: "trash")
                 }
                 .padding([.bottom, .leading, .trailing])
-//                .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
-//                    Button("Yes", role: .destructive) {
-//                        withAnimation {
-//                            adminController.deleteUser(userID: adminController.currentUser.id)
-//                        }
-//                    }
-//                }
                 .alert(isPresented:$deleteItem) {
                             Alert(
                                 title: Text("Are you sure you want to delete this item?"),
@@ -337,37 +314,38 @@ struct AdminItemDetail: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
+                        //update item
+                        if adminController.itemPlaceholder.id != item.id
+                            || adminController.itemPlaceholder.name != item.name
+                            || adminController.itemPlaceholder.amount ?? 0 != item.amount ?? 0
+                            || adminController.itemPlaceholder.price != item.price {
                         adminController.updateItem(shop: shop, itemID: adminController.itemPlaceholder.id, name: adminController.itemPlaceholder.name, amount: adminController.itemPlaceholder.amount ?? 0, price: adminController.itemPlaceholder.price)
                         self.showAlert = true
                         activeAlert = .itemUpdated
+                        }
                     }
                         }
                        , label: {
                             Text(isEditing ? "save" : "edit")
                             .alert(isPresented: $showAlert) {
                                 switch activeAlert {
-                                case .passwordMissing:
-                                    return Alert(title: Text("Important message"), message: Text("Enter a password."), dismissButton: .default(Text("Got it!")))
+                                case .nameMissing:
+                                    return Alert(title: Text("Important message"), message: Text("Enter a name."), dismissButton: .default(Text("Got it!")))
+                                case .priceMissing:
+                                    return Alert(title: Text("Important message"), message: Text("Enter a price."), dismissButton: .default(Text("Got it!")))
                                 case .itemUpdated:
-                                    return Alert(title: Text(""), message: Text("User updated successfully"), dismissButton: .default(Text("Ok")))
-                                case .balanceUpdated:
-                                    return Alert(title: Text(""), message: Text("Balance updated successfully"), dismissButton: .default(Text("Ok")))
+                                    return Alert(title: Text(""), message: Text("Item updated successfully"), dismissButton: .default(Text("Ok")))
                                 }
                             }
                         }
                 )
                 .padding([.bottom, .leading, .trailing])
 
-                //Update User
+                //Cancel Edit action
                 Button (action: {
                     withAnimation {
-                        editMode?.wrappedValue = .inactive
-                    }
-//                    if adminController.tmpUser.id != adminController.currentUser.id {
-//                        adminController.updateUser(userID: adminController.tmpUser.id, name: adminController.tmpUser.name, isAdmin: isAdmin, password: adminController.tmpUser.password!)
-//                    }
-                    if !isEditing {
                         resetValues()
+                        editMode?.wrappedValue = .inactive
                     }
                 }, label: {
                     Text("cancel")
@@ -379,13 +357,8 @@ struct AdminItemDetail: View {
             }
 
         }
-//        .background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
         .navigationBarTitle(Text(verbatim: item.id), displayMode: .inline)
         .onAppear(perform: {
-            //self.userID = adminController.currentUser.id
         })
     }
 }
@@ -398,107 +371,3 @@ struct AdminItemView_Previews: PreviewProvider {
         AdminItemView()
     }
 }
-
-
-
-
-
-//import SwiftUI
-//
-//struct AdminItemView: View {
-//
-//    @EnvironmentObject var adminController : AdminViewModel
-//    @State var showCreateOverlay: Bool = false
-//    @State var newID: String
-//    @State var newName: String
-//    @State var newAmount: String
-//    @State var newPrice: String
-//
-//    var body: some View {
-//        VStack{
-//
-//            Button(action: {
-//                showCreateOverlay = true
-//            }, label: {
-//                Text("Create Item")
-//                    .frame(width: 244, height: 39)
-//                    .background(Color(hex: 0xD9D9D9))
-//                    .clipShape(RoundedRectangle(cornerRadius: 20))
-//                    .foregroundColor(.black)
-//                    .multilineTextAlignment(.center)
-//                    .padding()
-//            })
-//            .sheet(isPresented: $showCreateOverlay, content: {
-//                VStack(alignment: .leading){
-//                    Text("create a new Item:")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    Text("What is the Item ID? ")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    TextField("Item ID", text: $newID)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Text("what is the Item name? ")
-//                        .multilineTextAlignment(.leading)
-//                        .padding()
-//                    TextField("Name", text: $newName)
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Text("what is the amount? ")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    TextField("amount ", text: $newAmount)
-//                        .keyboardType(.decimalPad)
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Text("what is the price? ")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    TextField("price: ", text: $newPrice)
-//                        .keyboardType(.decimalPad)
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Button(action: {
-//                        //TODO: Create Item here
-//                        adminController.createItem(name: newName, amount: Int(newAmount)!, price: Double(newPrice)!)
-//                    }, label: {
-//                        Text("Create Item")
-//                            .frame(width: 244, height: 39)
-//                            .background(Color(hex: 0xD9D9D9))
-//                            .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .foregroundColor(.black)
-//                            .multilineTextAlignment(.center)
-//                            .padding()
-//                    })
-//                }
-//            })
-//
-//            ScrollView(.vertical, showsIndicators: false, content: {
-//                VStack{
-//                    ForEach(adminController.items) { item in
-//                        ItemView(item: item)
-//                            .environmentObject(adminController)
-//                    }
-//                }
-//            })
-//            .padding()
-//        }.background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
-//
-//    }
-//}
-//
-//struct AdminItemView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
-//    }
-//}

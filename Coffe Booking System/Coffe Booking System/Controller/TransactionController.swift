@@ -20,6 +20,7 @@ class TransactionController: ObservableObject {
         return count
     }
     
+    //get datapoints for total bought items
     func dataBoughtItems(shop: Shop) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         
@@ -44,6 +45,7 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
     
+    //get datapoints for monthl
     func dataForMonth(shop: Shop, _ type: String, _ year: Int, _ month: Int) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         let dateComponents = DateComponents(year: year, month: month)
@@ -58,17 +60,17 @@ class TransactionController: ObservableObject {
                 getDataFromTimestamp(timestamp: $0.timestamp).day == day
                 && getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == type
+                && $0.type == "purchase"
             }
             
             switch type {
-            case "funding":
+            case "value":
                 let values = transactions.map( {abs($0.value) })
                 let sum = values.reduce(0, +)
                 
                 dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: String(day)))
                 break
-            case "purchase":
+            case "amount":
                 let values = transactions.map( {abs($0.amount ?? 0) })
                 let sum = values.reduce(0, +)
                 
@@ -83,23 +85,24 @@ class TransactionController: ObservableObject {
         return dataEntries
     }
     
+    //get data
     func dataForYear(shop: Shop, _ type: String, _ year: Int) -> [BarChartDataPoint] {
         var dataEntries: [BarChartDataPoint] = []
         
         for month in 1...12 {
             let transactions = shop.transactions.filter{getDataFromTimestamp(timestamp: $0.timestamp).month == month
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == type
+                && $0.type == "purchase"
             }
 
             switch type {
-            case "funding":
+            case "value":
                 let values = transactions.map( {abs($0.value) })
                 let sum = values.reduce(0, +)
                 
                 dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().monthSymbols[month - 1]))
                 break
-            case "purchase":
+            case "amount":
                 let values = transactions.map( {abs($0.amount ?? 0) })
                 let sum = values.reduce(0, +)
                 
@@ -119,21 +122,20 @@ class TransactionController: ObservableObject {
 
         for day in 1 ... 7 {
             let transactions = shop.transactions.filter{
-                //customCalendar.dateComponents([.weekday], from: Date(timeIntervalSince1970: Double($0.timestamp)/1000)).weekday == day
                 getDataFromTimestamp(timestamp: $0.timestamp).weekday == day
                 && getDataFromTimestamp(timestamp: $0.timestamp).weekOfYear == week
                 && getDataFromTimestamp(timestamp: $0.timestamp).year == year
-                && $0.type == type
+                && $0.type == "purchase"
             }
             
             switch type {
-            case "funding":
+            case "value":
                 let values = transactions.map( {abs($0.value) })
                 let sum = values.reduce(0, +)
                 
                 dataEntries.append(BarChartDataPoint(value: Double(sum), xAxisLabel: DateFormatter().weekdaySymbols[day - 1]))
                 break
-            case "purchase":
+            case "amount":
                 let values = transactions.map( {abs($0.amount ?? 0) })
                 let sum = values.reduce(0, +)
                 

@@ -11,15 +11,11 @@ actor AuthManager {
     private var currentToken: Token?
     private var refreshTask: Task<Token, Error>?
 
-
+    //check if token is valid
     func validToken() async throws -> Token {
         if let handle = refreshTask {
             return try await handle.value
         }
-        
-//        guard let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8) else {
-//            throw AuthError.missingToken
-//        }
         
         if let tokenID = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
             let tokenID = String(data: tokenID, encoding: .utf8)!
@@ -41,6 +37,7 @@ actor AuthManager {
 
     }
 
+    //refresh token
     func refreshToken() async throws -> Token {
         if let refreshTask = refreshTask {
             return try await refreshTask.value
@@ -48,10 +45,7 @@ actor AuthManager {
 
         let task = Task { () throws -> Token in
             defer { refreshTask = nil }
-            
-//            guard let tokenID = String(data: KeychainWrapper.standard.get(service: "access-token", account: "Coffe-Booking-System")!, encoding: .utf8) else {
-//                throw AuthError.missingToken
-//            }
+
             if let tokenID = KeychainWrapper.standard.get(service: SERVICE_TOKEN, account: ACCOUNT) {
                 let tokenID = String(data: tokenID, encoding: .utf8)!
                 

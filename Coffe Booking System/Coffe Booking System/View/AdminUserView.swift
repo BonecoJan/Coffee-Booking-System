@@ -7,22 +7,6 @@ extension Binding {
 }
 
 extension View {
-    
-    /// Hide or show the view based on a boolean value.
-    ///
-    /// Example for visibility:
-    ///
-    ///     Text("Label")
-    ///         .isHidden(true)
-    ///
-    /// Example for complete removal:
-    ///
-    ///     Text("Label")
-    ///         .isHidden(true, remove: true)
-    ///
-    /// - Parameters:
-    ///   - hidden: Set to `false` to show the view. Set to `true` to hide the view.
-    ///   - remove: Boolean value indicating whether or not to remove the view.
     @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = false) -> some View {
         if hidden {
             if !remove {
@@ -66,16 +50,9 @@ struct AdminUserView: View {
     @State private var showAlert: Bool = false
     @State private var activeAlert: ActiveAlert = .passwordMissing
 
-//    var searchResults: [AdminViewModel.UsersResponse] {
-//            if searchText.isEmpty {
-//                return adminVM.users
-//            } else {
-//                return adminVM.users.filter { $0.userResponse.id.contains(searchText) }
-//            }
-//        }
     
     enum ActiveAlert {
-        case idMissing, nameMissing, passwordMissing, passwordLength//, failedCreation
+        case idMissing, nameMissing, passwordMissing, passwordLength
     }
     
     
@@ -89,6 +66,7 @@ struct AdminUserView: View {
         UINavigationBar.appearance().tintColor = UIColor.orange
     }
     
+    //Search results for search bar
     var searchResults: [User] {
         if searchText.isEmpty {
             return shop.users
@@ -97,7 +75,7 @@ struct AdminUserView: View {
         }
     }
 
-    
+    //Navigation view
     var body: some View {
         VStack{
              NavigationView {
@@ -115,19 +93,15 @@ struct AdminUserView: View {
                                     adminController.getUsers(shop: shop)
                                 })
                                 ) {
-                                    //Text("\(user.userResponse.id)")
                                     AdminUserRow(user: user)
                                         .environmentObject(shop)
-//                                        .onAppear(perform: {
-//                                            adminVM.getUser(user: user)
-//                                        })
+
                                 }
                     }
                 }
                 .searchable(text: $searchText)
                 .navigationBarTitle("Users")
-                //.navigationBarHidden(true)
-                //.searchable(text: $newID)
+
                 .toolbar {
                     Button(action: {
                         showCreateOverlay = true
@@ -143,13 +117,10 @@ struct AdminUserView: View {
             .navigationViewStyle(DefaultNavigationViewStyle())
             
         }
-//        .background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
 
     }
     
+    //create user view
     var adminCreateUser: some View {
         VStack(alignment: .leading){
             Text("New User")
@@ -168,7 +139,6 @@ struct AdminUserView: View {
             TextField("Username", text: $newName)
                 .padding()
                 .multilineTextAlignment(.leading)
-            //TODO: Admin checkbox
             Text("Password: ")
                 .padding([.top, .leading, .trailing])
                 .multilineTextAlignment(.leading)
@@ -191,7 +161,6 @@ struct AdminUserView: View {
                             if self.newPassword != "" {
                                 if newPassword.count >= 8{
                                     adminController.createUser(shop: shop, userID: newID, name: newName, isAdmin: isAdmin, password: newPassword)
-                                    print($adminController.hasError)
                                 } else {
                                     self.showAlert = true
                                     activeAlert = .passwordLength
@@ -253,12 +222,12 @@ struct AdminUserView: View {
     
 }
 
+//representation of rows in navigation view
 struct AdminUserRow: View {
     var user: User
     
     var body: some View {
         HStack {
-            //CircleImage(imageName: user.image,size: 50).padding()
             if user.image.encodedImage == NO_PROFILE_IMAGE {
                 Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
@@ -284,10 +253,10 @@ struct AdminUserRow: View {
     }
 }
 
-
+//detail view
 struct AdminUserDetail: View {
     
-    @EnvironmentObject var adminVM : AdminController
+    @EnvironmentObject var adminController : AdminController
     @EnvironmentObject var shop: Shop
 
     
@@ -310,16 +279,12 @@ struct AdminUserDetail: View {
     func toggle(){isAdmin = !isAdmin}
     
     func resetValues() {
-        adminVM.userPlaceholder.id = user.userResponse.id
-        adminVM.userPlaceholder.name = user.userResponse.name
-        adminVM.userPlaceholder.password = ""
-        adminVM.userPlaceholder.balance = user.userResponse.balance
+        adminController.userPlaceholder.id = user.userResponse.id
+        adminController.userPlaceholder.name = user.userResponse.name
+        adminController.userPlaceholder.password = ""
+        adminController.userPlaceholder.balance = user.userResponse.balance
     }
 
-    //var currentUser: AdminViewModel.Users = AdminViewModel.Users(id: "", name: "")
-    //var currentUser:  AdminViewModel.UsersResponse = AdminViewModel.UsersResponse(id: "", name: "")
-
-    
     @State private var showingImagePicker = false
     @State private var selectedImage: Image? = Image("")
 
@@ -340,10 +305,6 @@ struct AdminUserDetail: View {
     
     var body: some View {
         VStack {
-            //CircleImage(imageName: employee.image, size: 120).padding()
-//            Text(employee.preferredFullName)
-//                .font(.title)
-//            Divider()
             if user.image.encodedImage == NO_PROFILE_IMAGE {
                 Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
@@ -369,15 +330,13 @@ struct AdminUserDetail: View {
                 })
                 Button(action: {
                     let uiImage: UIImage = self.selectedImage.asUIImage()
-                    //adminVM.uploadImage(userID: user.userResponse.id, image: uiImage)
-                    adminVM.uploadImage(user: user, image: uiImage)
+                    adminController.uploadImage(user: user, image: uiImage)
                 }, label: {
                     Text("Change")
                         .opacity(self.selectedImage == Image("") ? 0 : 1)
                 }).disabled(self.selectedImage == Image(""))
                 Button(action: {
                     deletePicture = true
-                    //adminVM.deleteImage(user: user)
                 }, label: {
                     Text("Delete")
                         .opacity(user.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
@@ -388,7 +347,7 @@ struct AdminUserDetail: View {
                                 title: Text("Are you sure you want to delete this picture?"),
                                 primaryButton: .destructive(Text("Delete")) {
                                     withAnimation {
-                                        adminVM.deleteImage(user: user)
+                                        adminController.deleteImage(user: user)
                                         deletePicture = false
             }
                                 },
@@ -406,20 +365,16 @@ struct AdminUserDetail: View {
                     Text("ID")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
-                    TextField("", text: $adminVM.userPlaceholder.id)
+                    TextField("", text: $adminController.userPlaceholder.id)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
-//                    Text(adminVM.currentUser.id)
-//                        .font(.subheadline)
                 }.padding([.top, .leading, .trailing])
                 HStack(alignment: .top) {
                     Text("Name")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
-                    TextField("" ,text: $adminVM.userPlaceholder.name)
+                    TextField("" ,text: $adminController.userPlaceholder.name)
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
@@ -428,10 +383,7 @@ struct AdminUserDetail: View {
                     Text("Balance")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
-//                    Text(String(adminVM.currentUser.balance ?? 0.00))
-//                        .font(.subheadline)
-                    TextField("" ,value: $adminVM.userPlaceholder.balance, formatter: formatter)
+                    TextField("" ,value: $adminController.userPlaceholder.balance, formatter: formatter)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.decimalPad)
                         .font(.subheadline)
@@ -441,8 +393,7 @@ struct AdminUserDetail: View {
                     Text("Password")
                         .font(.subheadline)
                         .bold()
-                    //Spacer()
-                    SecureField("Password" ,text: $adminVM.userPlaceholder.password.toUnwrapped(defaultValue: ""))
+                    SecureField("Password" ,text: $adminController.userPlaceholder.password.toUnwrapped(defaultValue: ""))
                         .multilineTextAlignment(.trailing)
                         .font(.subheadline)
                         .disabled(!isEditing)
@@ -470,20 +421,13 @@ struct AdminUserDetail: View {
                     Image(systemName: "trash")
                 }
                 .padding([.bottom, .leading, .trailing])
-//                .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
-//                    Button("Yes", role: .destructive) {
-//                        withAnimation {
-//                            adminVM.deleteUser(userID: adminVM.currentUser.id)
-//                        }
-//                    }
-//                }
                 .alert(isPresented:$deleteUser) {
                             Alert(
                                 title: Text("Are you sure you want to delete this user?"),
                                 message: Text("There is no undo"),
                                 primaryButton: .destructive(Text("Delete")) {
                                     withAnimation {
-                                        adminVM.deleteUser(shop: shop, user: user)
+                                        adminController.deleteUser(shop: shop, user: user)
                 deleteUser = false
             }
                                 },
@@ -496,19 +440,19 @@ struct AdminUserDetail: View {
                         editMode?.wrappedValue = isEditing ? .inactive : .active
                     }
                     if !isEditing {
-                        if adminVM.userPlaceholder.balance != user.userResponse.balance {
-                            if adminVM.userPlaceholder.balance ?? 0.0 > user.userResponse.balance ?? 0.0 {
-                                //TODO: funding
-                            }
-                            adminVM.funding(shop: shop, userID: user.userResponse.id, amount: adminVM.userPlaceholder.balance ?? 0.0)
+                        //update balance
+                        if adminController.userPlaceholder.balance != user.userResponse.balance {
+                                let difference = (adminController.userPlaceholder.balance ?? 0.0) - (user.userResponse.balance ?? 0.0)
+                                adminController.funding(shop: self.shop, userID: user.userResponse.id, amount: difference)
+
                             self.showAlert = true
                             activeAlert = .balanceUpdated
                         }
-                        //adminVM.tmpUser.id != adminVM.currentUser.id || adminVM.tmpUser.name != adminVM.currentUser.name
                         else {
-                            if adminVM.userPlaceholder.password != "" && (adminVM.userPlaceholder.password ?? "").count >= 8 {
-                                adminVM.updateUser(shop: shop, userID: adminVM.userPlaceholder.id, name: adminVM.userPlaceholder.name, isAdmin: isAdmin, password: adminVM.userPlaceholder.password!)
-                                adminVM.userPlaceholder.password = ""
+                            //update user
+                            if adminController.userPlaceholder.password != "" && (adminController.userPlaceholder.password ?? "").count >= 8 {
+                                adminController.updateUser(shop: shop, userID: adminController.userPlaceholder.id, name: adminController.userPlaceholder.name, isAdmin: isAdmin, password: adminController.userPlaceholder.password!)
+                                adminController.userPlaceholder.password = ""
                                 self.showAlert = true
                                 activeAlert = .userUpdated
                             } else {
@@ -535,17 +479,14 @@ struct AdminUserDetail: View {
                 )
                 .padding([.bottom, .leading, .trailing])
 
-                //Update User
+                //Canecel edit action
                 Button (action: {
                     withAnimation {
+                        resetValues()
+
                         editMode?.wrappedValue = .inactive
                     }
-//                    if adminVM.tmpUser.id != adminVM.currentUser.id {
-//                        adminVM.updateUser(userID: adminVM.tmpUser.id, name: adminVM.tmpUser.name, isAdmin: isAdmin, password: adminVM.tmpUser.password!)
-//                    }
-                    if !isEditing {
-                        resetValues()
-                    }
+
                 }, label: {
                     Text("cancel")
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -556,14 +497,7 @@ struct AdminUserDetail: View {
             }
 
         }
-//        .background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
         .navigationBarTitle(Text(verbatim: user.userResponse.id), displayMode: .inline)
-        .onAppear(perform: {
-            //self.userID = adminVM.currentUser.id
-        })
     }
 }
 
@@ -575,96 +509,3 @@ struct AdminUserView_Previews: PreviewProvider {
         AdminUserView()
     }
 }
-
-
-
-
-
-//import SwiftUI
-//
-//struct AdminUserView: View {
-//
-//    @EnvironmentObject var adminVM : AdminViewModel
-//    @State var showCreateOverlay: Bool = false
-//    @State var newID: String
-//    @State var newName: String
-//    @State var isAdmin: Bool
-//    @State var newPassword: String
-//
-//    var body: some View {
-//        VStack{
-//            Button(action: {
-//                showCreateOverlay = true
-//            }, label: {
-//                Text("Create User")
-//                    .frame(width: 244, height: 39)
-//                    .background(Color(hex: 0xD9D9D9))
-//                    .clipShape(RoundedRectangle(cornerRadius: 20))
-//                    .foregroundColor(.black)
-//                    .multilineTextAlignment(.center)
-//                    .padding()
-//            })
-//            .sheet(isPresented: $showCreateOverlay, content: {
-//                VStack(alignment: .leading){
-//                    Text("create a new User:")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    Text("what ID should the user have?")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    TextField("User ID", text: $newID)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Text("what is the username? ")
-//                        .multilineTextAlignment(.leading)
-//                        .padding()
-//                    TextField("username", text: $newName)
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    //TODO: Admin checkbox
-//                    Text("should the User be an Admin? ")
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                    TextField("password: ", text: $newPassword)
-//                        .padding()
-//                        .multilineTextAlignment(.leading)
-//                        .disableAutocorrection(true)
-//                        .autocapitalization(.none)
-//                    Button(action: {
-//                        if newPassword.count >= 8{
-//                            adminVM.createUser(userID: newID, name: newName, isAdmin: false, password: newPassword)
-//                        }
-//                    }, label: {
-//                        Text("Create User")
-//                            .frame(width: 244, height: 39)
-//                            .background(Color(hex: 0xD9D9D9))
-//                            .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .foregroundColor(.black)
-//                            .multilineTextAlignment(.center)
-//                            .padding()
-//                    })
-//                }
-//            })
-//            ScrollView(.vertical, showsIndicators: false, content: {
-//                VStack{
-//                    ForEach(adminVM.users) { user in
-//                        UserView(user: user)
-//                            .environmentObject(adminVM)
-//                    }
-//                }
-//            })
-//            .padding()
-//        }.background(
-//            RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20)
-//                .fill(Color(hex: 0xCCB9B1))
-//            )
-//    }
-//}
-//
-//struct AdminUserView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AdminUserView(showCreateOverlay: false, newID: "", newName: "", isAdmin: false, newPassword: "")
-//    }
-//}

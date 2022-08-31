@@ -19,9 +19,8 @@ struct Statistics: View {
     @State var  currentMonth: Int = 0
     @State var  currentWeek: Int = 0
     @State var  transactionType: String = ""
+    @State var  legendTitle: String = ""
     @State var  disableTimeSelection: Bool = false
-
-//    @State var data: BarChartData = BarChartData(dataSets: BarDataSet(dataPoints: []))
     
     
     enum ChartType {
@@ -34,6 +33,7 @@ struct Statistics: View {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: 0xC08267))
     }
     
+    //View for Statistics Selection
     var body: some View {
         VStack {
         HStack{
@@ -102,7 +102,8 @@ struct Statistics: View {
                 }
             }
             .onAppear(perform: {
-                self.transactionType = "purchase"
+                self.transactionType = "amount"
+                self.legendTitle = "Amount"
             })
             .tabItem{
                     Image(systemName: "cup.and.saucer")
@@ -121,7 +122,8 @@ struct Statistics: View {
                 }
             }
             .onAppear(perform: {
-                self.transactionType = "funding"
+                self.transactionType = "value"
+                self.legendTitle = "Euros"
             })
             .tabItem{
                     Image(systemName: "eurosign.square")
@@ -129,11 +131,17 @@ struct Statistics: View {
                     Text("Money spent")
                         .foregroundColor(.black)
                 }
-            VStack{
+            VStack {
+                Text("Total items bought")
+                    .padding()
+                    .font(.headline)
+                    .dynamicTypeSize(.xLarge)
                 barChartItems
             }
+            .background(Color(hex: 0xCCB9B1))
             .onAppear(perform: {
                 self.disableTimeSelection = true
+                self.legendTitle = "Amount"
             })
             .onDisappear(perform: {
                 self.disableTimeSelection = false
@@ -148,9 +156,12 @@ struct Statistics: View {
         }
     }
     
+    //View for weekly data
     var dateSelectionWeekly: some View {
         
         VStack(spacing: 20) {
+            // Days
+            let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"]
                         
             HStack(spacing: 20) {
                 
@@ -186,7 +197,19 @@ struct Statistics: View {
             }
             .padding(.horizontal)
 
+            //Chart
             barChartWeek
+            // Day View...
+            HStack(spacing: 0) {
+                ForEach(days, id: \.self) { day in
+                        Text(day)
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                }.rotationEffect(Angle(degrees: 70))
+            }
+            .frame(minWidth: 150, maxWidth: 900, alignment: .center)
+            .padding()
         }
         .frame(
               minWidth: 0,
@@ -196,13 +219,14 @@ struct Statistics: View {
               alignment: .center
             )
         .onChange(of: currentWeek) { newValue in
-            // update month
+            // update week
             currentDate = getCurrentWeek()
         }
         .background(Color(hex: 0xCCB9B1))
 
     }
     
+    //View for monthly data
     var dateSelectionMonthly: some View {
         
         VStack(spacing: 20) {
@@ -240,7 +264,8 @@ struct Statistics: View {
                 
             }
             .padding(.horizontal)
-            
+
+            //Bar chart
             barChartMonth
         }
         .frame(
@@ -258,10 +283,13 @@ struct Statistics: View {
 
     }
     
+    //View for yearly data
     var dateSelectionYeary: some View {
         
         
         VStack(spacing: 20) {
+            
+            let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
                         
             HStack(spacing: 20) {
                 
@@ -294,6 +322,18 @@ struct Statistics: View {
             }
             .padding(.horizontal)
             barChartYear
+            
+            // Month View...
+            HStack(spacing: 0) {
+                ForEach(months, id: \.self) { day in
+                    Text(String(day))
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                }
+                .rotationEffect(Angle(degrees: 90))
+            }
+            .frame(minWidth: 150, maxWidth: 900, alignment: .center)
+            .padding()
         }
         .frame(
               minWidth: 0,
@@ -303,14 +343,14 @@ struct Statistics: View {
               alignment: .center
             )
         .onChange(of: currentYear) { newValue in
-            // update month
+            // update year
             currentDate = getCurrentYear()
         }
         .background(Color(hex: 0xCCB9B1))
 
     }
     
-    
+    //view for total items bought
     var barChartItems: some View {
 
         VStack {
@@ -349,14 +389,8 @@ struct Statistics: View {
                 .touchOverlay(chartData: data)
                 .xAxisGrid(chartData: data)
                 .yAxisGrid(chartData: data)
-                .xAxisLabels(chartData: data)
                 .yAxisLabels(chartData: data)
-                .onAppear(perform: {
-                    print("APPEAR")
-                })
-                .onDisappear(perform: {
-                    print("DISAPPEAR")
-                })
+                .floatingInfoBox(chartData: data)
             .background(Color(hex: 0xCCB9B1))
             .frame(minWidth: 150, maxWidth: 900, minHeight: 150, idealHeight: 175, maxHeight: 200, alignment: .center)
             .padding()
@@ -376,8 +410,8 @@ struct Statistics: View {
                 .touchOverlay(chartData: data)
                 .xAxisGrid(chartData: data)
                 .yAxisGrid(chartData: data)
-                .xAxisLabels(chartData: data)
                 .yAxisLabels(chartData: data)
+                .floatingInfoBox(chartData: data)
             .background(Color(hex: 0xCCB9B1))
             .frame(minWidth: 150, maxWidth: 900, minHeight: 150, idealHeight: 175, maxHeight: 200, alignment: .center)
             .padding()
@@ -396,8 +430,8 @@ struct Statistics: View {
                 .touchOverlay(chartData: data)
                 .xAxisGrid(chartData: data)
                 .yAxisGrid(chartData: data)
-                .xAxisLabels(chartData: data)
                 .yAxisLabels(chartData: data)
+                .floatingInfoBox(chartData: data)
             .background(Color(hex: 0xCCB9B1))
             .frame(minWidth: 150, maxWidth: 900, minHeight: 150, idealHeight: 175, maxHeight: 200, alignment: .center)
             .padding()
@@ -407,10 +441,9 @@ struct Statistics: View {
     func makeData(data: [BarChartDataPoint]) -> BarChartData {
                 
         let data : BarDataSet = BarDataSet(dataPoints: data,
-        legendTitle: "Data")
+                                           legendTitle: self.legendTitle)
         
         let metadata = ChartMetadata(title: "Something", subtitle: "Some data")
-//        let xAxisLabels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let xAxisLabels = [""]
 
         let chartStyle = BarChartStyle(infoBoxPlacement: .floating,
@@ -418,7 +451,7 @@ struct Statistics: View {
                                                               lineColour: Color(.lightGray).opacity(0.5),
                                                               lineWidth: 1),
                                     xAxisLabelPosition: .bottom,
-                                       xAxisLabelsFrom: .dataPoint(rotation: .degrees(60)),
+                                       xAxisLabelsFrom: .dataPoint(rotation: .degrees(90)),
                                     yAxisGridStyle: GridStyle(numberOfLines: 3,
                                                               lineColour: Color(.lightGray).opacity(0.5),
                                                               lineWidth: 1),

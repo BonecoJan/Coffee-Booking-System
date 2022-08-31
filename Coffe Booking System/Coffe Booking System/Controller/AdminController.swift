@@ -10,8 +10,6 @@ class AdminController: ObservableObject {
     @Published var error: String = ""
     
     @Published var items: [Response.Item] = []
-    //@Published var users:  [Response.User] = []
-    //@Published var users:  [User] = []
     @Published var itemPlaceholder:  Response.Item = Response.Item(id: "", name: "", amount: 0, price: 0.0)
     @Published var userPlaceholder:  Response.User = Response.User(id: "", name: "", password: "")
 
@@ -351,7 +349,6 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getItems(shop: shop)
                         self.isLoading = false
                     }
                 }
@@ -377,7 +374,6 @@ class AdminController: ObservableObject {
                     DispatchQueue.main.async {
                         self.success = true
                         self.hasError = false
-                        self.getUsers(shop: shop)
                         self.isLoading = false
                     }
                 }

@@ -21,6 +21,7 @@ struct AdminMenue: View {
                     .multilineTextAlignment(.center)
             }
             TabView {
+                //show items
                 AdminItemView()
                     .tabItem{
                         Image(systemName: "cart")
@@ -28,6 +29,7 @@ struct AdminMenue: View {
                     }
                     .environmentObject(adminController)
                     .environmentObject(shop)
+                //show users
                 AdminUserView()
                     .tabItem{
                         Image(systemName: "person")
@@ -35,18 +37,6 @@ struct AdminMenue: View {
                     }
                     .environmentObject(adminController)
                     .environmentObject(shop)
-//                AdminItemView(showCreateOverlay: false, newID: "", newName: "", newAmount: "", newPrice: "")
-//                    .tabItem{
-//                        Image(systemName: "cart")
-//                        Text("Items")
-//                    }
-//                    .environmentObject(adminController)
-//                AdminUserView(showCreateOverlay: false, newID: "", newName: "", isAdmin: false, newPassword: "")
-//                    .tabItem{
-//                        Image(systemName: "person")
-//                        Text("User")
-//                    }
-//                    .environmentObject(adminController)
             }
         }
     }
