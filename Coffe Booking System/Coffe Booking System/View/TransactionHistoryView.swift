@@ -7,6 +7,7 @@ struct BookingView: View {
     @EnvironmentObject var transactionController : TransactionController
     @EnvironmentObject var shop: Shop
     
+    //Variable for differentiating the transaction types
     @State var transactionType : Int = 0
     
     var body: some View {
@@ -65,6 +66,8 @@ struct BookingView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false, content: {
                     VStack{
+                        
+                        //Filter the diffrent transactions with transactionType (corresponds to buttons)
                         ForEach(shop.transactions.reversed()) { transaction in
                             if transactionType == 0 && transaction.type == TRANSACTION_PURCHASE {
                                 TransactionView(transaction: transaction)

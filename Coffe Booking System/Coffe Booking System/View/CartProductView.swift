@@ -1,8 +1,11 @@
 import SwiftUI
 
+//This View displays one Item in the cart of a user
 struct CartProductView: View {
     
+    //Item handed over by the ForEach
     @State var product: Item
+    
     @EnvironmentObject var cartController : CartController
     
     var body: some View {

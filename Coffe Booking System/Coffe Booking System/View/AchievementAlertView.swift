@@ -1,9 +1,12 @@
 import SwiftUI
 
+//Custom AchievementAlert which is shown in the OrderView or the QR-View
 struct AchievementAlertView: View {
     
     @Binding var showAchievementAlert: Bool
     @EnvironmentObject var viewState: ViewState
+    
+    //Handed over by Order-/QR-View
     var purchases: Int
     
     var body: some View {

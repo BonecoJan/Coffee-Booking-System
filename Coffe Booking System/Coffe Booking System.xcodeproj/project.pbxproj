@@ -26,7 +26,7 @@
 		C3A228A5288AD9D500020F83 /* ChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A228A4288AD9D500020F83 /* ChartSelection.swift */; };
 		C3A228A8288ADAB600020F83 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = C3A228A7288ADAB600020F83 /* Charts */; };
 		F62165AD2886D2BC00415D15 /* TransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AC2886D2BC00415D15 /* TransactionController.swift */; };
-		F62165AF2886D45500415D15 /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AE2886D45500415D15 /* BookingView.swift */; };
+		F62165AF2886D45500415D15 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165AE2886D45500415D15 /* TransactionHistoryView.swift */; };
 		F62165B12886D49800415D15 /* CartProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62165B02886D49800415D15 /* CartProductView.swift */; };
 		F659AF482858E82B00BCCC26 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF472858E82B00BCCC26 /* MainView.swift */; };
 		F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F659AF492858E85000BCCC26 /* HomeView.swift */; };
@@ -45,7 +45,7 @@
 		F6965C4428B4B8C800628C6D /* AchievementAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6965C4328B4B8C800628C6D /* AchievementAlertView.swift */; };
 		F69B73E02887FF6000FDCED7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */; };
 		F6C91ACA28BD24C1000C9803 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C91AC928BD24C1000C9803 /* Transaction.swift */; };
-		F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B666287361640037E821 /* CustomViewStructs.swift */; };
+		F6D4B667287361640037E821 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B666287361640037E821 /* Extensions.swift */; };
 		F6D4B669287361E50037E821 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B668287361E50037E821 /* SignInView.swift */; };
 		F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B66A287361F90037E821 /* SignUpView.swift */; };
 		F6D4B6B6287807190037E821 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D4B6B1287807190037E821 /* Profile.swift */; };
@@ -80,7 +80,7 @@
 		C3F91BA828743DC80066E197 /* Coffe Booking System.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Coffe Booking System.entitlements"; sourceTree = "<group>"; };
 		F61D90D628531DF100F275E8 /* Coffe Booking System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffe Booking System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62165AC2886D2BC00415D15 /* TransactionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionController.swift; sourceTree = "<group>"; };
-		F62165AE2886D45500415D15 /* BookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingView.swift; sourceTree = "<group>"; };
+		F62165AE2886D45500415D15 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
 		F62165B02886D49800415D15 /* CartProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductView.swift; sourceTree = "<group>"; };
 		F659AF472858E82B00BCCC26 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F659AF492858E85000BCCC26 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		F6965C4328B4B8C800628C6D /* AchievementAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementAlertView.swift; sourceTree = "<group>"; };
 		F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		F6C91AC928BD24C1000C9803 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		F6D4B666287361640037E821 /* CustomViewStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewStructs.swift; sourceTree = "<group>"; };
+		F6D4B666287361640037E821 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F6D4B668287361E50037E821 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F6D4B66A287361F90037E821 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		F6D4B6B1287807190037E821 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -154,6 +154,7 @@
 				F688765328BA389800BDDEE9 /* API */,
 				F69B73DF2887FF6000FDCED7 /* ImagePicker.swift */,
 				F688764828B90C5D00BDDEE9 /* Constants.swift */,
+				F6D4B666287361640037E821 /* Extensions.swift */,
 			);
 			path = "Coffe Booking System";
 			sourceTree = "<group>";
@@ -174,7 +175,6 @@
 				F659AF492858E85000BCCC26 /* HomeView.swift */,
 				F6E9E66D2858F2F900829739 /* ProfilView.swift */,
 				F6E9E66F2858F40800829739 /* OrderView.swift */,
-				F6D4B666287361640037E821 /* CustomViewStructs.swift */,
 				F6D4B668287361E50037E821 /* SignInView.swift */,
 				F6D4B66A287361F90037E821 /* SignUpView.swift */,
 				F6D4B6BD2878081F0037E821 /* AdminMenue.swift */,
@@ -183,7 +183,7 @@
 				C3450DAC287211ED00555DF0 /* ItemView.swift */,
 				F6D4B6C528781A680037E821 /* UserView.swift */,
 				F692ECC72885769400C6E92B /* ProductView.swift */,
-				F62165AE2886D45500415D15 /* BookingView.swift */,
+				F62165AE2886D45500415D15 /* TransactionHistoryView.swift */,
 				F62165B02886D49800415D15 /* CartProductView.swift */,
 				C34F7AF12886DBD000F7694A /* UserListObjView.swift */,
 				C34F7AF32886DBE600F7694A /* UserListView.swift */,
@@ -370,12 +370,12 @@
 				C35E106D2857DBC70030B4C7 /* WebService.swift in Sources */,
 				F6D4B6BC2878073F0037E821 /* ProfileController.swift in Sources */,
 				F6D4B669287361E50037E821 /* SignInView.swift in Sources */,
-				F62165AF2886D45500415D15 /* BookingView.swift in Sources */,
+				F62165AF2886D45500415D15 /* TransactionHistoryView.swift in Sources */,
 				F6D4B6BE2878081F0037E821 /* AdminMenue.swift in Sources */,
 				F6965C4428B4B8C800628C6D /* AchievementAlertView.swift in Sources */,
 				F6D4B66B287361F90037E821 /* SignUpView.swift in Sources */,
 				F62165B12886D49800415D15 /* CartProductView.swift in Sources */,
-				F6D4B667287361640037E821 /* CustomViewStructs.swift in Sources */,
+				F6D4B667287361640037E821 /* Extensions.swift in Sources */,
 				F659AF4A2858E85000BCCC26 /* HomeView.swift in Sources */,
 				C359E80328737282007DB305 /* KeychainWrapper.swift in Sources */,
 				C34F7AF42886DBE600F7694A /* UserListView.swift in Sources */,

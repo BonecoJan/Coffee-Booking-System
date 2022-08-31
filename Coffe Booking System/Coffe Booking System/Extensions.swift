@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 import UIKit
 
+//This is used for displaying the errorMessage that was set with error.localizedDescription
 extension RequestError: LocalizedError {
     public var errorDescription: String? {
         switch self {

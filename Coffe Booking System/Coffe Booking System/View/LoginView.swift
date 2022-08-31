@@ -22,6 +22,8 @@ struct LoginView: View {
                 .clipShape(Circle())
                 .clipped()
                 .padding(.top)
+            
+            //depending on whether the user clicked on Sign in or Sign up the corresponding View is shown
             if showSignUp == false{
                 SignInView().environmentObject(loginController)
                     .environmentObject(profileController)

@@ -10,6 +10,7 @@ struct MainView: View {
     @EnvironmentObject var transactionController: TransactionController
     @EnvironmentObject var shop: Shop
     
+    //For coloring the TabBar (normal way doesnt work with TabView)
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color(hex: UInt(COLOR_RED_BROWN)))
     }

@@ -1,8 +1,11 @@
 import SwiftUI
 
+//This view displays one Transaction in the Transactionlist of the TransactionHistoryView
 struct TransactionView: View {
     
+    //Transaction handed over by the ForEach
     var transaction: Transaction
+    
     @EnvironmentObject var transactionController: TransactionController
     
     var body: some View {
@@ -44,6 +47,7 @@ struct TransactionView: View {
             )
     }
     
+    //This function decodes the Int timestamp to a readable string
     func timestampToString(timestamp: Int) -> String {
         let date = transactionController.getDataFromTimestamp(timestamp: timestamp)
         let str = TransactionController.months[date.month! - 1] + " " + String(date.day!) + ", " + String(date.year!)

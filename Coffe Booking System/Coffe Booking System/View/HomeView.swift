@@ -10,8 +10,9 @@ struct HomeView: View {
     @State var searchText = ""
     
     var body: some View {
-        //Searchbar
+        
         VStack{
+            //Searchbar
             HStack {
                 Image(systemName: IMAGE_SEARCH).foregroundColor(.gray)
                 TextField("Search item", text: $searchText)
@@ -24,6 +25,8 @@ struct HomeView: View {
                 RoundedCornerShape(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 20)
                     .fill(Color(hex: UInt(COLOR_SEARCH_BAR)))
                 )
+            
+            //Iterate through Items and display it as a ProdictView
             ScrollView{
                 ForEach(searchResults) { product in
                     ProductView(product: product)
@@ -41,7 +44,7 @@ struct HomeView: View {
             )
     }
     
-    //filter the search results by names
+    //filter the items by searched name
     var searchResults: [Item] {
         if searchText.isEmpty {
             return shop.items

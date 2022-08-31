@@ -1,5 +1,6 @@
 import Foundation
 
+//All Bodys used in the WebServive.request() function
 enum Request {
     
     enum Login {
@@ -53,9 +54,11 @@ enum Request {
         var amount: Int
     }
     
+    //Special struct that is empty and needs to be used if the request has no body
     struct Empty: Codable {}
 }
 
+//All Responses used in the WebService.request() function
 enum Response {
     
     enum Login {
@@ -108,6 +111,7 @@ enum Response {
     
 }
 
+//Special struct for a response that only contains a string and no json
 struct NoJSON: Codable {
     let response: String
 }

@@ -57,6 +57,7 @@ struct OrderView: View {
                             .foregroundColor(.red)
                     }
                 }
+                //Show Alert if Purchase was successful and also check if an achievement is reached, if so display it also with an Alert
                 .alert(SUCCESS_PURCHASE, isPresented: $cartController.success) {
                     Button("OK", role: .cancel) {
                         cartController.success = false

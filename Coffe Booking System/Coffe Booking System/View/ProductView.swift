@@ -1,8 +1,11 @@
 import SwiftUI
 
+//This View Displays one Item in the Itemlist of the HomeView
 struct ProductView: View {
     
+    //Item handed over by the ForEach
     var product: Item
+    
     @EnvironmentObject var cartController : CartController
     
     var body: some View {
@@ -14,6 +17,8 @@ struct ProductView: View {
                     .font(.footnote)
             }
             Spacer()
+            
+            //If the amount of an Item is 0 show the Text and dismiss "+" button
             if(product.amount < 1) {
                 Text("Not available at the moment")
                     .foregroundColor(.red)

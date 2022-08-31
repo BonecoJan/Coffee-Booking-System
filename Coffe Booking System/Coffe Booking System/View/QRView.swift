@@ -16,6 +16,7 @@ struct QRView: View {
     var body: some View {
         ZStack{
             VStack{
+                //Use CodeScanner Package for Scanning with the camera or picking a code in the simulator
                     CodeScannerView(codeTypes: [.qr], simulatedData: "max.mustermann@gmail.com", completion: handleScan)
                     .alert("Error", isPresented: $cartController.hasError, presenting: cartController.error) { detail in
                         Button("Ok", role: .cancel) { }
@@ -55,9 +56,12 @@ struct QRView: View {
         }
     }
     
+    //Handle the result of the scanned code
     func handleScan(result: Result<ScanResult, ScanError>) {
         switch result {
         case .success(let result):
+            
+            //parse id out of the result
             var id: String = ""
             for (i,str) in result.string.enumerated() {
                 if i >= 9 && i <= 11 {
@@ -66,6 +70,7 @@ struct QRView: View {
             }
             DispatchQueue.main.async {
                 if id != "" {
+                    //only buy item if the amount is not 0
                     let item = homeController.getItem(shop: shop, itemID: id)
                     if item.amount < 1 {
                         cartController.hasError = true

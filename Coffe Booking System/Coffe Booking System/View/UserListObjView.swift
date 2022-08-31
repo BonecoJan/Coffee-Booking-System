@@ -1,11 +1,16 @@
 import SwiftUI
 
+//This View displays one User of the Userlist in the UserListView
 struct UserListObjView: View {
 
+    //User handed over by the ForEach
     var user: User
+    
     @State var amount: String = ""
+    
     @State var showPopUp: Bool = false
     @State var notEnoughMoney: Bool = false
+    
     @EnvironmentObject var userController : UserController
     @EnvironmentObject var viewState: ViewState
     @EnvironmentObject var profileController: ProfileController

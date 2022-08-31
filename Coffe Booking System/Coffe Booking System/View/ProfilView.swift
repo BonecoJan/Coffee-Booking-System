@@ -9,6 +9,7 @@ struct ProfilView: View {
     @EnvironmentObject var userController: UserController
     @EnvironmentObject var shop: Shop
     
+    //Variables for picking an image with the ImagePicker package
     @State private var showingImagePicker = false
     @State private var selectedImage: Image? = Image("")
     
@@ -18,8 +19,11 @@ struct ProfilView: View {
     @State var userName: String = ""
     @State var userID: String = ""
     
+    //Flags for showing and dismissing the SideMenu
     @State var menuOpen: Bool = false
     @State var showChangeOverlay: Bool = false
+    
+    //For editing the Username
     @Environment(\.editMode) var editMode
     private var isEditing: Bool {
         editMode?.wrappedValue.isEditing ?? false
@@ -27,43 +31,46 @@ struct ProfilView: View {
     
     var body: some View {
         ZStack{
-        VStack {
-            HStack{
-                if !self.menuOpen {
+            VStack {
+                HStack{
+                    if !self.menuOpen {
+                        Button(action: {
+                            transactionController.getTransactions(shop: shop, userID: shop.profile.id)
+                            self.openMenu()
+                        }, label: {
+                            Image(systemName: IMAGE_LIST)
+                        })
+                    }
+                    Text(shop.profile.isAdmin ? "Your Profile(Admin)" : "Your Profile")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
                     Button(action: {
-                        transactionController.getTransactions(shop: shop, userID: shop.profile.id)
-                        self.openMenu()
+                        viewState.state = 0
                     }, label: {
-                        Image(systemName: IMAGE_LIST)
-                    })
-                }
-                Text(shop.profile.isAdmin ? "Your Profile(Admin)" : "Your Profile")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
-                Button(action: {
-                    viewState.state = 0
-                }, label: {
-                    Image(systemName: IMAGE_ARROW_LEFT)
-                        .resizable()
-                        .frame(width: 25, height: 20, alignment: .leading)
-                }).padding()
-            }.padding()
-            profilPicture
-            showUserData
-            bottomSection
-        }.ignoresSafeArea()
-        .onAppear(perform: {
-            self.userName = shop.profile.name
-        })
-        SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
-                .environmentObject(viewState)
-                .environmentObject(loginController)
-                .environmentObject(profileController)
-                .environmentObject(transactionController)
-                .environmentObject(userController)
-        }.ignoresSafeArea()
+                        Image(systemName: IMAGE_ARROW_LEFT)
+                            .resizable()
+                            .frame(width: 25, height: 20, alignment: .leading)
+                    }).padding()
+                }.padding()
+                profilPicture
+                showUserData
+                bottomSection
+            }.ignoresSafeArea()
+            .onAppear(perform: {
+                self.userName = shop.profile.name
+            })
+            
+            //Embed SideMenu into ZStack and show it when menuOpen is true
+            SideMenu(width: 270, isOpen: self.menuOpen, menuClose: self.openMenu)
+                    .environmentObject(viewState)
+                    .environmentObject(loginController)
+                    .environmentObject(profileController)
+                    .environmentObject(transactionController)
+                    .environmentObject(userController)
+        }
+        .ignoresSafeArea()
         .alert("Error", isPresented: $profileController.hasError, presenting: profileController.error) { detail in
             Button("Ok", role: .cancel) { }
         } message: { detail in
@@ -85,6 +92,7 @@ struct ProfilView: View {
     
     var profilPicture: some View {
         VStack{
+            //If the user has no profile image show an "empty profile" image
             if shop.profile.image.encodedImage == NO_PROFILE_IMAGE {
                 Image(IMAGE_NO_PROFILE_IMAGE)
                     .resizable()
@@ -121,6 +129,7 @@ struct ProfilView: View {
                         .opacity(shop.profile.image.encodedImage == NO_PROFILE_IMAGE ? 0 : 1)
                 }).disabled(shop.profile.image.encodedImage == NO_PROFILE_IMAGE)
             }
+            //If user clicked on select image show gallery with ImagePicker
             .sheet(isPresented: $showingImagePicker, content: {
                 ImagePicker(image: self.$selectedImage)
             })
@@ -171,6 +180,7 @@ struct ProfilView: View {
             HStack{
                 Image(systemName: IMAGE_EURO)
                     .padding()
+                //Always show the balance with 2 decimals
                 Text(String(shop.profile.balance.rounded(toPlaces: 2)) + (String(shop.profile.balance.rounded(toPlaces: 2)).countDecimalPlaces() < 2 ? "0" : ""))
                     .fontWeight(.bold)
                 Spacer()
@@ -178,55 +188,10 @@ struct ProfilView: View {
         }
     }
     
-    var changePassword: some View {
-            VStack{
-                Text("Current password:")
-                    .multilineTextAlignment(.leading)
-                    .padding(.top)
-                TextField("current password", text: $currentPassword)
-                    .padding()
-                    .multilineTextAlignment(.leading)
-                    .textFieldStyle(.roundedBorder)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                Text("New password")
-                    .multilineTextAlignment(.leading)
-                TextField("new password", text: $newPassword)
-                    .padding()
-                    .multilineTextAlignment(.leading)
-                    .textFieldStyle(.roundedBorder)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                TextField("repeat new password: ", text: $repeatedPassword)
-                    .padding()
-                    .multilineTextAlignment(.leading)
-                    .textFieldStyle(.roundedBorder)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                Spacer()
-                Button(action: {
-                    if newPassword.count >= 8 && newPassword == repeatedPassword {
-                        if checkPassword(password: currentPassword) {
-                            profileController.updateUser(shop: shop, name: self.userName, password: newPassword)
-                        }
-                    }
-                }, label: {
-                    Text("Change password")
-                        .frame(width: 244, height: 39)
-                        .background(Color(hex: UInt(COLOR_LIGHT_GRAY)))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                })
-            }
-    }
-    
     var bottomSection: some View {
         VStack{
             Button(action: {
-                //showChangeOverlay = true
-                changePassword2()
+                changePassword()
             }, label: {
                 Text("Change password")
                     .frame(width: 244, height: 39)
@@ -234,7 +199,6 @@ struct ProfilView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(.black)
             })
-            .sheet(isPresented: $showChangeOverlay, content: {changePassword.background(Color(hex: UInt(COLOR_BACKGROUND)).edgesIgnoringSafeArea(.all))})
         }
     }
     
@@ -248,8 +212,8 @@ struct ProfilView: View {
             }
 
         } else {
-            print("cannot fetch current user data - missing token")
-            return false
+            profileController.hasError = true
+            profileController.error = ERROR_TOKEN
         }
         return true
     }
@@ -258,7 +222,7 @@ struct ProfilView: View {
         self.menuOpen.toggle()
     }
     
-    func changePassword2() {
+    func changePassword() {
         let alert = UIAlertController(title: "Change your password", message: "Enter your current password first and then type in the new one", preferredStyle: .alert)
         
         alert.addTextField{ (pass) in
@@ -276,6 +240,7 @@ struct ProfilView: View {
             repPass.placeholder = "repeat new password"
         }
         
+        //the new password needs to be the same as the repeated one and have a length of 8. The current password also has to be correct
         let change = UIAlertAction(title: "Change", style: .default) { (_) in
             currentPassword = alert.textFields![0].text!
             newPassword = alert.textFields![1].text!
@@ -315,6 +280,7 @@ struct ProfilView: View {
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {})
     }
     
+    //confirm any change in the ProfileView and send server reqeust afterwards
     func confirmChange(type: String) {
         let alert = UIAlertController(title: type == TYPE_DELETE_IMAGE ? "Delete image" : "Change \(type)", message: "Are you sure?", preferredStyle: .alert)
         

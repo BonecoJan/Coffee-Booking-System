@@ -48,7 +48,7 @@ struct UserListView: View {
         }.padding()
     }
     
-    //filter the search results by names
+    //filter the users by search result
     var searchResults: [User] {
         if searchText.isEmpty {
             return shop.users.filter { $0.userResponse.id != shop.profile.id}

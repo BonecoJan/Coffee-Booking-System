@@ -78,6 +78,7 @@ class WebService {
         }
     }
     
+    //upload the image via multipart body
     func uploadImage(allowRetry: Bool = true, image: UIImage, userID: String) async throws -> NoJSON {
         let url = URL(string: API_URL + "users/" + userID + "/image")
         var httpRequest = URLRequest(url: url!)
@@ -105,6 +106,7 @@ class WebService {
         return response
     }
     
+    //create the multipart-body
     func createRequestBody(imageData: Data, boundary: String, attachmentKey: String, fileName: String) -> Data {
             let lineBreak = "\r\n"
             var requestBody = Data()
@@ -118,6 +120,7 @@ class WebService {
             return requestBody
     }
     
+    //if request needs authorization set the Bearer token as HTTPHeader
     private func authorizedRequest(with urlRequest: URLRequest) async throws -> URLRequest {
         var urlRequest = urlRequest
         let token = try await authManager.validToken()
